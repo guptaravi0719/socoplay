@@ -25,17 +25,9 @@ const games: GameCard[] = [
   { id: "tile-shift", name: "Tile Shift", genre: "Puzzle", time: "2–8 min", icon: "15", art: "tiles", href: "/games/tile-shift", live: true, badge: "Brainy", description: "Slide every number home in a satisfyingly compact puzzle." },
   { id: "flip-pairs", name: "Flip Pairs", genre: "Memory", time: "2–5 min", icon: "✦", art: "pairs", href: "/games/flip-pairs", live: true, badge: "Quick", description: "Find all six pairs before your memory plays tricks on you." },
   { id: "word-bloom", name: "Word Bloom", genre: "Word", time: "3–8 min", icon: "Aa", art: "word", href: "/games/word-bloom", live: true, badge: "Cozy", description: "Unscramble one bright little word at a time." },
-  { id: "number-nest", name: "Number Nest", genre: "Puzzle", time: "5–15 min", icon: "2×", art: "numbers", description: "Merge, plan, and build a beautiful number chain." },
-  { id: "orbit-dash", name: "Orbit Dash", genre: "Arcade", time: "1–4 min", icon: "◉", art: "orbit", description: "Thread starlight in a fast, looping reflex run." },
-  { id: "pyramid-peaks", name: "Pyramid Peaks", genre: "Cards", time: "5–12 min", icon: "△", art: "pyramid", description: "Pair cards and clear a sunlit mountain." },
-  { id: "bubble-bloom", name: "Bubble Bloom", genre: "Relax", time: "3–10 min", icon: "●", art: "bubble", description: "Connect colors, grow a garden, exhale." },
-  { id: "signal-sweep", name: "Signal Sweep", genre: "Puzzle", time: "5–15 min", icon: "⌁", art: "signal", description: "Follow a tiny grid of clues all the way through." },
-  { id: "tiny-checkers", name: "Tiny Checkers", genre: "Strategy", time: "6–20 min", icon: "◐", art: "checkers", description: "Pocket-sized tactics with a classic rhythm." },
-  { id: "letter-lantern", name: "Letter Lantern", genre: "Word", time: "2–6 min", icon: "L", art: "lantern", description: "Find a glowing path through a letter maze." },
-  { id: "meadow-run", name: "Meadow Run", genre: "Arcade", time: "1–3 min", icon: "↗", art: "meadow", description: "A soft, speedy dash through shifting trails." },
 ];
 
-const genres = ["All", "Cards", "Puzzle", "Word", "Memory", "Arcade", "Relax", "Strategy"];
+const genres = ["All", "Cards", "Puzzle", "Word", "Memory"];
 const liveGames = games.filter((game) => game.live);
 const railItems = [
   { label: "For you", icon: "✦", genre: "All" },
@@ -143,7 +135,6 @@ export default function Home() {
     setNotice(`Opening ${pick.name}…`);
     window.setTimeout(() => window.location.assign(pick.href!), 260);
   };
-  const mentionSoon = (game: GameCard) => setNotice(`${game.name} is in SocoLabs. Favourite it and it will stay on your shelf.`);
 
   return (
     <main className="arcade-page">
@@ -178,7 +169,7 @@ export default function Home() {
             {!loaded ? <div className="arcade-continue-row" aria-label="Loading your saved games"><div className="arcade-shelf-skeleton" /><div className="arcade-shelf-skeleton" /></div> : recentGames.length ? <div className="arcade-continue-row">{recentGames.slice(0, 4).map(({ item, game }) => <ContinueCard key={item.id} item={item} game={game} />)}</div> : <div className="arcade-first-run"><span className="arcade-first-run-orbit" aria-hidden="true">✦</span><div><b>Your next game will wait here.</b><p>Open a game, take a break, then pick up that exact session from this shelf.</p></div><button type="button" onClick={() => scrollTo("top-picks")}>Choose a game <span>→</span></button></div>}
           </section>
 
-          {loaded && favouriteGames.length > 0 && <section className="arcade-saved-picks" aria-labelledby="saved-picks-title"><div><p>YOUR FAVOURITES</p><h2 id="saved-picks-title">Saved for later</h2></div><div>{favouriteGames.slice(0, 5).map((game) => <SavedPick game={game} onSoon={() => mentionSoon(game)} key={game.id} />)}</div></section>}
+          {loaded && favouriteGames.length > 0 && <section className="arcade-saved-picks" aria-labelledby="saved-picks-title"><div><p>YOUR FAVOURITES</p><h2 id="saved-picks-title">Saved for later</h2></div><div>{favouriteGames.slice(0, 5).map((game) => <SavedPick game={game} onSoon={() => undefined} key={game.id} />)}</div></section>}
 
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
             <SectionHeading eyebrow="PLAY NOW" title="Top picks for your break" titleId="top-picks-title" copy="A growing set of complete games, each made for a satisfying few minutes." action={<button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
@@ -186,14 +177,13 @@ export default function Home() {
           </section>
 
           <section className="arcade-section arcade-discovery" id="discover" aria-labelledby="discover-title">
-            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED LIBRARY" : "THE SOCO ARCADE"} title={query || genre !== "All" ? "Search results" : "Choose your next tiny adventure"} titleId="discover-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Explore playable games first, then peek into SocoLabs."} action={(query || genre !== "All") ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : undefined} />
+            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED LIBRARY" : "THE SOCO ARCADE"} title={query || genre !== "All" ? "Search results" : "Choose your next tiny adventure"} titleId="discover-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Every game here is ready to play."} action={(query || genre !== "All") ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : undefined} />
             <div className="arcade-filter-row" aria-label="Filter games by category">{genres.map((item) => <button className={genre === item ? "is-active" : ""} type="button" onClick={() => setGenre(item)} key={item}>{item}</button>)}</div>
-            {visibleGames.length ? <div className="arcade-game-grid">{visibleGames.map((game) => <ArcadeGameCard game={game} favourite={favourites.includes(game.id)} onFavourite={() => toggleFavourite(game.id)} onSoon={() => mentionSoon(game)} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the category filter.</p></div>}
+            {visibleGames.length ? <div className="arcade-game-grid">{visibleGames.map((game) => <ArcadeGameCard game={game} favourite={favourites.includes(game.id)} onFavourite={() => toggleFavourite(game.id)} onSoon={() => undefined} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the category filter.</p></div>}
           </section>
 
           <section className="arcade-seo-card" aria-labelledby="free-mini-games-title"><div><p>FREE ONLINE MINI GAMES</p><h2 id="free-mini-games-title">A tiny arcade for your in-between moments.</h2></div><div><p>SocoPlay is a growing collection of original browser games. Play cards, puzzles, memory, and word games without a download or account, then come back to the same device to continue where you stopped.</p><div className="arcade-seo-points"><span>Made for mobile</span><span>Saved locally</span><span>Always free to play</span></div></div></section>
 
-          <section className="arcade-labs" aria-labelledby="labs-title"><div><p>SOCO LABS</p><h2 id="labs-title">More original games are taking shape.</h2><span>We mark a game Play now only when it is ready. Favourite an idea and keep it on your device shelf.</span></div><div className="arcade-labs-art" aria-hidden="true"><i>△</i><i>◉</i><i>Aa</i><i>♠</i></div></section>
         </div>
       </div>
 

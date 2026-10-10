@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { JsonLd } from "./components/json-ld";
+import { GameEnhancements } from "./components/game-enhancements";
 import { siteSchema } from "./lib/seo";
 import "./globals.css";
 import "./seo.css";
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           strategy="beforeInteractive"
         />
         {children}
+        <GameEnhancements />
       </body>
     </html>
   );
