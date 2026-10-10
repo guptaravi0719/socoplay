@@ -30,10 +30,18 @@ function playCourtSound(kind: "tap" | "score" | "whistle" | "over", enabled = tr
   } catch { /* Browsers can decline audio; the game still plays. */ }
 }
 
-const firstHoop: Hoop = { x: 74, y: 46 };
-function serveBall(hoop: Hoop): Ball { return { x: hoop.x > 50 ? 10 : 90, y: 76, vx: hoop.x > 50 ? 32 : -32, vy: -30, rotation: 0 }; }
+const firstHoop: Hoop = { x: 76, y: 54 };
+function serveBall(hoop: Hoop): Ball {
+  const x = hoop.x > 50 ? 9 : 91;
+  const vx = hoop.x > 50 ? 28 : -28;
+  const y = 78;
+  const travelSeconds = Math.abs((hoop.x - x) / vx);
+  // Set a natural arc which arrives at the hoop even on a player's first launch.
+  const vy = (hoop.y - y - 12 * travelSeconds * travelSeconds) / travelSeconds;
+  return { x, y, vx, vy, rotation: 0 };
+}
 const initialBall = (): Ball => serveBall(firstHoop);
-function nextHoop(score: number): Hoop { return { x: score % 2 ? 23 : 77, y: 31 + ((score * 17 + 13) % 27) }; }
+function nextHoop(score: number): Hoop { return { x: score % 2 ? 24 : 76, y: 43 + ((score * 13 + 7) % 17) }; }
 function remember(score: number, best: number, streak: number) {
   const item = { id: "tap-tap-basketball", name: "Tap Tap Basketball", icon: "🏀", href: "/games/tap-tap-basketball", progress: score ? `${score} baskets · ${streak} streak` : "Ready to play", tone: "coral" };
   const saved = readStored<typeof item[]>(storageKeys.recent, legacyStorageKeys.recent); const old = Array.isArray(saved) ? saved : [];
@@ -64,10 +72,11 @@ export default function TapTapBasketball() {
       const dt = Math.min(.035, (now - previous) / 1000); previous = now;
       if (scoringRef.current) { frame = requestAnimationFrame(step); return; }
       const next = { ...ballRef.current }; const oldY = next.y;
-      next.vy += 32 * dt; next.x += next.vx * dt; next.y += next.vy * dt; next.rotation += next.vx * dt * 5;
+      next.vy += 24 * dt; next.x += next.vx * dt; next.y += next.vy * dt; next.rotation += next.vx * dt * 5;
       if (next.x > 105) next.x = -5; if (next.x < -5) next.x = 105; if (next.y < -6) { next.y = -6; next.vy = Math.abs(next.vy) * .72; } if (next.y > 87) { next.y = 87; next.vy = -Math.max(18, Math.abs(next.vy) * .64); }
       const target = hoopRef.current;
-      if (next.vy > 0 && oldY < target.y && next.y >= target.y && Math.abs(next.x - target.x) < 7.5) scoreBasket(); else { ballRef.current = next; setBall(next); }
+      const inHoopLane = Math.abs(next.x - target.x) < 9 && next.y > target.y - 17 && next.y < target.y + 14;
+      if ((next.vy > 0 && oldY < target.y && next.y >= target.y && Math.abs(next.x - target.x) < 9) || inHoopLane) scoreBasket(); else { ballRef.current = next; setBall(next); }
       timeRef.current -= dt; setTimeLeft(Math.max(0, Math.ceil(timeRef.current)));
       if (timeRef.current <= 0) { setPhase("finished"); setCallout("BUZZER!"); playCourtSound("over", soundRef.current); return; }
       frame = requestAnimationFrame(step);
@@ -75,7 +84,17 @@ export default function TapTapBasketball() {
     frame = requestAnimationFrame(step); return () => cancelAnimationFrame(frame);
   }, [phase]);
 
-  const tapCourt = () => { if (isScoring) return; if (phase === "paused") { setPhase("playing"); return; } if (phase !== "playing") { resetRun(); return; } ballRef.current = { ...ballRef.current, vy: Math.max(-54, ballRef.current.vy - 26) }; setBall(ballRef.current); setCallout(""); playCourtSound("tap", soundRef.current); };
+  const tapCourt = () => {
+    if (isScoring) return;
+    if (phase === "paused") { setPhase("playing"); return; }
+    if (phase !== "playing") { resetRun(); return; }
+    const target = hoopRef.current;
+    const secondsToHoop = Math.max(.18, Math.abs((target.x - ballRef.current.x) / ballRef.current.vx));
+    const guidedVy = (target.y - ballRef.current.y - 12 * secondsToHoop * secondsToHoop) / secondsToHoop;
+    // The tap is a real upward boost, but it also gently corrects toward the hoop.
+    ballRef.current = { ...ballRef.current, vy: Math.max(-52, ballRef.current.vy + (guidedVy - ballRef.current.vy) * .65 - 2) };
+    setBall(ballRef.current); setCallout(""); playCourtSound("tap", soundRef.current);
+  };
   const toggleSound = () => { const next = !soundRef.current; soundRef.current = next; setSoundOn(next); if (next) playCourtSound("tap", true); };
   const message = phase === "ready" ? "Tap anywhere to begin. Each tap gives the ball another lift." : phase === "paused" ? "Paused — tap the court or press play to continue." : phase === "finished" ? `Final score: ${score}. Tap for another run.` : "Keep the ball in the air and guide it through the next hoop.";
 
