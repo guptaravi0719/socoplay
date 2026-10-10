@@ -1,0 +1,23 @@
+app/games/tap-tap-basketball/page.tsx
+  s_faa544299a2048::t_1d6738c842a5be 4,8-10,12-37,42-44,46-47,49-54,58-69,72-73,75
+app/games/tap-tap-basketball/basketball.css
+  s_faa544299a2048::t_5499f40f0c4dc0 1
+app/components/game-enhancements.tsx
+  s_faa544299a2048::t_bf7e8948851210 38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "13461588a81a55caffe99d4c41a4282a7dd789c2",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
