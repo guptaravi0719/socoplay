@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+html,body{max-width:100%;overflow-x:hidden}@media(max-width:520px){.mini-game{overflow-x:clip}.mini-game-stage{width:100%;min-width:0;padding-right:12px;padding-left:12px}.hub-nav{min-width:0;padding-right:12px;padding-left:12px;gap:8px}.hub-brand{min-width:0;font-size:19px}.game-2048-card{padding:12px}.game-2048-board{gap:6px;padding:6px}.game-2048-stats{margin-bottom:10px}.mini-actions{flex-wrap:wrap}.mini-actions b{width:100%;text-align:center}}
+
 /* The actual AdSense verification script remains in the site head; only visible placeholder slots are hidden. */
 .ad-reserve,.ad-card,.arcade-ad-reserve{display:none!important}
 

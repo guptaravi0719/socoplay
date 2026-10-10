@@ -84,6 +84,23 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const closeRail = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setRailOpen(false);
+    };
+    window.addEventListener("keydown", closeRail);
+    return () => window.removeEventListener("keydown", closeRail);
+  }, []);
+
+  useEffect(() => {
+    if (!railOpen) return;
+    const closeOnOutsideTap = (event: PointerEvent) => {
+      if (event.target instanceof Element && !event.target.closest("#game-rail, .arcade-rail-toggle")) setRailOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutsideTap);
+    return () => document.removeEventListener("pointerdown", closeOnOutsideTap);
+  }, [railOpen]);
+
+  useEffect(() => {
     const focusSearch = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
@@ -133,21 +150,22 @@ export default function Home() {
       <header className="arcade-topbar">
         <div className="arcade-brand-group">
           <button className="arcade-rail-toggle" type="button" onClick={() => setRailOpen((value) => !value)} aria-expanded={railOpen} aria-controls="game-rail" aria-label="Open game categories"><i /><i /><i /></button>
-          <Link className="arcade-brand" href="/" aria-label="SocoPlay home"><span className="arcade-brand-mark"><i>◆</i><b>✦</b></span><span>Soco<span>Play</span></span></Link>
+          <Link className="arcade-brand" href="/" onClick={() => setRailOpen(false)} aria-label="SocoPlay home"><span className="arcade-brand-mark"><i>◆</i><b>✦</b></span><span>Soco<span>Play</span></span></Link>
         </div>
-        <label className="arcade-search"><span aria-hidden="true">⌕</span><input ref={searchInputRef} value={query} onChange={(event) => setQuery(event.target.value)} onFocus={() => query && scrollTo("discover")} onKeyDown={(event) => { if (event.key === "Enter") scrollTo("discover"); }} placeholder="Search SocoPlay games" aria-label="Search games" /><kbd>⌘ K</kbd></label>
+        <label className="arcade-search"><span aria-hidden="true">⌕</span><input ref={searchInputRef} value={query} onChange={(event) => setQuery(event.target.value)} onFocus={() => { setRailOpen(false); if (query) scrollTo("discover"); }} onKeyDown={(event) => { if (event.key === "Enter") scrollTo("discover"); }} placeholder="Search SocoPlay games" aria-label="Search games" /><kbd>⌘ K</kbd></label>
         <div className="arcade-top-actions">
-          <button type="button" onClick={() => scrollTo("library")} aria-label="Open my saved games"><span>▣</span><b>My games</b></button>
-          <button type="button" onClick={surpriseMe} aria-label="Surprise me with a game"><span>⚡</span><b>Surprise</b></button>
+          <button type="button" onClick={() => { setRailOpen(false); scrollTo("library"); }} aria-label="Open my saved games"><span>▣</span><b>My games</b></button>
+          <button type="button" onClick={() => { setRailOpen(false); surpriseMe(); }} aria-label="Surprise me with a game"><span>⚡</span><b>Surprise</b></button>
         </div>
       </header>
 
       <div className={`arcade-layout ${railOpen ? "rail-open" : ""}`}>
+        {railOpen && <div className="arcade-rail-backdrop" aria-hidden="true" />}
         <aside className="arcade-rail" id="game-rail" aria-label="Game categories">
           <div className="arcade-rail-label">BROWSE</div>
           {railItems.map((item) => <button className={genre === item.genre && !item.target ? "is-active" : ""} type="button" onClick={() => chooseGenre(item.genre, item.target)} key={item.label} data-label={item.label}><span aria-hidden="true">{item.icon}</span><b>{item.label}</b></button>)}
           <div className="arcade-rail-rule" />
-          <button type="button" onClick={() => { setQuery(""); setGenre("All"); scrollTo("top-picks"); }} data-label="All games"><span aria-hidden="true">◈</span><b>All games</b></button>
+          <button type="button" onClick={() => { setQuery(""); setGenre("All"); setRailOpen(false); scrollTo("top-picks"); }} data-label="All games"><span aria-hidden="true">◈</span><b>All games</b></button>
         </aside>
 
         <div className="arcade-content">
@@ -161,8 +179,6 @@ export default function Home() {
           </section>
 
           {loaded && favouriteGames.length > 0 && <section className="arcade-saved-picks" aria-labelledby="saved-picks-title"><div><p>YOUR FAVOURITES</p><h2 id="saved-picks-title">Saved for later</h2></div><div>{favouriteGames.slice(0, 5).map((game) => <SavedPick game={game} onSoon={() => mentionSoon(game)} key={game.id} />)}</div></section>}
-
-          <section className="arcade-save-banner" aria-label="SocoPlay local saves"><div className="arcade-save-shape" aria-hidden="true"><span>◆</span><i>✦</i></div><div><p>PLAY AT YOUR PACE</p><strong>Pause whenever. Your game waits here.</strong><span>No account, no download — each live game saves in this browser on this device.</span></div><button type="button" onClick={() => scrollTo("library")}>How saves work <b>→</b></button></section>
 
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
             <SectionHeading eyebrow="PLAY NOW" title="Top picks for your break" titleId="top-picks-title" copy="A growing set of complete games, each made for a satisfying few minutes." action={<button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
