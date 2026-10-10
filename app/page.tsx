@@ -27,7 +27,6 @@ const games: GameCard[] = [
   { id: "word-bloom", name: "Word Bloom", genre: "Word", time: "3–8 min", icon: "Aa", art: "word", href: "/games/word-bloom", live: true, badge: "Cozy", description: "Unscramble one bright little word at a time." },
 ];
 
-const genres = ["All", "Cards", "Puzzle", "Word", "Memory"];
 const liveGames = games.filter((game) => game.live);
 const railItems = [
   { label: "For you", icon: "✦", genre: "All" },
@@ -125,7 +124,7 @@ export default function Home() {
   };
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  const chooseGenre = (nextGenre: string, target = "discover") => {
+  const chooseGenre = (nextGenre: string, target = "top-picks") => {
     setGenre(nextGenre);
     setRailOpen(false);
     scrollTo(target);
@@ -143,7 +142,7 @@ export default function Home() {
           <button className="arcade-rail-toggle" type="button" onClick={() => setRailOpen((value) => !value)} aria-expanded={railOpen} aria-controls="game-rail" aria-label="Open game categories"><i /><i /><i /></button>
           <Link className="arcade-brand" href="/" onClick={() => setRailOpen(false)} aria-label="SocoPlay home"><span className="arcade-brand-mark"><i>◆</i><b>✦</b></span><span>Soco<span>Play</span></span></Link>
         </div>
-        <label className="arcade-search"><span aria-hidden="true">⌕</span><input ref={searchInputRef} value={query} onChange={(event) => setQuery(event.target.value)} onFocus={() => { setRailOpen(false); if (query) scrollTo("discover"); }} onKeyDown={(event) => { if (event.key === "Enter") scrollTo("discover"); }} placeholder="Search SocoPlay games" aria-label="Search games" /><kbd>⌘ K</kbd></label>
+        <label className="arcade-search"><span aria-hidden="true">⌕</span><input ref={searchInputRef} value={query} onChange={(event) => setQuery(event.target.value)} onFocus={() => { setRailOpen(false); if (query) scrollTo("top-picks"); }} onKeyDown={(event) => { if (event.key === "Enter") scrollTo("top-picks"); }} placeholder="Search SocoPlay games" aria-label="Search games" /><kbd>⌘ K</kbd></label>
         <div className="arcade-top-actions">
           <button type="button" onClick={() => { setRailOpen(false); scrollTo("library"); }} aria-label="Open my saved games"><span>▣</span><b>My games</b></button>
           <button type="button" onClick={() => { setRailOpen(false); surpriseMe(); }} aria-label="Surprise me with a game"><span>⚡</span><b>Surprise</b></button>
@@ -172,14 +171,8 @@ export default function Home() {
           {loaded && favouriteGames.length > 0 && <section className="arcade-saved-picks" aria-labelledby="saved-picks-title"><div><p>YOUR FAVOURITES</p><h2 id="saved-picks-title">Saved for later</h2></div><div>{favouriteGames.slice(0, 5).map((game) => <SavedPick game={game} onSoon={() => undefined} key={game.id} />)}</div></section>}
 
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
-            <SectionHeading eyebrow="PLAY NOW" title="Top picks for your break" titleId="top-picks-title" copy="A growing set of complete games, each made for a satisfying few minutes." action={<button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
-            <div className="arcade-mosaic">{liveGames.map((game, index) => <ArcadeGameCard game={game} favourite={favourites.includes(game.id)} onFavourite={() => toggleFavourite(game.id)} onSoon={() => mentionSoon(game)} variant={index === 0 ? "lead" : index === 3 ? "wide" : "small"} key={game.id} />)}</div>
-          </section>
-
-          <section className="arcade-section arcade-discovery" id="discover" aria-labelledby="discover-title">
-            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED LIBRARY" : "THE SOCO ARCADE"} title={query || genre !== "All" ? "Search results" : "Choose your next tiny adventure"} titleId="discover-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Every game here is ready to play."} action={(query || genre !== "All") ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : undefined} />
-            <div className="arcade-filter-row" aria-label="Filter games by category">{genres.map((item) => <button className={genre === item ? "is-active" : ""} type="button" onClick={() => setGenre(item)} key={item}>{item}</button>)}</div>
-            {visibleGames.length ? <div className="arcade-game-grid">{visibleGames.map((game) => <ArcadeGameCard game={game} favourite={favourites.includes(game.id)} onFavourite={() => toggleFavourite(game.id)} onSoon={() => undefined} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the category filter.</p></div>}
+            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED GAMES" : "PLAY NOW"} title={query || genre !== "All" ? "Games for you" : "Top picks for your break"} titleId="top-picks-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "A growing set of complete games, each made for a satisfying few minutes."} action={query || genre !== "All" ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : <button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
+            {visibleGames.length ? <div className="arcade-mosaic">{visibleGames.map((game, index) => <ArcadeGameCard game={game} favourite={favourites.includes(game.id)} onFavourite={() => toggleFavourite(game.id)} onSoon={() => undefined} variant={index === 0 ? "lead" : index === 3 ? "wide" : "small"} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the filters.</p></div>}
           </section>
 
           <section className="arcade-seo-card" aria-labelledby="free-mini-games-title"><div><p>FREE ONLINE MINI GAMES</p><h2 id="free-mini-games-title">A tiny arcade for your in-between moments.</h2></div><div><p>SocoPlay is a growing collection of original browser games. Play cards, puzzles, memory, and word games without a download or account, then come back to the same device to continue where you stopped.</p><div className="arcade-seo-points"><span>Made for mobile</span><span>Saved locally</span><span>Always free to play</span></div></div></section>
@@ -188,7 +181,7 @@ export default function Home() {
       </div>
 
       {notice && <div className="arcade-toast" role="status"><span>✦</span>{notice}<button type="button" onClick={() => setNotice("")} aria-label="Close message">×</button></div>}
-      <footer className="arcade-footer"><Link className="arcade-brand" href="/"><span className="arcade-brand-mark"><i>◆</i><b>✦</b></span><span>Soco<span>Play</span></span></Link><p>Original browser mini games for little pockets of time.</p><div><button type="button" onClick={() => scrollTo("top-picks")}>Play now</button><button type="button" onClick={() => scrollTo("discover")}>Browse games</button><button type="button" onClick={() => scrollTo("library")}>My games</button></div></footer>
+      <footer className="arcade-footer"><Link className="arcade-brand" href="/"><span className="arcade-brand-mark"><i>◆</i><b>✦</b></span><span>Soco<span>Play</span></span></Link><p>Original browser mini games for little pockets of time.</p><div><button type="button" onClick={() => scrollTo("top-picks")}>Play now</button><button type="button" onClick={() => scrollTo("top-picks")}>Browse games</button><button type="button" onClick={() => scrollTo("library")}>My games</button></div></footer>
     </main>
   );
 }
