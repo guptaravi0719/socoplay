@@ -208,12 +208,12 @@ function SectionHeading({ eyebrow, title, titleId, copy, action }: { eyebrow: st
 }
 
 function ContinueCard({ item, game }: { item: Recent; game?: GameCard }) {
-  return <Link className="arcade-continue-card" href={item.href}><div className={`arcade-continue-art cover-${game?.art || "orbit"}`} aria-hidden="true"><span>{game?.icon || item.icon}</span><i>{game ? coverLabels[game.art] : "BACK TO PLAY"}</i></div><div><b>{item.name}</b><span>{item.progress}</span></div><em>Resume <i>→</i></em></Link>;
+  return <Link className="arcade-continue-card" href={item.href} onClick={(event) => { event.preventDefault(); window.location.assign(item.href); }}><div className={`arcade-continue-art cover-${game?.art || "orbit"}`} aria-hidden="true"><span>{game?.icon || item.icon}</span><i>{game ? coverLabels[game.art] : "BACK TO PLAY"}</i></div><div><b>{item.name}</b><span>{item.progress}</span></div><em>Resume <i>→</i></em></Link>;
 }
 
 function SavedPick({ game, onSoon }: { game: GameCard; onSoon: () => void }) {
   const content = <><span className={`arcade-saved-pick-art cover-${game.art}`} aria-hidden="true">{game.icon}</span><b>{game.name}</b><i>{game.live ? "Play →" : "SocoLabs"}</i></>;
-  return game.live ? <Link className="arcade-saved-pick" href={game.href!}>{content}</Link> : <button className="arcade-saved-pick" type="button" onClick={onSoon}>{content}</button>;
+  return game.live ? <Link className="arcade-saved-pick" href={game.href!} onClick={(event) => { event.preventDefault(); window.location.assign(game.href!); }}>{content}</Link> : <button className="arcade-saved-pick" type="button" onClick={onSoon}>{content}</button>;
 }
 
 function ArcadeGameCard({ game, favourite, onFavourite, onSoon, variant = "grid" }: { game: GameCard; favourite: boolean; onFavourite: () => void; onSoon: () => void; variant?: "lead" | "small" | "wide" | "grid" }) {
