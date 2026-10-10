@@ -751,6 +751,26 @@
 .cover-word::before { left: 49%; top: 48%; color: #fff4cc; content: "A Z"; font-family: var(--font-display), Georgia, serif; font-size: clamp(56px, 7vw, 102px); font-weight: 900; letter-spacing: -10px; line-height: 0.8; text-shadow: 0 6px 0 #8c641f4f; transform: translate(-50%, -50%) rotate(-8deg); white-space: nowrap; }
 .cover-word::after { left: 18%; bottom: -43%; width: 76%; height: 80%; border: 2px solid #fff6; border-radius: 50%; transform: rotate(12deg); }
 
+/* Each cover has a tiny, CSS-only gameplay moment. It keeps the arcade lively
+   without loading video files or adding extra network weight. */
+@media (prefers-reduced-motion: no-preference) {
+  .arcade-cover-noise { animation: cover-grain-drift 7s steps(5) infinite; }
+  .arcade-cover-icon { animation: cover-icon-bob 3.6s ease-in-out infinite; }
+  .arcade-game-card:hover .arcade-cover-icon,
+  .arcade-game-card:focus-within .arcade-cover-icon { animation-duration: 1.35s; }
+
+  .cover-solitaire::before { animation: solitaire-suit-float 4.8s ease-in-out infinite; }
+  .cover-solitaire::after { animation: solitaire-deal 4.8s cubic-bezier(.22,.75,.32,1) infinite; }
+  .cover-2048::before { animation: merge-tiles 3.4s ease-in-out infinite; }
+  .cover-2048::after { animation: merge-score 3.4s ease-in-out infinite; }
+  .cover-tiles::before { animation: tile-shuffle 4.4s ease-in-out infinite; }
+  .cover-tiles::after { animation: tile-target 4.4s ease-in-out infinite; }
+  .cover-pairs::before { animation: pair-orbit 4s ease-in-out infinite; }
+  .cover-pairs::after { animation: pair-spark 2.5s ease-in-out infinite; }
+  .cover-word::before { animation: word-pop 3.8s ease-in-out infinite; }
+  .cover-word::after { animation: bloom-ring 4.2s ease-in-out infinite; }
+}
+
 .cover-numbers { background: linear-gradient(140deg, #0c5961, #27978c 55%, #84d7b7); }
 .cover-numbers::before { left: 57%; top: 46%; color: #fff5; content: "2×"; font-size: clamp(92px, 11vw, 160px); font-weight: 950; letter-spacing: -11px; transform: translate(-50%, -50%) rotate(-10deg); }
 .cover-orbit { background: radial-gradient(circle at 51% 48%, #92eaff 0 8%, #0f476f 9% 15%, #56c8f4 16% 18%, transparent 19%), linear-gradient(135deg, #152850, #193c7c 62%, #599fe4); }
@@ -999,6 +1019,18 @@
 .arcade-footer button:hover { color: #fff; }
 
 @keyframes arcade-shimmer { to { background-position: -200% 0; } }
+@keyframes cover-grain-drift { 0%, 100% { transform: translate3d(0, 0, 0); opacity: .32; } 50% { transform: translate3d(-4%, 3%, 0); opacity: .52; } }
+@keyframes cover-icon-bob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-5px) rotate(3deg); } }
+@keyframes solitaire-suit-float { 0%, 100% { transform: rotate(-13deg) translateY(0); } 50% { transform: rotate(-13deg) translateY(-11px); } }
+@keyframes solitaire-deal { 0%, 15%, 100% { transform: rotate(10deg) translate(0, 0); } 45% { transform: rotate(4deg) translate(-16px, -9px); } 62% { transform: rotate(12deg) translate(3px, 2px); } }
+@keyframes merge-tiles { 0%, 100% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } 38% { transform: translate(-46%, -54%) rotate(-4deg) scale(1.04); } 52% { transform: translate(-50%, -50%) rotate(-8deg) scale(1.14); } 65% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } }
+@keyframes merge-score { 0%, 100% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } 52% { transform: translate(-50%, -50%) rotate(-8deg) scale(1.16); text-shadow: 0 3px #aa4e37, 0 0 20px #fff8; } 67% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } }
+@keyframes tile-shuffle { 0%, 100% { transform: translate(-50%, -50%) rotate(15deg); } 25% { transform: translate(-44%, -50%) rotate(9deg); } 50% { transform: translate(-50%, -56%) rotate(15deg); } 75% { transform: translate(-56%, -50%) rotate(20deg); } }
+@keyframes tile-target { 0%, 100% { transform: translate(-50%, -50%) rotate(15deg) scale(1); opacity: .72; } 50% { transform: translate(-50%, -50%) rotate(15deg) scale(.78); opacity: 1; } }
+@keyframes pair-orbit { 0%, 100% { transform: translate(-50%, -50%) rotate(0deg); } 50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.06); } }
+@keyframes pair-spark { 0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); } 50% { transform: translate(-50%, -50%) scale(1.24) rotate(20deg); } }
+@keyframes word-pop { 0%, 100% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } 46% { transform: translate(-50%, -56%) rotate(-3deg) scale(1.1); } 60% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } }
+@keyframes bloom-ring { 0%, 100% { transform: rotate(12deg) scale(1); opacity: .45; } 50% { transform: rotate(34deg) scale(1.1); opacity: .9; } }
 
 @media (max-width: 1260px) {
   .arcade-game-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
