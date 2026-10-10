@@ -31,7 +31,8 @@ test("server-renders the SocoPlay discovery hub with indexable game content", as
   assert.match(html, /Continue playing/);
   assert.match(html, /Top picks for your break/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
-  assert.match(html, /live now/);
+  assert.match(html, /href="\/games\/2048"/);
+  assert.doesNotMatch(html, /live now|Original mini games that load fast/);
   assert.match(html, /href="\/games\/solitaire"/);
   assert.match(html, /href="\/games\/tile-shift"/);
   assert.match(html, /href="\/games\/flip-pairs"/);
@@ -43,6 +44,12 @@ test("server-renders the SocoPlay discovery hub with indexable game content", as
 
 test("server-renders unique, playable game pages for crawlers", async () => {
   const routes = [
+    {
+      path: "/games/2048",
+      title: "Play 2048 Online | SocoPlay",
+      heading: "2048",
+      description: "Play 2048 online for free. Slide and merge number tiles, chase 2048, and continue your saved game on the same device.",
+    },
     {
       path: "/games/solitaire",
       title: "Play Solitaire Online | SocoPlay",
@@ -104,7 +111,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /(?:application|text)\/xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
-  for (const path of ["", "/games/solitaire", "/games/tile-shift", "/games/flip-pairs", "/games/word-bloom"]) {
+  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tile-shift", "/games/flip-pairs", "/games/word-bloom"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
 

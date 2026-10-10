@@ -21,6 +21,7 @@ type Recent = { id: string; name: string; icon: string; href: string; progress: 
 
 const games: GameCard[] = [
   { id: "solitaire", name: "Solitaire", genre: "Cards", time: "5–20 min", icon: "♠", art: "solitaire", href: "/games/solitaire", live: true, badge: "Classic", description: "A polished Klondike table with touch-friendly moves and a saved deal." },
+  { id: "2048", name: "2048", genre: "Puzzle", time: "3–12 min", icon: "2K", art: "2048", href: "/games/2048", live: true, badge: "New", description: "Slide, merge, and chase the 2048 tile in this satisfying number puzzle." },
   { id: "tile-shift", name: "Tile Shift", genre: "Puzzle", time: "2–8 min", icon: "15", art: "tiles", href: "/games/tile-shift", live: true, badge: "Brainy", description: "Slide every number home in a satisfyingly compact puzzle." },
   { id: "flip-pairs", name: "Flip Pairs", genre: "Memory", time: "2–5 min", icon: "✦", art: "pairs", href: "/games/flip-pairs", live: true, badge: "Quick", description: "Find all six pairs before your memory plays tricks on you." },
   { id: "word-bloom", name: "Word Bloom", genre: "Word", time: "3–8 min", icon: "Aa", art: "word", href: "/games/word-bloom", live: true, badge: "Cozy", description: "Unscramble one bright little word at a time." },
@@ -48,6 +49,7 @@ const railItems = [
 
 const coverLabels: Record<string, string> = {
   solitaire: "DEAL / BUILD / WIN",
+  "2048": "MERGE / GROW / WIN",
   tiles: "SLIDE INTO PLACE",
   pairs: "FIND THE MATCH",
   word: "LETTERS IN BLOOM",
@@ -137,7 +139,6 @@ export default function Home() {
         <div className="arcade-top-actions">
           <button type="button" onClick={() => scrollTo("library")} aria-label="Open my saved games"><span>▣</span><b>My games</b></button>
           <button type="button" onClick={surpriseMe} aria-label="Surprise me with a game"><span>⚡</span><b>Surprise</b></button>
-          <button className="arcade-avatar" type="button" onClick={() => setNotice("SocoPlay keeps your progress on this device — no account needed.")} aria-label="About device-local progress">S</button>
         </div>
       </header>
 
@@ -151,8 +152,7 @@ export default function Home() {
 
         <div className="arcade-content">
           <section className="arcade-welcome" aria-labelledby="mini-games-title">
-            <div><p><span>SOCO</span> / QUICK ARCADE</p><h1 id="mini-games-title">Small games. <em>Big little wins.</em></h1><span>Original mini games that load fast, play beautifully on mobile, and remember your spot on this device.</span></div>
-            <div className="arcade-welcome-meta"><b><i>4</i> live now</b><span>Cards · puzzle · memory · word</span></div>
+            <div><p><span>SOCO</span> / QUICK ARCADE</p><h1 id="mini-games-title">Small games. <em>Big little wins.</em></h1></div>
           </section>
 
           <section className="arcade-section arcade-continue" id="library" aria-labelledby="continue-title">
@@ -165,7 +165,7 @@ export default function Home() {
           <section className="arcade-save-banner" aria-label="SocoPlay local saves"><div className="arcade-save-shape" aria-hidden="true"><span>◆</span><i>✦</i></div><div><p>PLAY AT YOUR PACE</p><strong>Pause whenever. Your game waits here.</strong><span>No account, no download — each live game saves in this browser on this device.</span></div><button type="button" onClick={() => scrollTo("library")}>How saves work <b>→</b></button></section>
 
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
-            <SectionHeading eyebrow="PLAY NOW" title="Top picks for your break" titleId="top-picks-title" copy="Four complete games, each made for a satisfying few minutes." action={<button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
+            <SectionHeading eyebrow="PLAY NOW" title="Top picks for your break" titleId="top-picks-title" copy="A growing set of complete games, each made for a satisfying few minutes." action={<button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
             <div className="arcade-mosaic">{liveGames.map((game, index) => <ArcadeGameCard game={game} favourite={favourites.includes(game.id)} onFavourite={() => toggleFavourite(game.id)} onSoon={() => mentionSoon(game)} variant={index === 0 ? "lead" : index === 3 ? "wide" : "small"} key={game.id} />)}</div>
           </section>
 

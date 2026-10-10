@@ -1,6 +1,6 @@
 export const siteUrl = "https://socoplay.com";
 
-export type GameSlug = "solitaire" | "tile-shift" | "flip-pairs" | "word-bloom";
+export type GameSlug = "solitaire" | "2048" | "tile-shift" | "flip-pairs" | "word-bloom";
 
 type GameSeo = {
   slug: GameSlug;
@@ -19,6 +19,14 @@ export const gameSeo: Record<GameSlug, GameSeo> = {
     description: "Play free classic Klondike Solitaire online with touch-friendly cards, Turn 1 or Turn 3 play, hints, undo, and device-local saves.",
     category: "Card game",
     genre: "Card",
+  },
+  "2048": {
+    slug: "2048",
+    name: "2048",
+    title: "Play 2048 Online",
+    description: "Play 2048 online for free. Slide and merge number tiles, chase 2048, and continue your saved game on the same device.",
+    category: "Puzzle game",
+    genre: "Puzzle",
   },
   "tile-shift": {
     slug: "tile-shift",

@@ -22,6 +22,18 @@ const guides: Record<GameSlug, Guide> = {
     ],
     tip: "On a phone, tap a card and then its destination. On desktop, you can drag cards too. Choose Turn 1 or Turn 3 before drawing from the stock.",
   },
+  "2048": {
+    eyebrow: "NUMBER PUZZLE",
+    heading: "Build your biggest tile, one smart slide at a time",
+    description:
+      "2048 is a free online number puzzle. Combine matching tiles, make room for your next move, and come back to the same game on this device.",
+    steps: [
+      "Swipe the board, or use your arrow keys, to move every tile in one direction.",
+      "When two tiles with the same number collide, they merge into one larger tile.",
+      "Keep combining tiles and try to create the 2048 tile without filling the board.",
+    ],
+    tip: "Keep your highest tile tucked into a corner and build the neighboring values toward it. Use Undo when you want to rethink the previous move.",
+  },
   "tile-shift": {
     eyebrow: "SLIDING PUZZLE",
     heading: "A quick sliding-number puzzle you can come back to",
@@ -62,8 +74,13 @@ const guides: Record<GameSlug, Guide> = {
 
 const relatedGames: Record<GameSlug, { href: string; name: string }[]> = {
   solitaire: [
+    { href: "/games/2048", name: "2048" },
     { href: "/games/tile-shift", name: "Tile Shift" },
     { href: "/games/flip-pairs", name: "Flip Pairs" },
+  ],
+  "2048": [
+    { href: "/games/tile-shift", name: "Tile Shift" },
+    { href: "/games/word-bloom", name: "Word Bloom" },
   ],
   "tile-shift": [
     { href: "/games/solitaire", name: "Solitaire" },

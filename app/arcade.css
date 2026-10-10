@@ -218,18 +218,6 @@
 .arcade-top-actions > button > span { color: var(--arcade-violet-bright); font-size: 18px; }
 .arcade-top-actions > button > b { font-size: 11px; font-weight: 850; }
 
-.arcade-top-actions .arcade-avatar {
-  width: 37px;
-  padding: 0;
-  border-color: #ffffff34;
-  border-radius: 50%;
-  background: linear-gradient(140deg, #65e3cd, #6d58dd);
-  color: #111325;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 18px;
-  font-weight: 900;
-}
-
 .arcade-layout {
   position: relative;
   z-index: 1;
@@ -366,29 +354,6 @@
   font-family: var(--font-display), Georgia, serif;
   font-weight: 600;
 }
-
-.arcade-welcome > div:first-child > span {
-  display: block;
-  max-width: 670px;
-  margin-top: 13px;
-  color: var(--arcade-muted);
-  font-size: 13px;
-  font-weight: 650;
-  line-height: 1.5;
-}
-
-.arcade-welcome-meta {
-  display: grid;
-  min-width: 190px;
-  padding: 15px 17px;
-  border: 1px solid #ffffff17;
-  border-radius: 16px;
-  background: #131421;
-}
-
-.arcade-welcome-meta b { color: #ebe7ff; font-size: 13px; }
-.arcade-welcome-meta b i { margin-right: 5px; color: #c4ff65; font-size: 19px; font-style: normal; }
-.arcade-welcome-meta span { margin-top: 3px; color: #89869f; font-size: 10px; font-weight: 700; }
 
 .arcade-section { margin-top: 43px; scroll-margin-top: 100px; }
 
@@ -765,6 +730,10 @@
 .cover-solitaire::before { right: -8%; bottom: -42%; color: #ffffff2e; content: "♠"; font-family: Georgia, serif; font-size: clamp(150px, 20vw, 300px); line-height: 1; transform: rotate(-13deg); }
 .cover-solitaire::after { left: 42%; top: 18%; width: 88px; height: 117px; border: 3px solid #fff6; border-radius: 12px; background: linear-gradient(145deg, #fffef9, #e5efe9); box-shadow: -19px 15px 0 -2px #fffdf8b0; transform: rotate(10deg); }
 
+.cover-2048 { background: radial-gradient(circle at 18% 22%, #fff5a4 0, transparent 15%), linear-gradient(135deg, #e56d43, #e9a743 52%, #f9dc70); }
+.cover-2048::before { left: 51%; top: 50%; width: 108px; height: 108px; border-radius: 22px; background: linear-gradient(135deg, #ffeb91, #e97b3e); box-shadow: -57px -28px 0 -10px #f7ce65, 57px 28px 0 -10px #c95845, 0 9px 0 #9c4936; transform: translate(-50%, -50%) rotate(-8deg); }
+.cover-2048::after { left: 51%; top: 50%; color: #fff9d4; content: "2048"; font-family: var(--font-display), Georgia, serif; font-size: clamp(35px, 4vw, 58px); font-weight: 900; letter-spacing: -4px; text-shadow: 0 3px #aa4e37; transform: translate(-50%, -50%) rotate(-8deg); }
+
 .cover-tiles { background: linear-gradient(132deg, #33208a, #7351e7 54%, #b89aff); }
 .cover-tiles::before { left: 50%; top: 50%; width: 128px; height: 128px; border-radius: 26px; background: conic-gradient(from 18deg, #d8ccff, #785dff, #bfabff, #d8ccff); box-shadow: 0 0 0 14px #ffffff14; transform: translate(-50%, -50%) rotate(15deg); }
 .cover-tiles::after { left: 50%; top: 50%; width: 72px; height: 72px; border: 2px dashed #fff8; border-radius: 18px; transform: translate(-50%, -50%) rotate(15deg); }
@@ -1072,8 +1041,6 @@
   .arcade-content { padding: 24px 15px 54px; }
   .arcade-welcome { align-items: flex-start; flex-direction: column; gap: 17px; padding-bottom: 24px; }
   .arcade-welcome h1 { font-size: 36px; }
-  .arcade-welcome-meta { min-width: 0; width: 100%; grid-template-columns: auto 1fr; align-items: center; gap: 12px; padding: 11px 14px; }
-  .arcade-welcome-meta span { margin-top: 0; }
   .arcade-section { margin-top: 34px; scroll-margin-top: 140px; }
   .arcade-section-head { align-items: flex-start; }
   .arcade-section-head h2 { font-size: 24px; }
@@ -1129,7 +1096,7 @@
 }
 
 @media (max-width: 390px) {
-  .arcade-top-actions > button:not(.arcade-avatar) { display: none; }
+  .arcade-top-actions > button { display: none; }
   .arcade-welcome h1 { font-size: 33px; }
   .arcade-section-head { gap: 10px; }
   .arcade-section-head h2 { font-size: 22px; }
