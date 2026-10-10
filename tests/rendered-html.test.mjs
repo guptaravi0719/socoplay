@@ -27,9 +27,11 @@ test("server-renders the SocoPlay discovery hub with indexable game content", as
   const html = await response.text();
   assert.ok(html.includes("<title>SocoPlay | Free Online Mini Games</title>"));
   assert.ok(html.includes('href="https://socoplay.com"'));
-  assert.match(html, /Pick a game\./);
-  assert.match(html, /Free online mini games for your next short break/);
-  assert.match(html, /4 games live/);
+  assert.match(html, /Small games\. <em>Big little wins\.<\/em>/);
+  assert.match(html, /Continue playing/);
+  assert.match(html, /Top picks for your break/);
+  assert.match(html, /FREE ONLINE MINI GAMES/);
+  assert.match(html, /live now/);
   assert.match(html, /href="\/games\/solitaire"/);
   assert.match(html, /href="\/games\/tile-shift"/);
   assert.match(html, /href="\/games\/flip-pairs"/);
@@ -121,7 +123,7 @@ test("keeps SocoPlay branding, social assets, and device-save migration in the s
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /className="soco-page"/);
+  assert.match(page, /className="arcade-page"/);
   assert.match(page, /SocoPlay/);
   assert.match(page, /storageKeys\.favourites/);
   assert.match(layout, /metadataBase: new URL\("https:\/\/socoplay\.com"\)/);

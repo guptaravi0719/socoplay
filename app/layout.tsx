@@ -4,6 +4,7 @@ import { JsonLd } from "./components/json-ld";
 import { siteSchema } from "./lib/seo";
 import "./globals.css";
 import "./seo.css";
+import "./arcade.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://socoplay.com"),
