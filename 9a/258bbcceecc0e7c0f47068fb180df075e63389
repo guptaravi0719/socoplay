@@ -1,0 +1,40 @@
+app/components/game-guide.tsx
+  s_faa544299a2048::t_bee439713d9c68 25-36,77,81-83
+  s_faa544299a2048::t_b0e129ad35d4df 84
+app/arcade.css
+  s_faa544299a2048::t_bee439713d9c68 733-736,1099
+app/lib/storage.ts
+  s_faa544299a2048::t_bee439713d9c68 9,19
+app/page.tsx
+  s_faa544299a2048::t_bee439713d9c68 24,52,155
+  s_faa544299a2048::t_941af0e4308e52 168
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_bee439713d9c68 34-35,47-52,114
+app/lib/seo.ts
+  s_faa544299a2048::t_bee439713d9c68 3,23-29
+  s_faa544299a2048::t_3a5b54096a387b 30
+app/games/2048/page.tsx
+  s_faa544299a2048::t_87cd49cc269f4d 3-4,75-80,133
+  s_faa544299a2048::t_b8363ea6de3442 1-2,5-74,81,83-132,134-148
+  s_faa544299a2048::t_6dc37c7db5358f 82
+app/globals.css
+  s_faa544299a2048::t_49b84a70c986ea 3-5
+app/games/2048/layout.tsx
+  s_faa544299a2048::t_bee439713d9c68 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "9a258bbcceecc0e7c0f47068fb180df075e63389",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
