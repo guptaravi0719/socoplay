@@ -1,0 +1,21 @@
+app/games/solitaire/page.tsx
+  s_faa544299a2048::t_ac2dbfc0883e45 92
+app/components/game-enhancements.tsx
+  s_faa544299a2048::t_b647680cf2d38a 5-7,35-36,39,41-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "77ee358c30aa6cb66fc659f895046b8206ff04d2",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
