@@ -1,0 +1,27 @@
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_630ec2b9bc5ce9 40
+app/games/2048/page.tsx
+  s_faa544299a2048::t_46ff0b08a90720 4,151
+  s_faa544299a2048::t_930beab9986ef3 16,23,27
+  s_faa544299a2048::t_02baba7f561c70 20-22
+  s_faa544299a2048::t_630ec2b9bc5ce9 9,33,42,44,49,53,75,101-102,107,124-126,130,149-150,155
+  s_faa544299a2048::t_c3fefa4ff5805c 108
+app/globals.css
+  s_faa544299a2048::t_c3fefa4ff5805c 3-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "aa25eca4c27560f58cc9929c8e6d40242c6ac013",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
