@@ -1,0 +1,49 @@
+app/manifest.ts
+  s_faa544299a2048::t_b838b82fb728be 1-14
+app/robots.ts
+  s_faa544299a2048::t_b838b82fb728be 1-13
+app/games/flip-pairs/layout.tsx
+  s_faa544299a2048::t_b838b82fb728be 1-31
+app/components/game-guide.tsx
+  s_faa544299a2048::t_b838b82fb728be 2-104,107-110
+  s_faa544299a2048::t_905cac9da7014e 1,105-106
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_c2750d89319dce 6,8,10,14,22,28-29,31,38,42-77,80-116,127-129,135
+  s_faa544299a2048::t_71bb7df5b010af 78-79
+app/components/json-ld.tsx
+  s_faa544299a2048::t_a16a538b432e67 1-8
+app/games/tile-shift/layout.tsx
+  s_faa544299a2048::t_b838b82fb728be 1-31
+app/seo.css
+  s_faa544299a2048::t_d5193dc7754f13 91-94
+  s_faa544299a2048::t_b838b82fb728be 1-90,95-255
+app/lib/seo.ts
+  s_faa544299a2048::t_a16a538b432e67 1-116
+app/games/solitaire/layout.tsx
+  s_faa544299a2048::t_b838b82fb728be 1-31
+app/layout.tsx
+  s_faa544299a2048::t_b838b82fb728be 6
+  s_faa544299a2048::t_a16a538b432e67 3-4,7-70
+app/games/word-bloom/layout.tsx
+  s_faa544299a2048::t_b838b82fb728be 1-31
+app/sitemap.ts
+  s_faa544299a2048::t_b838b82fb728be 1-21
+app/page.tsx
+  s_faa544299a2048::t_b838b82fb728be 133-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "e41b7d1ab71858b3ba327554514144698dadafc3",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
