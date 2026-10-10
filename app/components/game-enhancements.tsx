@@ -2,6 +2,9 @@
 
 import { startTransition, useEffect, useState } from "react";
 
+type LegacyAudioWindow = Window & { webkitAudioContext?: typeof AudioContext };
+let sharedAudioContext: AudioContext | null = null;
+
 const help = {
   "/games/solitaire": { title: "Solitaire help", rules: ["Build downward in alternating red and black cards.", "Move Aces through Kings to their matching foundation piles.", "On mobile, tap a card and then tap where you want to place it."], tip: "Use Hint whenever you are stuck; it highlights a useful move." },
   "/games/2048": { title: "2048 help", rules: ["Swipe or use arrow keys to slide every tile.", "Matching numbers combine into a larger tile.", "Keep open spaces available and build toward 2048."], tip: "Keep your largest number in a corner and use Undo to rethink a move." },
@@ -29,25 +32,29 @@ export function GameEnhancements() {
     if (!sound) return;
     let lastPlayed = 0;
     const play = (event: PointerEvent | KeyboardEvent) => {
-      if (event instanceof KeyboardEvent && !["Enter", " ", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
-      if (event instanceof PointerEvent && event.target instanceof Element && !event.target.closest("button, input, [role=application]")) return;
+      if ("key" in event && !["Enter", " ", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
+      if (!("key" in event) && event.target instanceof Element && !event.target.closest("main, .mini-game, .cove-app")) return;
       if (Date.now() - lastPlayed < 80) return;
       lastPlayed = Date.now();
-      const Audio = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      const Audio = window.AudioContext || (window as LegacyAudioWindow).webkitAudioContext;
       if (!Audio) return;
-      const context = new Audio();
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      oscillator.type = sound[2];
-      oscillator.frequency.setValueAtTime(sound[0], context.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(sound[1], context.currentTime + 0.12);
-      gain.gain.setValueAtTime(0.0001, context.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.075, context.currentTime + 0.012);
-      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.18);
-      oscillator.connect(gain).connect(context.destination);
-      oscillator.start();
-      oscillator.stop(context.currentTime + 0.19);
-      window.setTimeout(() => context.close(), 240);
+      try {
+        const context = sharedAudioContext && sharedAudioContext.state !== "closed" ? sharedAudioContext : new Audio();
+        sharedAudioContext = context;
+        // iOS Safari often leaves a freshly-created context suspended until this exact tap/key event.
+        if (context.state === "suspended") void context.resume();
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = sound[2];
+        oscillator.frequency.setValueAtTime(sound[0], context.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(sound[1], context.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.0001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, context.currentTime + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.2);
+        oscillator.connect(gain).connect(context.destination);
+        oscillator.start(context.currentTime);
+        oscillator.stop(context.currentTime + 0.21);
+      } catch { /* The browser or device can decline Web Audio; gameplay still works. */ }
     };
     window.addEventListener("pointerdown", play, { capture: true });
     window.addEventListener("keydown", play, { capture: true });
