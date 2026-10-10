@@ -35,7 +35,7 @@ export function GameEnhancements() {
     let lastPlayed = 0;
     const play = (event: PointerEvent | KeyboardEvent) => {
       if ("key" in event && !["Enter", " ", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
-      if (!("key" in event) && event.target instanceof Element && (!event.target.closest("main, .mini-game, .cove-app") || event.target.closest("[data-sound-owned]"))) return;
+      if (!("key" in event) && event.target instanceof Element && (!event.target.closest("button, input, [role=application]") || event.target.closest("[data-sound-owned]"))) return;
       if (Date.now() - lastPlayed < 80) return;
       lastPlayed = Date.now();
       const Audio = window.AudioContext || (window as LegacyAudioWindow).webkitAudioContext;
