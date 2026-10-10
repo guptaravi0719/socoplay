@@ -1,0 +1,41 @@
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_aa7cddeb5d8d48 40,78-83,121
+app/games/tap-tap-basketball/layout.tsx
+  s_faa544299a2048::t_63540b2bc25394 1-4,6-20
+  s_faa544299a2048::t_a84ca1587b1710 5
+app/lib/seo.ts
+  s_faa544299a2048::t_26bb3f0c616dd8 3,55-61
+  s_faa544299a2048::t_451ffce5c6f889 62
+app/arcade.css
+  s_faa544299a2048::t_4fa2adba70547f 754-757,776-777,1040-1041
+app/components/game-guide.tsx
+  s_faa544299a2048::t_26bb3f0c616dd8 73-83,108-111
+  s_faa544299a2048::t_9f382d1db0bf8e 112
+app/games/tap-tap-basketball/basketball.css
+  s_faa544299a2048::t_a84ca1587b1710 1-2
+app/lib/storage.ts
+  s_faa544299a2048::t_26bb3f0c616dd8 13,24
+app/games/tap-tap-basketball/page.tsx
+  s_faa544299a2048::t_36840feee50977 4,36-41
+  s_faa544299a2048::t_63540b2bc25394 1-3,5-35,42-81
+app/components/game-enhancements.tsx
+  s_faa544299a2048::t_26bb3f0c616dd8 14,23
+app/page.tsx
+  s_faa544299a2048::t_26bb3f0c616dd8 28,48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "5ee85f80e7d5ed8e99fabb7b61b4120c3011aa98",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
