@@ -12,6 +12,7 @@ const help = {
   "/games/flip-pairs": { title: "Flip Pairs help", rules: ["Tap two cards to reveal their symbols.", "Matching pairs remain face up.", "Clear all six pairs with as few tries as you can."], tip: "Remember where each symbol appears before opening a new card." },
   "/games/word-bloom": { title: "Word Bloom help", rules: ["Read the shuffled letters.", "Type the word you think they form.", "Check your answer, then choose a new word when ready."], tip: "Look for common beginnings and endings first." },
   "/games/tap-tap-basketball": { title: "Tap Tap Basketball help", rules: ["Tap the court to start a 30-second round.", "Tap again when the moving hoop crosses the center marker.", "Make three baskets in a row for a bonus point."], tip: "The closer the hoop is to the middle, the cleaner your shot." },
+  "/games/slice-sprint": { title: "Slice Sprint help", rules: ["Swipe across flying fruit to slice it.", "Build a combo by cutting several fruits without missing.", "Avoid the black bombs because each one costs a slice."], tip: "Wait for a clean line through several fruits, then make one confident swipe." },
 } as const;
 
 const tones = {
@@ -21,6 +22,7 @@ const tones = {
   "/games/flip-pairs": [523, 784, "triangle"],
   "/games/word-bloom": [440, 659, "sine"],
   "/games/tap-tap-basketball": [150, 225, "sine"],
+  "/games/slice-sprint": [460, 660, "triangle"],
 } as const;
 
 export function GameEnhancements() {

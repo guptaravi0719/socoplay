@@ -26,6 +26,7 @@ const games: GameCard[] = [
   { id: "flip-pairs", name: "Flip Pairs", genre: "Memory", time: "2–5 min", icon: "✦", art: "pairs", href: "/games/flip-pairs", live: true, badge: "Quick", description: "Find all six pairs before your memory plays tricks on you." },
   { id: "word-bloom", name: "Word Bloom", genre: "Word", time: "3–8 min", icon: "Aa", art: "word", href: "/games/word-bloom", live: true, badge: "Cozy", description: "Unscramble one bright little word at a time." },
   { id: "tap-tap-basketball", name: "Tap Tap Basketball", genre: "Sports", time: "1–3 min", icon: "🏀", art: "basketball", href: "/games/tap-tap-basketball", live: true, badge: "New", description: "Time your taps, sink baskets, build a streak, and beat your best score." },
+  { id: "slice-sprint", name: "Slice Sprint", genre: "Arcade", time: "1–3 min", icon: "🍉", art: "slice", href: "/games/slice-sprint", live: true, badge: "Fresh", description: "Swipe through flying fruit, stack combos, and avoid the bombs." },
 ];
 
 const liveGames = games.filter((game) => game.live);
@@ -35,6 +36,7 @@ const railItems = [
   { label: "Quick games", icon: "⚡", genre: "All", target: "top-picks" },
   { label: "Card games", icon: "♠", genre: "Cards" },
   { label: "Puzzles", icon: "◆", genre: "Puzzle" },
+  { label: "Arcade games", icon: "✂", genre: "Arcade" },
   { label: "Word games", icon: "Aa", genre: "Word" },
   { label: "Memory games", icon: "◌", genre: "Memory" },
 ];
@@ -46,6 +48,7 @@ const coverLabels: Record<string, string> = {
   pairs: "FIND THE MATCH",
   word: "LETTERS IN BLOOM",
   basketball: "TIME THE SWISH",
+  slice: "SWIPE / SLICE / SCORE",
   numbers: "COUNT THE COMBOS",
   orbit: "KEEP THE ORBIT",
   pyramid: "CLEAR THE PEAK",

@@ -38,6 +38,7 @@ test("server-renders the SocoPlay discovery hub with indexable game content", as
   assert.match(html, /href="\/games\/flip-pairs"/);
   assert.match(html, /href="\/games\/word-bloom"/);
   assert.match(html, /href="\/games\/tap-tap-basketball"/);
+  assert.match(html, /href="\/games\/slice-sprint"/);
   assert.doesNotMatch(html, /ADVERTISEMENT/);
   assert.match(html, /application\/ld\+json/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/i);
@@ -81,6 +82,12 @@ test("server-renders unique, playable game pages for crawlers", async () => {
       heading: "Tap Tap Basketball",
       description: "Play Tap Tap Basketball online for free. Time your shots, build a streak, beat your best score, and save your progress on this device.",
     },
+    {
+      path: "/games/slice-sprint",
+      title: "Play Slice Sprint Online | SocoPlay",
+      heading: "Slice Sprint",
+      description: "Play Slice Sprint online for free. Swipe through flying fruit, chain slicing combos, avoid bombs, and save your high score on this device.",
+    },
   ];
 
   for (const route of routes) {
@@ -118,7 +125,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /(?:application|text)\/xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
-  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tile-shift", "/games/flip-pairs", "/games/word-bloom", "/games/tap-tap-basketball"]) {
+  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tile-shift", "/games/flip-pairs", "/games/word-bloom", "/games/tap-tap-basketball", "/games/slice-sprint"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
 

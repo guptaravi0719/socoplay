@@ -81,6 +81,17 @@ const guides: Record<GameSlug, Guide> = {
     ],
     tip: "The hoop is most forgiving near the center marker. Slow down after a miss and use the rhythm of the swing to line up your next tap.",
   },
+  "slice-sprint": {
+    eyebrow: "FRUIT-SLICING ARCADE GAME",
+    heading: "Swipe fast, stack combos, and leave the bombs alone",
+    description: "Slice Sprint is a quick browser arcade game. Swipe through fruit in the air, build a clean combo, and come back to beat your saved high score on this device.",
+    steps: [
+      "Tap the play field to start a 45-second round.",
+      "Swipe across flying fruit to cut it and earn points.",
+      "Avoid black bombs and protect all three slices until time runs out.",
+    ],
+    tip: "Wait until a few fruits cross paths, then make one confident swipe through the group for a bigger combo.",
+  },
 };
 
 const relatedGames: Record<GameSlug, { href: string; name: string }[]> = {
@@ -109,6 +120,11 @@ const relatedGames: Record<GameSlug, { href: string; name: string }[]> = {
     { href: "/games/2048", name: "2048" },
     { href: "/games/flip-pairs", name: "Flip Pairs" },
     { href: "/games/tile-shift", name: "Tile Shift" },
+  ],
+  "slice-sprint": [
+    { href: "/games/tap-tap-basketball", name: "Tap Tap Basketball" },
+    { href: "/games/flip-pairs", name: "Flip Pairs" },
+    { href: "/games/2048", name: "2048" },
   ],
 };
 

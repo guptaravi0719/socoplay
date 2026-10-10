@@ -755,6 +755,10 @@
 .cover-basketball::before { left: 50%; top: 50%; width: 96px; height: 96px; border: 5px solid #5d2a29; border-radius: 50%; background: repeating-radial-gradient(circle at 32% 30%, #ffbc55 0 8px, #e86738 9px 17px); box-shadow: 0 10px 0 #a9423038, inset 0 0 0 2px #fff4; transform: translate(-50%, -50%); }
 .cover-basketball::after { right: 14%; bottom: 10%; width: 56px; height: 18px; border: 4px solid #fff8; border-top: 0; transform: rotate(-12deg); }
 
+.cover-slice { background: radial-gradient(circle at 77% 21%, #fff6a6 0, transparent 15%), linear-gradient(135deg, #22795b, #75bf6b 57%, #f5c35b); }
+.cover-slice::before { left: 50%; top: 53%; width: 104px; height: 104px; border-radius: 50%; background: radial-gradient(circle at 34% 25%, #fff0bc 0 8%, #ef6a4f 9% 49%, #af3040 50%); box-shadow: -39px 27px 0 -13px #efbd37, 43px -19px 0 -15px #75b65f; transform: translate(-50%, -50%); }
+.cover-slice::after { left: 17%; top: 20%; width: 120px; height: 3px; border-radius: 999px; background: #fff9; box-shadow: 0 0 9px #fff; transform: rotate(-25deg); }
+
 /* Each cover has a tiny, CSS-only gameplay moment. It keeps the arcade lively
    without loading video files or adding extra network weight. */
 @media (prefers-reduced-motion: no-preference) {
@@ -775,6 +779,8 @@
   .cover-word::after { animation: bloom-ring 4.2s ease-in-out infinite; }
   .cover-basketball::before { animation: basketball-bounce 2.7s ease-in-out infinite; }
   .cover-basketball::after { animation: hoop-glow 2.7s ease-in-out infinite; }
+  .cover-slice::before { animation: slice-fruit-pop 3s ease-in-out infinite; }
+  .cover-slice::after { animation: slice-slash 2.6s ease-in-out infinite; }
 }
 
 .cover-numbers { background: linear-gradient(140deg, #0c5961, #27978c 55%, #84d7b7); }
@@ -1039,6 +1045,8 @@
 @keyframes bloom-ring { 0%, 100% { transform: rotate(12deg) scale(1); opacity: .45; } 50% { transform: rotate(34deg) scale(1.1); opacity: .9; } }
 @keyframes basketball-bounce { 0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(-8deg); } 34% { transform: translate(-50%, -50%) translateY(-20px) rotate(11deg); } 54% { transform: translate(-50%, -50%) translateY(4px) rotate(21deg) scale(.94); } }
 @keyframes hoop-glow { 0%, 100% { transform: rotate(-12deg) scale(1); opacity: .62; } 40% { transform: rotate(-12deg) scale(1.13); opacity: 1; } }
+@keyframes slice-fruit-pop { 0%, 100% { transform: translate(-50%, -50%) rotate(-5deg) scale(1); } 48% { transform: translate(-50%, -58%) rotate(8deg) scale(1.08); } 66% { transform: translate(-50%, -50%) rotate(2deg) scale(.96); } }
+@keyframes slice-slash { 0%, 100% { transform: rotate(-25deg) translateX(0); opacity: .38; } 42% { transform: rotate(-25deg) translateX(44px); opacity: 1; } 68% { opacity: .45; } }
 
 @media (max-width: 1260px) {
   .arcade-game-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }

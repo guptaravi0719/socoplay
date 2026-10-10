@@ -1,6 +1,6 @@
 export const siteUrl = "https://socoplay.com";
 
-export type GameSlug = "solitaire" | "2048" | "tile-shift" | "flip-pairs" | "word-bloom" | "tap-tap-basketball";
+export type GameSlug = "solitaire" | "2048" | "tile-shift" | "flip-pairs" | "word-bloom" | "tap-tap-basketball" | "slice-sprint";
 
 type GameSeo = {
   slug: GameSlug;
@@ -59,6 +59,14 @@ export const gameSeo: Record<GameSlug, GameSeo> = {
     description: "Play Tap Tap Basketball online for free. Time your shots, build a streak, beat your best score, and save your progress on this device.",
     category: "Arcade sports game",
     genre: "Sports",
+  },
+  "slice-sprint": {
+    slug: "slice-sprint",
+    name: "Slice Sprint",
+    title: "Play Slice Sprint Online",
+    description: "Play Slice Sprint online for free. Swipe through flying fruit, chain slicing combos, avoid bombs, and save your high score on this device.",
+    category: "Arcade slicing game",
+    genre: "Arcade",
   },
 };
 
