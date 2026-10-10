@@ -51,18 +51,18 @@ function remember(score: number, best: number, streak: number) {
 export default function TapTapBasketball() {
   const [phase, setPhase] = useState<Phase>("ready"); const [score, setScore] = useState(0); const [best, setBest] = useState(0); const [streak, setStreak] = useState(0);
   const [timeLeft, setTimeLeft] = useState(10); const [ball, setBall] = useState<Ball>(initialBall); const [hoop, setHoop] = useState<Hoop>(firstHoop); const [callout, setCallout] = useState(""); const [loaded, setLoaded] = useState(false); const [soundOn, setSoundOn] = useState(true); const [isScoring, setIsScoring] = useState(false);
-  const ballRef = useRef<Ball>(initialBall()); const hoopRef = useRef<Hoop>(firstHoop); const timeRef = useRef(10); const streakRef = useRef(0); const scoreRef = useRef(0); const soundRef = useRef(true); const scoringRef = useRef(false); const serveTimerRef = useRef<number | null>(null);
+  const ballRef = useRef<Ball>(initialBall()); const hoopRef = useRef<Hoop>(firstHoop); const timeRef = useRef(10); const streakRef = useRef(0); const scoreRef = useRef(0); const soundRef = useRef(true); const scoringRef = useRef(false); const boostCountRef = useRef(0); const serveTimerRef = useRef<number | null>(null);
 
   useEffect(() => { const save = readStored<Save>(storageKeys.tapTapBasketball, legacyStorageKeys.tapTapBasketball); startTransition(() => { setBest(save?.best || 0); setLoaded(true); }); }, []);
   useEffect(() => { if (loaded) { writeStored(storageKeys.tapTapBasketball, { best, lastScore: score, lastStreak: streak }); remember(score, best, streak); } }, [best, loaded, score, streak]);
 
   useEffect(() => () => { if (serveTimerRef.current) window.clearTimeout(serveTimerRef.current); }, []);
-  const resetRun = () => { if (serveTimerRef.current) window.clearTimeout(serveTimerRef.current); const freshBall = initialBall(); scoringRef.current = false; ballRef.current = freshBall; hoopRef.current = firstHoop; timeRef.current = 10; scoreRef.current = 0; streakRef.current = 0; setBall(freshBall); setHoop(firstHoop); setTimeLeft(10); setScore(0); setStreak(0); setIsScoring(false); setCallout("GO!"); setPhase("playing"); playCourtSound("whistle", soundRef.current); };
+  const resetRun = () => { if (serveTimerRef.current) window.clearTimeout(serveTimerRef.current); const freshBall = initialBall(); scoringRef.current = false; boostCountRef.current = 0; ballRef.current = freshBall; hoopRef.current = firstHoop; timeRef.current = 10; scoreRef.current = 0; streakRef.current = 0; setBall(freshBall); setHoop(firstHoop); setTimeLeft(10); setScore(0); setStreak(0); setIsScoring(false); setCallout("GO!"); setPhase("playing"); playCourtSound("whistle", soundRef.current); };
   const scoreBasket = () => {
     const nextScore = scoreRef.current + 1; const nextStreak = streakRef.current + 1; const scoredBall = { ...ballRef.current, x: hoopRef.current.x, y: hoopRef.current.y + 5, vy: 0 };
     scoreRef.current = nextScore; streakRef.current = nextStreak; scoringRef.current = true; timeRef.current = Math.min(10, timeRef.current + 3.5);
     ballRef.current = scoredBall; setScore(nextScore); setStreak(nextStreak); setBest((value) => Math.max(value, nextScore)); setBall(scoredBall); setIsScoring(true); setTimeLeft(Math.ceil(timeRef.current)); setCallout(nextStreak >= 3 ? "ON FIRE!" : "SWISH!"); playCourtSound("score", soundRef.current);
-    serveTimerRef.current = window.setTimeout(() => { const freshHoop = nextHoop(nextScore); const freshBall = serveBall(freshHoop); hoopRef.current = freshHoop; ballRef.current = freshBall; scoringRef.current = false; setHoop(freshHoop); setBall(freshBall); setIsScoring(false); }, 460);
+    serveTimerRef.current = window.setTimeout(() => { const freshHoop = nextHoop(nextScore); const freshBall = serveBall(freshHoop); boostCountRef.current = 0; hoopRef.current = freshHoop; ballRef.current = freshBall; scoringRef.current = false; setHoop(freshHoop); setBall(freshBall); setIsScoring(false); }, 460);
   };
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function TapTapBasketball() {
       if (next.x > 105) next.x = -5; if (next.x < -5) next.x = 105; if (next.y < -6) { next.y = -6; next.vy = Math.abs(next.vy) * .72; } if (next.y > 87) { next.y = 87; next.vy = -Math.max(18, Math.abs(next.vy) * .64); }
       const target = hoopRef.current;
       const inHoopLane = Math.abs(next.x - target.x) < 9 && next.y > target.y - 17 && next.y < target.y + 14;
-      if ((next.vy > 0 && oldY < target.y && next.y >= target.y && Math.abs(next.x - target.x) < 9) || inHoopLane) scoreBasket(); else { ballRef.current = next; setBall(next); }
+      if (boostCountRef.current > 0 && ((next.vy > 0 && oldY < target.y && next.y >= target.y && Math.abs(next.x - target.x) < 9) || inHoopLane)) scoreBasket(); else { ballRef.current = next; setBall(next); }
       timeRef.current -= dt; setTimeLeft(Math.max(0, Math.ceil(timeRef.current)));
       if (timeRef.current <= 0) { setPhase("finished"); setCallout("BUZZER!"); playCourtSound("over", soundRef.current); return; }
       frame = requestAnimationFrame(step);
@@ -88,6 +88,7 @@ export default function TapTapBasketball() {
     if (isScoring) return;
     if (phase === "paused") { setPhase("playing"); return; }
     if (phase !== "playing") { resetRun(); return; }
+    boostCountRef.current += 1;
     const target = hoopRef.current;
     const secondsToHoop = Math.max(.18, Math.abs((target.x - ballRef.current.x) / ballRef.current.vx));
     const guidedVy = (target.y - ballRef.current.y - 12 * secondsToHoop * secondsToHoop) / secondsToHoop;
