@@ -1,0 +1,25 @@
+app/games/2048/page.tsx
+  s_faa544299a2048::t_3b27c71fd54b73 8,61-62,72,86,95-97,102,108,131,141,153,158
+app/globals.css
+  s_faa544299a2048::t_3b27c71fd54b73 3
+app/arcade.css
+  s_faa544299a2048::t_3b27c71fd54b73 442-444
+app/page.tsx
+  s_faa544299a2048::t_3b27c71fd54b73 211
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "8aa2e991d26ec5d5f308da00a7bd5d7c4fe4a5d3",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
