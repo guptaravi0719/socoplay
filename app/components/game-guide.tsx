@@ -70,6 +70,17 @@ const guides: Record<GameSlug, Guide> = {
     ],
     tip: "Start with familiar letter pairs or endings. If a word feels stuck, say the letters quietly and try a fresh arrangement.",
   },
+  "tap-tap-basketball": {
+    eyebrow: "ARCADE BASKETBALL GAME",
+    heading: "Time each tap and run up the score",
+    description: "Tap Tap Basketball is a quick free basketball game for your browser. Time your shot as the hoop reaches the center line, then chase a new high score on this device.",
+    steps: [
+      "Tap the court to start a 30-second round.",
+      "Watch the moving hoop and tap again when it passes the center marker.",
+      "Make three baskets in a row to earn bonus points and build your best score.",
+    ],
+    tip: "The hoop is most forgiving near the center marker. Slow down after a miss and use the rhythm of the swing to line up your next tap.",
+  },
 };
 
 const relatedGames: Record<GameSlug, { href: string; name: string }[]> = {
@@ -93,6 +104,11 @@ const relatedGames: Record<GameSlug, { href: string; name: string }[]> = {
   "word-bloom": [
     { href: "/games/tile-shift", name: "Tile Shift" },
     { href: "/games/flip-pairs", name: "Flip Pairs" },
+  ],
+  "tap-tap-basketball": [
+    { href: "/games/2048", name: "2048" },
+    { href: "/games/flip-pairs", name: "Flip Pairs" },
+    { href: "/games/tile-shift", name: "Tile Shift" },
   ],
 };
 

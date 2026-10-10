@@ -25,6 +25,7 @@ const games: GameCard[] = [
   { id: "tile-shift", name: "Tile Shift", genre: "Puzzle", time: "2–8 min", icon: "15", art: "tiles", href: "/games/tile-shift", live: true, badge: "Brainy", description: "Slide every number home in a satisfyingly compact puzzle." },
   { id: "flip-pairs", name: "Flip Pairs", genre: "Memory", time: "2–5 min", icon: "✦", art: "pairs", href: "/games/flip-pairs", live: true, badge: "Quick", description: "Find all six pairs before your memory plays tricks on you." },
   { id: "word-bloom", name: "Word Bloom", genre: "Word", time: "3–8 min", icon: "Aa", art: "word", href: "/games/word-bloom", live: true, badge: "Cozy", description: "Unscramble one bright little word at a time." },
+  { id: "tap-tap-basketball", name: "Tap Tap Basketball", genre: "Sports", time: "1–3 min", icon: "🏀", art: "basketball", href: "/games/tap-tap-basketball", live: true, badge: "New", description: "Time your taps, sink baskets, build a streak, and beat your best score." },
 ];
 
 const liveGames = games.filter((game) => game.live);
@@ -44,6 +45,7 @@ const coverLabels: Record<string, string> = {
   tiles: "SLIDE INTO PLACE",
   pairs: "FIND THE MATCH",
   word: "LETTERS IN BLOOM",
+  basketball: "TIME THE SWISH",
   numbers: "COUNT THE COMBOS",
   orbit: "KEEP THE ORBIT",
   pyramid: "CLEAR THE PEAK",

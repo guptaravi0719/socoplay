@@ -11,6 +11,7 @@ const help = {
   "/games/tile-shift": { title: "Tile Shift help", rules: ["Tap a tile beside the empty space to move it.", "Put the tiles in order from 1 to 15.", "Finish with the blank space in the lower-right corner."], tip: "Solve one row at a time to leave yourself room." },
   "/games/flip-pairs": { title: "Flip Pairs help", rules: ["Tap two cards to reveal their symbols.", "Matching pairs remain face up.", "Clear all six pairs with as few tries as you can."], tip: "Remember where each symbol appears before opening a new card." },
   "/games/word-bloom": { title: "Word Bloom help", rules: ["Read the shuffled letters.", "Type the word you think they form.", "Check your answer, then choose a new word when ready."], tip: "Look for common beginnings and endings first." },
+  "/games/tap-tap-basketball": { title: "Tap Tap Basketball help", rules: ["Tap the court to start a 30-second round.", "Tap again when the moving hoop crosses the center marker.", "Make three baskets in a row for a bonus point."], tip: "The closer the hoop is to the middle, the cleaner your shot." },
 } as const;
 
 const tones = {
@@ -19,6 +20,7 @@ const tones = {
   "/games/tile-shift": [330, 495, "sine"],
   "/games/flip-pairs": [523, 784, "triangle"],
   "/games/word-bloom": [440, 659, "sine"],
+  "/games/tap-tap-basketball": [150, 225, "sine"],
 } as const;
 
 export function GameEnhancements() {

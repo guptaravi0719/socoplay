@@ -1,6 +1,6 @@
 export const siteUrl = "https://socoplay.com";
 
-export type GameSlug = "solitaire" | "2048" | "tile-shift" | "flip-pairs" | "word-bloom";
+export type GameSlug = "solitaire" | "2048" | "tile-shift" | "flip-pairs" | "word-bloom" | "tap-tap-basketball";
 
 type GameSeo = {
   slug: GameSlug;
@@ -51,6 +51,14 @@ export const gameSeo: Record<GameSlug, GameSeo> = {
     description: "Play Word Bloom, a free online word unscramble game. Rearrange the letters, solve the word, and save your progress locally.",
     category: "Word game",
     genre: "Word",
+  },
+  "tap-tap-basketball": {
+    slug: "tap-tap-basketball",
+    name: "Tap Tap Basketball",
+    title: "Play Tap Tap Basketball Online",
+    description: "Play Tap Tap Basketball online for free. Time your shots, build a streak, beat your best score, and save your progress on this device.",
+    category: "Arcade sports game",
+    genre: "Sports",
   },
 };
 

@@ -10,6 +10,7 @@ export const storageKeys = {
   tileShift: "socoplay:tile-shift",
   flipPairs: "socoplay:flip-pairs",
   wordBloom: "socoplay:word-bloom",
+  tapTapBasketball: "socoplay:tap-tap-basketball",
 } as const;
 
 export const legacyStorageKeys = {
@@ -20,6 +21,7 @@ export const legacyStorageKeys = {
   tileShift: "cardcove-tile-shift",
   flipPairs: "cardcove-flip-pairs",
   wordBloom: "cardcove-word-bloom",
+  tapTapBasketball: "cardcove-tap-tap-basketball",
 } as const;
 
 export function readStored<T>(key: string, legacyKey?: string): T | null {
