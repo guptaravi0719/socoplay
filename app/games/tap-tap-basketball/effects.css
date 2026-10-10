@@ -1,0 +1,2 @@
+.basketball-ball.is-scoring{z-index:6;animation:basketball-net-drop .46s cubic-bezier(.18,.75,.25,1) both}
+@keyframes basketball-net-drop{0%{transform:translate(-50%,-65%) rotate(var(--ball-rotation)) scale(.78)}35%{transform:translate(-50%,-47%) rotate(calc(var(--ball-rotation) + 120deg)) scale(.72)}100%{transform:translate(-50%,28%) rotate(calc(var(--ball-rotation) + 230deg)) scale(.58);opacity:.15}}

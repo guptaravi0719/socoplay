@@ -3,6 +3,7 @@ import { GameGuide } from "../../components/game-guide";
 import { JsonLd } from "../../components/json-ld";
 import { gameSchema, gameSeo } from "../../lib/seo";
 import "./basketball.css";
+import "./effects.css";
 
 const slug = "tap-tap-basketball";
 const game = gameSeo[slug];
