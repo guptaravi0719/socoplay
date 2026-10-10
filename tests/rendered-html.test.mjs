@@ -37,7 +37,7 @@ test("server-renders the SocoPlay discovery hub with indexable game content", as
   assert.match(html, /href="\/games\/tile-shift"/);
   assert.match(html, /href="\/games\/flip-pairs"/);
   assert.match(html, /href="\/games\/word-bloom"/);
-  assert.match(html, /ADVERTISEMENT/);
+  assert.doesNotMatch(html, /ADVERTISEMENT/);
   assert.match(html, /application\/ld\+json/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/i);
 });

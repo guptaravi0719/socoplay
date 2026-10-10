@@ -175,8 +175,6 @@ export default function Home() {
             {visibleGames.length ? <div className="arcade-game-grid">{visibleGames.map((game) => <ArcadeGameCard game={game} favourite={favourites.includes(game.id)} onFavourite={() => toggleFavourite(game.id)} onSoon={() => mentionSoon(game)} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the category filter.</p></div>}
           </section>
 
-          <aside className="arcade-ad-reserve" aria-label="Advertisement reserve"><span>ADVERTISEMENT</span><div><b>A calm place for a future partner.</b><small>Any AdSense unit stays away from game controls.</small></div></aside>
-
           <section className="arcade-seo-card" aria-labelledby="free-mini-games-title"><div><p>FREE ONLINE MINI GAMES</p><h2 id="free-mini-games-title">A tiny arcade for your in-between moments.</h2></div><div><p>SocoPlay is a growing collection of original browser games. Play cards, puzzles, memory, and word games without a download or account, then come back to the same device to continue where you stopped.</p><div className="arcade-seo-points"><span>Made for mobile</span><span>Saved locally</span><span>Always free to play</span></div></div></section>
 
           <section className="arcade-labs" aria-labelledby="labs-title"><div><p>SOCO LABS</p><h2 id="labs-title">More original games are taking shape.</h2><span>We mark a game Play now only when it is ready. Favourite an idea and keep it on your device shelf.</span></div><div className="arcade-labs-art" aria-hidden="true"><i>△</i><i>◉</i><i>Aa</i><i>♠</i></div></section>

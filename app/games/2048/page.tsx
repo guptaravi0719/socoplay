@@ -1,32 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { startTransition, useEffect, useRef, useState } from "react";
+import { startTransition, type CSSProperties, useEffect, useRef, useState } from "react";
 import { legacyStorageKeys, readStored, storageKeys, writeStored } from "../../lib/storage";
 
 type Direction = "left" | "right" | "up" | "down";
 type Save = { board: number[]; score: number; best: number; won?: boolean };
+type Effects = { direction: Direction | null; merged: number[]; spawned: number | null; turn: number };
 
 const startingBoard = [2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 function mergeLine(line: number[]) {
   const compact = line.filter(Boolean);
   const result: number[] = [];
+  const merged: number[] = [];
   let gained = 0;
   for (let index = 0; index < compact.length; index += 1) {
     if (compact[index] === compact[index + 1]) {
-      const merged = compact[index] * 2;
-      result.push(merged);
-      gained += merged;
+      const mergedTile = compact[index] * 2;
+      result.push(mergedTile);
+      gained += mergedTile;
+      merged.push(result.length - 1);
       index += 1;
     } else result.push(compact[index]);
   }
-  return { line: [...result, ...Array(4 - result.length).fill(0)], gained };
+  return { line: [...result, ...Array(4 - result.length).fill(0)], gained, merged };
 }
 
 function moveBoard(board: number[], direction: Direction) {
   const next = [...board];
   let gained = 0;
+  const mergedIndexes: number[] = [];
   for (let row = 0; row < 4; row += 1) {
     const indexes = direction === "left" || direction === "right"
       ? Array.from({ length: 4 }, (_, column) => row * 4 + column)
@@ -35,17 +39,18 @@ function moveBoard(board: number[], direction: Direction) {
     const merged = mergeLine(indexes.map((index) => board[index]));
     gained += merged.gained;
     indexes.forEach((index, position) => { next[index] = merged.line[position]; });
+    merged.merged.forEach((position) => mergedIndexes.push(indexes[position]));
   }
-  return { board: next, gained, moved: next.some((tile, index) => tile !== board[index]) };
+  return { board: next, gained, mergedIndexes, moved: next.some((tile, index) => tile !== board[index]) };
 }
 
 function addTile(board: number[]) {
   const empty = board.map((tile, index) => tile === 0 ? index : -1).filter((index) => index >= 0);
-  if (!empty.length) return board;
+  if (!empty.length) return { board, index: null };
   const next = [...board];
   const position = empty[Math.floor(Math.random() * empty.length)];
   next[position] = Math.random() < 0.9 ? 2 : 4;
-  return next;
+  return { board: next, index: position };
 }
 
 function hasMoves(board: number[]) {
@@ -67,6 +72,7 @@ export default function Game2048() {
   const [previous, setPrevious] = useState<Save | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [won, setWon] = useState(false);
+  const [effects, setEffects] = useState<Effects>({ direction: null, merged: [], spawned: null, turn: 0 });
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
@@ -92,12 +98,14 @@ export default function Game2048() {
     const moved = moveBoard(board, direction);
     if (!moved.moved) return;
     setPrevious({ board, score, best, won });
-    const nextBoard = addTile(moved.board);
+    const spawned = addTile(moved.board);
+    const nextBoard = spawned.board;
     const nextScore = score + moved.gained;
     setBoard(nextBoard);
     setScore(nextScore);
     setBest((value) => Math.max(value, nextScore));
-    if (nextBoard.includes(2048)) setWon(true);
+    setEffects((effect) => ({ direction, merged: moved.mergedIndexes, spawned: spawned.index, turn: effect.turn + 1 }));
+    if (!won && nextBoard.includes(2048)) setWon(true);
   };
 
   useEffect(() => {
@@ -113,11 +121,13 @@ export default function Game2048() {
   });
 
   const newGame = () => {
-    const fresh = addTile(addTile(Array(16).fill(0)));
-    setBoard(fresh);
+    const firstTile = addTile(Array(16).fill(0));
+    const fresh = addTile(firstTile.board);
+    setBoard(fresh.board);
     setScore(0);
     setPrevious(null);
     setWon(false);
+    setEffects((effect) => ({ direction: null, merged: [], spawned: fresh.index, turn: effect.turn + 1 }));
   };
   const undo = () => {
     if (!previous) return;
@@ -136,12 +146,13 @@ export default function Game2048() {
       <div className="mini-layout">
         <section className="puzzle-card game-2048-card">
           <div className="game-2048-stats"><div><span>SCORE</span><b>{score}</b></div><div><span>BEST</span><b>{best}</b></div></div>
-          <div className="game-2048-board" role="application" aria-label="2048 board. Use arrow keys or swipe to move tiles." onPointerDown={(event) => { touchStart.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={(event) => { const start = touchStart.current; touchStart.current = null; if (!start) return; const dx = event.clientX - start.x; const dy = event.clientY - start.y; if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return; playMove(Math.abs(dx) > Math.abs(dy) ? dx > 0 ? "right" : "left" : dy > 0 ? "down" : "up"); }}>
-            {board.map((tile, index) => <div className={`game-2048-tile tile-${tile || "empty"}`} key={index}>{tile || ""}</div>)}
+          <div className={`game-2048-board move-${effects.direction || "idle"} turn-${effects.turn % 2}`} role="application" aria-label="2048 board. Use arrow keys or swipe to move tiles." onPointerDown={(event) => { touchStart.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={(event) => { const start = touchStart.current; touchStart.current = null; if (!start) return; const dx = event.clientX - start.x; const dy = event.clientY - start.y; if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return; playMove(Math.abs(dx) > Math.abs(dy) ? dx > 0 ? "right" : "left" : dy > 0 ? "down" : "up"); }}>
+            {board.map((tile, index) => <div className={`game-2048-tile tile-${tile || "empty"} ${effects.merged.includes(index) ? "is-merged" : ""} ${effects.spawned === index ? "is-spawned" : ""}`} key={index}>{tile ? <><span>{tile}</span>{effects.merged.includes(index) && <i aria-hidden="true">+{tile}</i>}</> : ""}</div>)}
+            {won && <div className="game-2048-sparkles" aria-hidden="true">{Array.from({ length: 14 }, (_, index) => <i key={index} style={{ "--spark": index } as CSSProperties} />)}</div>}
           </div>
           <div className="mini-actions"><button type="button" onClick={newGame}>↻ New game</button><button type="button" onClick={undo} disabled={!previous}>↶ Undo</button><b>{gameOver ? "Game over" : "Swipe or use arrows"}</b></div>
         </section>
-        <aside className="mini-side"><div className="save-badge">● Saved locally</div><h2>Make the next merge count.</h2><p>Every move slides the whole board. Same numbers merge together, so give your largest tiles a corner to grow into.</p><div className="ad-reserve">ADVERTISEMENT</div></aside>
+        <aside className="mini-side"><div className="save-badge">● Saved locally</div><h2>Make the next merge count.</h2><p>Every move slides the whole board. Same numbers merge together, so give your largest tiles a corner to grow into.</p></aside>
       </div>
     </section>
   </main>;
