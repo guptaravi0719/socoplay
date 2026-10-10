@@ -4,13 +4,14 @@ import Link from "next/link";
 import { startTransition, type CSSProperties, useEffect, useRef, useState } from "react";
 import { legacyStorageKeys, readStored, storageKeys, writeStored } from "../../lib/storage";
 
-type Phase = "ready" | "playing" | "finished";
+type Phase = "ready" | "playing" | "paused" | "finished";
 type Ball = { x: number; y: number; vx: number; vy: number; rotation: number };
 type Hoop = { x: number; y: number };
 type Save = { best?: number; lastScore?: number; lastStreak?: number };
 
 let courtAudio: AudioContext | null = null;
-function playCourtSound(kind: "tap" | "score" | "whistle" | "over") {
+function playCourtSound(kind: "tap" | "score" | "whistle" | "over", enabled = true) {
+  if (!enabled) return;
   if (typeof window === "undefined") return;
   try {
     const Audio = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
@@ -40,17 +41,17 @@ function remember(score: number, best: number, streak: number) {
 
 export default function TapTapBasketball() {
   const [phase, setPhase] = useState<Phase>("ready"); const [score, setScore] = useState(0); const [best, setBest] = useState(0); const [streak, setStreak] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(10); const [ball, setBall] = useState<Ball>(initialBall); const [hoop, setHoop] = useState<Hoop>(firstHoop); const [callout, setCallout] = useState(""); const [loaded, setLoaded] = useState(false);
-  const ballRef = useRef<Ball>(initialBall()); const hoopRef = useRef<Hoop>(firstHoop); const timeRef = useRef(10); const streakRef = useRef(0); const scoreRef = useRef(0);
+  const [timeLeft, setTimeLeft] = useState(10); const [ball, setBall] = useState<Ball>(initialBall); const [hoop, setHoop] = useState<Hoop>(firstHoop); const [callout, setCallout] = useState(""); const [loaded, setLoaded] = useState(false); const [soundOn, setSoundOn] = useState(true);
+  const ballRef = useRef<Ball>(initialBall()); const hoopRef = useRef<Hoop>(firstHoop); const timeRef = useRef(10); const streakRef = useRef(0); const scoreRef = useRef(0); const soundRef = useRef(true);
 
   useEffect(() => { const save = readStored<Save>(storageKeys.tapTapBasketball, legacyStorageKeys.tapTapBasketball); startTransition(() => { setBest(save?.best || 0); setLoaded(true); }); }, []);
   useEffect(() => { if (loaded) { writeStored(storageKeys.tapTapBasketball, { best, lastScore: score, lastStreak: streak }); remember(score, best, streak); } }, [best, loaded, score, streak]);
 
-  const resetRun = () => { const freshBall = initialBall(); ballRef.current = freshBall; hoopRef.current = firstHoop; timeRef.current = 10; scoreRef.current = 0; streakRef.current = 0; setBall(freshBall); setHoop(firstHoop); setTimeLeft(10); setScore(0); setStreak(0); setCallout("GO!"); setPhase("playing"); playCourtSound("whistle"); };
+  const resetRun = () => { const freshBall = initialBall(); ballRef.current = freshBall; hoopRef.current = firstHoop; timeRef.current = 10; scoreRef.current = 0; streakRef.current = 0; setBall(freshBall); setHoop(firstHoop); setTimeLeft(10); setScore(0); setStreak(0); setCallout("GO!"); setPhase("playing"); playCourtSound("whistle", soundRef.current); };
   const scoreBasket = () => {
     const nextScore = scoreRef.current + 1; const nextStreak = streakRef.current + 1; const freshBall = { ...initialBall(), x: 13, vx: 21 + Math.min(nextScore, 9) * .45 }; const freshHoop = nextHoop(nextScore);
     scoreRef.current = nextScore; streakRef.current = nextStreak; ballRef.current = freshBall; hoopRef.current = freshHoop; timeRef.current = Math.min(10, timeRef.current + 3.5);
-    setScore(nextScore); setStreak(nextStreak); setBest((value) => Math.max(value, nextScore)); setBall(freshBall); setHoop(freshHoop); setTimeLeft(Math.ceil(timeRef.current)); setCallout(nextStreak >= 3 ? "ON FIRE!" : "SWISH!"); playCourtSound("score");
+    setScore(nextScore); setStreak(nextStreak); setBest((value) => Math.max(value, nextScore)); setBall(freshBall); setHoop(freshHoop); setTimeLeft(Math.ceil(timeRef.current)); setCallout(nextStreak >= 3 ? "ON FIRE!" : "SWISH!"); playCourtSound("score", soundRef.current);
   };
 
   useEffect(() => {
@@ -63,14 +64,15 @@ export default function TapTapBasketball() {
       const target = hoopRef.current;
       if (next.vy > 0 && oldY < target.y && next.y >= target.y && Math.abs(next.x - target.x) < 4.4) scoreBasket(); else { ballRef.current = next; setBall(next); }
       timeRef.current -= dt; setTimeLeft(Math.max(0, Math.ceil(timeRef.current)));
-      if (timeRef.current <= 0) { setPhase("finished"); setCallout("BUZZER!"); playCourtSound("over"); return; }
+      if (timeRef.current <= 0) { setPhase("finished"); setCallout("BUZZER!"); playCourtSound("over", soundRef.current); return; }
       frame = requestAnimationFrame(step);
     };
     frame = requestAnimationFrame(step); return () => cancelAnimationFrame(frame);
   }, [phase]);
 
-  const tapCourt = () => { if (phase !== "playing") { resetRun(); return; } ballRef.current = { ...ballRef.current, vy: Math.max(-43, ballRef.current.vy - 23) }; setBall(ballRef.current); setCallout(""); playCourtSound("tap"); };
-  const message = phase === "ready" ? "Tap anywhere to begin. Each tap gives the ball another lift." : phase === "finished" ? `Final score: ${score}. Tap for another run.` : "Keep the ball in the air and guide it through the next hoop.";
+  const tapCourt = () => { if (phase === "paused") { setPhase("playing"); return; } if (phase !== "playing") { resetRun(); return; } ballRef.current = { ...ballRef.current, vy: Math.max(-43, ballRef.current.vy - 23) }; setBall(ballRef.current); setCallout(""); playCourtSound("tap", soundRef.current); };
+  const toggleSound = () => { const next = !soundRef.current; soundRef.current = next; setSoundOn(next); if (next) playCourtSound("tap", true); };
+  const message = phase === "ready" ? "Tap anywhere to begin. Each tap gives the ball another lift." : phase === "paused" ? "Paused — tap the court or press play to continue." : phase === "finished" ? `Final score: ${score}. Tap for another run.` : "Keep the ball in the air and guide it through the next hoop.";
 
-  return <main className="mini-game basketball-game"><header className="hub-nav"><Link className="hub-brand" href="/"><span>◆</span> SocoPlay</Link><nav><Link href="/">Discover</Link><Link href="/#top-picks">Play now</Link></nav><Link className="back-link" href="/">← All games</Link></header><section className="mini-game-stage basketball-stage"><div className="game-intro"><p>ARCADE · LOCAL SAVE</p><h1>Tap Tap Basketball</h1><span>{message}</span></div><div className="mini-layout"><section className="puzzle-card basketball-card"><div className="basketball-stats"><div><span>SCORE</span><b>{score}</b></div><div><span>BEST</span><b>{best}</b></div><div><span>TIME</span><b>{timeLeft}s</b></div><div><span>STREAK</span><b>{streak || "—"}</b></div></div><button className={`basketball-court ${phase}`} type="button" onClick={tapCourt} data-sound-owned aria-label={phase === "playing" ? "Tap to boost the basketball" : "Start a Tap Tap Basketball game"}><span className="court-timer" style={{ "--time": `${timeLeft * 10}%` } as CSSProperties} /><span className="court-lights" aria-hidden="true">✦ ✦ ✦</span><span className="court-crowd" aria-hidden="true">▴ ▴ ▴ ▴ ▴ ▴ ▴ ▴</span><span className="basketball-hoop" aria-hidden="true" style={{ "--hoop-x": `${hoop.x}%`, "--hoop-y": `${hoop.y}%` } as CSSProperties}><i /><b /></span><span className={`basketball-ball ${streak >= 3 ? "on-fire" : ""}`} aria-hidden="true" style={{ "--ball-x": `${ball.x}%`, "--ball-y": `${ball.y}%`, "--ball-rotation": `${ball.rotation}deg` } as CSSProperties}>🏀</span>{callout && <span className="basketball-callout" key={`${callout}-${score}`}>{callout}</span>}<span className="court-prompt">{phase === "playing" ? "TAP TO BOOST" : phase === "finished" ? "TAP TO RESTART" : "TAP TO START"}</span></button><div className="mini-actions"><button type="button" onClick={resetRun} data-sound-owned>↻ New round</button><b>{streak >= 3 ? "Hot streak bonus active" : "Score before the timer empties"}</b></div></section><aside className="mini-side"><div className="save-badge">● Best score saved locally</div><h2>One tap. One boost. One more basket.</h2><p>Keep the ball in the air, time each boost, and chase the hoop before the shot clock fades out.</p></aside></div></section></main>;
+  return <main className="mini-game basketball-game"><header className="hub-nav"><Link className="hub-brand" href="/"><span>◆</span> SocoPlay</Link><nav><Link href="/">Discover</Link><Link href="/#top-picks">Play now</Link></nav><Link className="back-link" href="/">← All games</Link></header><section className="mini-game-stage basketball-stage"><div className="game-intro"><p>ARCADE · LOCAL SAVE</p><h1>Tap Tap Basketball</h1><span>{message}</span></div><div className="mini-layout"><section className="puzzle-card basketball-card"><div className="basketball-stats"><div><span>SCORE</span><b>{score}</b></div><div><span>BEST</span><b>{best}</b></div><div><span>TIME</span><b>{timeLeft}s</b></div><div><span>STREAK</span><b>{streak || "—"}</b></div></div><div className={`basketball-court ${phase}`} role="button" tabIndex={0} onClick={tapCourt} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); tapCourt(); } }} data-sound-owned aria-label={phase === "playing" ? "Tap to boost the basketball" : "Start a Tap Tap Basketball game"}><span className="court-timer" style={{ "--time": `${timeLeft * 10}%` } as CSSProperties} /><div className="court-controls"><button type="button" onClick={(event) => { event.stopPropagation(); toggleSound(); }} aria-label={soundOn ? "Mute game sounds" : "Enable game sounds"}>{soundOn ? "◖))" : "◖×"}</button><button type="button" onClick={(event) => { event.stopPropagation(); if (phase === "playing") setPhase("paused"); else if (phase === "paused") setPhase("playing"); }} aria-label={phase === "paused" ? "Resume game" : "Pause game"}>{phase === "paused" ? "▶" : "Ⅱ"}</button></div><span className="court-lights" aria-hidden="true">✦ ✦ ✦</span><span className="court-crowd" aria-hidden="true">▴ ▴ ▴ ▴ ▴ ▴ ▴ ▴</span><span className="basketball-hoop" aria-hidden="true" style={{ "--hoop-x": `${hoop.x}%`, "--hoop-y": `${hoop.y}%` } as CSSProperties}><i /><b /></span><span className={`basketball-ball ${streak >= 3 ? "on-fire" : ""}`} aria-hidden="true" style={{ "--ball-x": `${ball.x}%`, "--ball-y": `${ball.y}%`, "--ball-rotation": `${ball.rotation}deg` } as CSSProperties}><i /><b /></span>{callout && <span className="basketball-callout" key={`${callout}-${score}`}>{callout}</span>}<span className="court-prompt">{phase === "playing" ? "TAP TO BOOST" : phase === "paused" ? "TAP TO CONTINUE" : phase === "finished" ? "TAP TO RESTART" : "TAP TO START"}</span></div><div className="mini-actions"><button type="button" onClick={resetRun} data-sound-owned>↻ New round</button><b>{streak >= 3 ? "Hot streak bonus active" : "Score before the timer empties"}</b></div></section><aside className="mini-side"><div className="save-badge">● Best score saved locally</div><h2>One tap. One boost. One more basket.</h2><p>Keep the ball in the air, time each boost, and chase the hoop before the shot clock fades out.</p></aside></div></section></main>;
 }
