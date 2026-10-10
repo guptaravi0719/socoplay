@@ -439,6 +439,9 @@
   background: #131421;
   box-shadow: 0 7px 14px #0000001f;
   color: #eae8f6;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   text-decoration: none;
   transition: 0.2s border-color, 0.2s background, 0.2s transform;
 }

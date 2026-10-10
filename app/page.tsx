@@ -208,7 +208,7 @@ function SectionHeading({ eyebrow, title, titleId, copy, action }: { eyebrow: st
 }
 
 function ContinueCard({ item, game }: { item: Recent; game?: GameCard }) {
-  return <Link className="arcade-continue-card" href={item.href} onClick={(event) => { event.preventDefault(); window.location.assign(item.href); }}><div className={`arcade-continue-art cover-${game?.art || "orbit"}`} aria-hidden="true"><span>{game?.icon || item.icon}</span><i>{game ? coverLabels[game.art] : "BACK TO PLAY"}</i></div><div><b>{item.name}</b><span>{item.progress}</span></div><em>Resume <i>→</i></em></Link>;
+  return <button className="arcade-continue-card" type="button" onClick={() => window.location.assign(item.href)} aria-label={`Resume ${item.name}`}><div className={`arcade-continue-art cover-${game?.art || "orbit"}`} aria-hidden="true"><span>{game?.icon || item.icon}</span><i>{game ? coverLabels[game.art] : "BACK TO PLAY"}</i></div><div><b>{item.name}</b><span>{item.progress}</span></div><em>Resume <i>→</i></em></button>;
 }
 
 function SavedPick({ game, onSoon }: { game: GameCard; onSoon: () => void }) {
