@@ -1,0 +1,99 @@
+app/lib/storage.ts
+  s_faa544299a2048::t_37c504c32c6cd5 1-53
+app/games/flip-pairs/page.tsx
+  s_faa544299a2048::t_056c279a5b6bc1 1-3,5-7,9-10,13-14,17
+  s_faa544299a2048::t_557d0c3bddfdc6 4,8,11-12,15-16
+app/games/solitaire/page.tsx
+  s_faa544299a2048::t_edc472457f97ea 4,16,73-76,94,96,106,109-110
+  s_faa544299a2048::t_08fe14507548af 93
+  s_faa544299a2048::t_e2f501e4953ad9 1-3,5-15,17-72,77-92,95,97-105,107-108,111-115
+app/games/word-bloom/page.tsx
+  s_faa544299a2048::t_692584a9c5dd66 1-3,5-7,9,11,14-15,18
+  s_faa544299a2048::t_31df71e2153638 4,8,10,12-13,16-17
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_95d52af8d6fb0a 1-56
+app/games/tile-shift/page.tsx
+  s_faa544299a2048::t_811b21ef1c9955 4,8,11-12,15-16
+  s_faa544299a2048::t_a5d2ddf60ce0b7 1-3,5-7,9-10,13-14,17
+app/globals.css
+  s_faa544299a2048::t_76c9f08fa9b9b6 14
+  s_faa544299a2048::t_0e3a8659197f36 5-7
+  s_faa544299a2048::t_e808b5f66820a0 21-25
+  s_faa544299a2048::t_d9a7ca033d58c2 15-20
+  s_faa544299a2048::t_bbb17401e821f2 8-10
+  s_faa544299a2048::t_e7949cf891623d 3-4
+  s_faa544299a2048::t_5cb9f2cdc10908 1-2,26
+  s_faa544299a2048::t_5cb6698a4b593c 11-13
+app/page.tsx
+  s_faa544299a2048::t_28ff77318c0521 82
+  s_faa544299a2048::t_da5556db96211c 1-81,83-141,143-149
+  s_faa544299a2048::t_72062c8883c4ff 142
+app/layout.tsx
+  s_faa544299a2048::t_7ba047def2637c 1-2,4-5
+  s_faa544299a2048::t_62a59a309df7ba 6
+  s_faa544299a2048::t_ee772b57b1bb4d 3
+  s_faa544299a2048::t_6acd1be82167ba 7
+package.json
+  s_faa544299a2048::t_60636cab9d787e 1,3-47
+  s_faa544299a2048::t_f44bab3baf65ce 2
+worker/index.ts
+  s_faa544299a2048::t_da24c50a8e84d5 1-47
+.gitignore
+  s_faa544299a2048::t_a7925463f6c658 1-43
+README.md
+  s_faa544299a2048::t_da24c50a8e84d5 1-26
+.openai/hosting.json
+  s_faa544299a2048::t_2e2b8113525127 1-4
+app/chatgpt-auth.ts
+  s_faa544299a2048::t_d1cbfeaee6e217 1-90
+db/index.ts
+  s_faa544299a2048::t_18f4bd779e5461 1-13
+db/schema.ts
+  s_faa544299a2048::t_b244faba207d81 1-4
+drizzle.config.ts
+  s_faa544299a2048::t_ba93c7954b5584 1-7
+drizzle/meta/_journal.json
+  s_faa544299a2048::t_d949ff48abee47 1-5
+eslint.config.mjs
+  s_faa544299a2048::t_e01788dd2eb030 1-41
+examples/d1/app/api/notes/route.ts
+  s_faa544299a2048::t_ed6b1f276847d4 1-58
+examples/d1/db/schema.ts
+  s_faa544299a2048::t_d4c0e2834ab670 1-9
+next-env.d.ts
+  s_faa544299a2048::t_257b7893c76a06 1-5
+next.config.ts
+  s_faa544299a2048::t_ef3913874b8fbf 1-7
+package-lock.json
+  s_faa544299a2048::t_66d7e496480a4d 1-10385
+postcss.config.mjs
+  s_faa544299a2048::t_0ba1f7224abe40 1-7
+public/favicon.svg
+  s_faa544299a2048::t_ca6834be33b159 1-6
+public/file.svg
+  s_faa544299a2048::t_f985a05272bd2b 1
+public/globe.svg
+  s_faa544299a2048::t_a55658581a49a6 1
+public/window.svg
+  s_faa544299a2048::t_e4077894b1c674 1
+tsconfig.json
+  s_faa544299a2048::t_67cc1e5512087b 1-29
+vite.config.ts
+  s_faa544299a2048::t_d60287484a296c 1-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "fde284165e2362507d1f2bb37b9e4aa02cf29bab",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
