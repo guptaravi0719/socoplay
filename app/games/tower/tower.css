@@ -1,16 +1,14 @@
-.tower-game-page { min-height: 100vh; background: radial-gradient(circle at 16% 0, #f2a552 0, transparent 24%), radial-gradient(circle at 86% 5%, #455ea2 0, transparent 26%), linear-gradient(145deg, #151b39, #292655 56%, #c95445); color: #fffaf2; }
-.tower-nav { display: flex; align-items: center; gap: 22px; min-height: 52px; max-width: 1360px; margin: auto; padding: 0 20px; border-bottom: 1px solid #ffffff2b; }
-.tower-brand { color: #fffaf2; font-size: 19px; font-weight: 950; letter-spacing: -1px; text-decoration: none; }
-.tower-brand > span { display: inline-grid; width: 25px; height: 25px; place-items: center; margin-right: 6px; border-radius: 8px; background: #ffd66d; color: #38204c; font-size: 12px; transform: rotate(-8deg); }
-.tower-back { margin-left: auto; color: #fff0c2; font-size: 12px; font-weight: 850; text-decoration: none; }
-.tower-stage { max-width: 1380px; margin: auto; padding: 12px 24px 20px; text-align: center; }
-.tower-frame-wrap { display: grid; height: min(calc(100svh - 84px), 940px); min-height: 590px; place-items: center; overflow: hidden; border: 3px solid #ffe9b86b; border-radius: 20px; background: #f95240; box-shadow: 0 28px 70px #130b3588, inset 0 0 0 8px #ffffff17; }
-.tower-frame { display: block; width: min(100%, 680px); height: 100%; min-height: 0; border: 0; background: #f95240; }
+.tower-game-page { height: 100svh; min-height: 100svh; overflow: hidden; background: #151b39; color: #fffaf2; }
+.tower-nav { display: flex; align-items: center; min-height: 50px; padding: 0 16px; border-bottom: 1px solid #ffffff2b; background: #151b39; }
+.tower-exit { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 11px; border: 1px solid #ffffff2e; border-radius: 9px; background: #ffffff0b; color: #fffaf2; font-size: 12px; font-weight: 900; text-decoration: none; transition: .16s background, .16s transform; }
+.tower-exit span { font-size: 16px; line-height: 1; }
+.tower-exit:hover { background: #ffffff19; transform: translateX(-2px); }
+.tower-stage { height: calc(100svh - 50px); margin: 0; padding: 0; }
+.tower-frame-wrap { height: 100%; min-height: 0; overflow: hidden; background: #f95240; }
+.tower-frame { display: block; width: 100%; height: 100%; min-height: 0; border: 0; background: #f95240; }
 
 @media (max-width: 700px) {
-  .tower-nav { min-height: 50px; padding: 0 14px; }
-  .tower-brand { font-size: 18px; }
-  .tower-stage { padding: 0; }
-  .tower-frame-wrap { height: calc(100svh - 50px); min-height: 510px; border-width: 2px 0; border-radius: 0; }
-  .tower-frame { width: 100%; height: 100%; min-height: 0; }
+  .tower-nav { min-height: 48px; padding: 0 10px; }
+  .tower-stage { height: calc(100svh - 48px); }
+  .tower-exit { min-height: 32px; padding: 0 9px; }
 }
