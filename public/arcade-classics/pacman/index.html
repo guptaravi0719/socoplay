@@ -20,7 +20,6 @@
   <body data-soco-theme="pacman">
     <div class="wrapper">
       <header class="header">
-        <h1 class="title">Pac-Man Game</h1>
         <div class="scoreboard">
           <div class="score-label">
             Score:
@@ -37,8 +36,14 @@
       <main class="game-container">
         <canvas id="gameCanvas" width="560" height="620"></canvas>
         <p class="hint">
-          Use arrow keys or WASD to move. Collect all pellets, avoid ghosts!
+          Use arrow keys, WASD, or the touch pad to move. Collect all pellets, avoid ghosts!
         </p>
+        <div class="mobile-controls" aria-label="Pac-Man movement controls">
+          <button type="button" class="direction-btn direction-up" data-direction="up" aria-label="Move up">↑</button>
+          <button type="button" class="direction-btn direction-left" data-direction="left" aria-label="Move left">←</button>
+          <button type="button" class="direction-btn direction-down" data-direction="down" aria-label="Move down">↓</button>
+          <button type="button" class="direction-btn direction-right" data-direction="right" aria-label="Move right">→</button>
+        </div>
       </main>
     </div>
 

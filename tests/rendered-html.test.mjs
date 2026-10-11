@@ -118,13 +118,17 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
 });
 
 test("keeps SocoPlay branding, social assets, and only the remaining game routes", async () => {
-  const [page, layout, storage, packageJson, bannerAd, adsTxt] = await Promise.all([
+  const [page, layout, storage, packageJson, bannerAd, adsTxt, pacmanPage, pacmanScript, asteroidsPage, sharedAudio] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/storage.ts", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/components/banner-ad.tsx", import.meta.url), "utf8"),
     readFile(new URL("../public/ads.txt", import.meta.url), "utf8"),
+    readFile(new URL("../public/arcade-classics/pacman/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../public/arcade-classics/pacman/script.js", import.meta.url), "utf8"),
+    readFile(new URL("../public/arcade-classics/asteroids/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../public/arcade-classics/soco-audio.js", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /className="arcade-page"/);
@@ -143,6 +147,13 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.match(layout, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-5695136510723463/);
   assert.doesNotMatch(bannerAd, /unfoldedtrade|unfolded-uncle|hilltop/i);
   assert.match(adsTxt, /^google\.com, pub-5695136510723463, DIRECT, f08c47fec0942fa0\s*$/);
+  assert.match(pacmanPage, /data-direction="up"/);
+  assert.match(pacmanPage, /data-direction="down"/);
+  assert.match(pacmanPage, /data-direction="left"/);
+  assert.match(pacmanPage, /data-direction="right"/);
+  assert.match(pacmanScript, /setTouchDirection/);
+  assert.match(asteroidsPage, /data-soco-sound-slot/);
+  assert.match(sharedAudio, /data-soco-sound-slot/);
 
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../public/tower-game/tower-game.js", import.meta.url));

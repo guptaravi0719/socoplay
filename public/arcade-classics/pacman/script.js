@@ -14,6 +14,7 @@ canvas.height = rows * corridorTile;
 const scoreEl = document.getElementById("score");
 const livesEl = document.getElementById("lives");
 const restartBtn = document.getElementById("restartBtn");
+const directionButtons = document.querySelectorAll("[data-direction]");
 
 // 0: empty, 1: wall, 2: pellet, 3: power pellet
 // Simple Pac-Man inspired layout (not 100% original map)
@@ -208,6 +209,19 @@ function isWall(col, row) {
 function trySetDirection(dx, dy) {
   pacman.nextDirX = dx;
   pacman.nextDirY = dy;
+}
+
+function setTouchDirection(direction) {
+  const directions = {
+    up: [0, -1],
+    down: [0, 1],
+    left: [-1, 0],
+    right: [1, 0],
+  };
+  const nextDirection = directions[direction];
+  if (!nextDirection) return;
+  startBackgroundSound();
+  trySetDirection(nextDirection[0], nextDirection[1]);
 }
 
 function handleInput() {
@@ -503,6 +517,14 @@ document.addEventListener("keydown", (e) => {
 restartBtn.addEventListener("click", () => {
   startBackgroundSound();
   restartGame();
+});
+
+directionButtons.forEach((button) => {
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    setTouchDirection(button.dataset.direction);
+  });
+  button.addEventListener("click", () => setTouchDirection(button.dataset.direction));
 });
 
 initMap();

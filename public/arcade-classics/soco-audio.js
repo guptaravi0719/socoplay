@@ -71,7 +71,10 @@
       button.setAttribute("aria-label", muted ? "Unmute game sound" : "Mute game sound");
       button.title = muted ? "Unmute game sound" : "Mute game sound";
     });
-    document.body.appendChild(button);
+    // Games with a busy touch-control area can provide an in-layout slot so the
+    // mute button never floats over a gameplay control.
+    const soundSlot = document.querySelector("[data-soco-sound-slot]");
+    (soundSlot || document.body).appendChild(button);
   }
 
   document.addEventListener("pointerdown", (event) => {
