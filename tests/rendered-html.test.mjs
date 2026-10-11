@@ -27,7 +27,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   const html = await response.text();
   assert.ok(html.includes("<title>SocoPlay | Free Online Mini Games</title>"));
   assert.ok(html.includes('href="https://socoplay.com"'));
-  assert.match(html, /Small games\. <em>Big little wins\.<\/em>/);
+  assert.doesNotMatch(html, /Small games\. <em>Big little wins\.<\/em>/);
   assert.match(html, /Pick a game and play/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
   assert.match(html, /Advertisement/);
@@ -38,8 +38,8 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.doesNotMatch(html, /\/games\/(tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint)/);
   assert.doesNotMatch(html, /saved locally|local save|saved on this device|continue playing/i);
   assert.doesNotMatch(html, /ADVERTISEMENT/);
-  assert.match(html, /<meta name="5421c45dfdd37f0e6932529f2116ce283985f019" content="5421c45dfdd37f0e6932529f2116ce283985f019"\/>/);
-  assert.match(html, /<meta name="referrer" content="no-referrer-when-downgrade"\/>/);
+  assert.doesNotMatch(html, /<meta name="5421c45dfdd37f0e6932529f2116ce283985f019"/);
+  assert.doesNotMatch(html, /<meta name="referrer" content="no-referrer-when-downgrade"\/>/);
   assert.doesNotMatch(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i);
   assert.match(html, /application\/ld\+json/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/i);

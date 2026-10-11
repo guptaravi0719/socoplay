@@ -120,7 +120,6 @@ export default function Home() {
         </aside>
 
         <div className="arcade-content">
-          <section className="arcade-welcome" aria-labelledby="mini-games-title"><div><p><span>SOCO</span> / QUICK ARCADE</p><h1 id="mini-games-title">Small games. <em>Big little wins.</em></h1></div></section>
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
             <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED GAMES" : "PLAY NOW"} title={query || genre !== "All" ? "Games for you" : "Pick a game and play"} titleId="top-picks-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Eight polished games for a satisfying few minutes."} action={query || genre !== "All" ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : <button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
             {visibleGames.length ? <div className="arcade-mosaic">{visibleGames.map((game, index) => <ArcadeGameCard game={game} variant={index === 0 ? "lead" : "wide"} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the filters.</p></div>}

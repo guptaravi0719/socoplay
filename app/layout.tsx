@@ -18,10 +18,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   icons: { icon: "/favicon.svg" },
   manifest: "/manifest.webmanifest",
-  other: {
-    "5421c45dfdd37f0e6932529f2116ce283985f019": "5421c45dfdd37f0e6932529f2116ce283985f019",
-    referrer: "no-referrer-when-downgrade",
-  },
   robots: {
     index: true,
     follow: true,
