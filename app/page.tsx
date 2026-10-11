@@ -47,8 +47,6 @@ const coverLabels: Record<string, string> = {
   checkers: "JUMP / CROWN / WIN",
 };
 
-const videoAdScriptUrl = "https://unfolded-uncle.com/dJmVFXzhd.G/NSvrZmGqUF/zeImx9HuiZIUMlmk/P_TQcZ1/MjD/gB1qOuTqM/trNuzUUbwYOmDeU/5SNQwJ";
-
 export default function Home() {
   const [query, setQuery] = useState("");
   const [genre, setGenre] = useState("All");
@@ -99,15 +97,7 @@ export default function Home() {
   const playGame = (game: GameCard) => {
     if (isLaunchingGameRef.current) return;
     isLaunchingGameRef.current = true;
-    setNotice(`Loading ${game.name}…`);
-    const script = document.createElement("script");
-    (script as HTMLScriptElement & { settings: Record<string, unknown> }).settings = {};
-    script.src = videoAdScriptUrl;
-    script.async = true;
-    script.referrerPolicy = "no-referrer-when-downgrade";
-    script.dataset.socoplayVideoAd = "true";
-    document.body.appendChild(script);
-    window.setTimeout(() => window.location.assign(game.href), 1200);
+    window.location.assign(game.href);
   };
   const surpriseMe = () => {
     const pick = games[Math.floor(Math.random() * games.length)];
