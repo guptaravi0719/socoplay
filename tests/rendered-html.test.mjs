@@ -37,6 +37,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.doesNotMatch(html, /saved locally|local save|saved on this device|continue playing/i);
   assert.doesNotMatch(html, /ADVERTISEMENT/);
   assert.match(html, /<meta name="5421c45dfdd37f0e6932529f2116ce283985f019" content="5421c45dfdd37f0e6932529f2116ce283985f019"\/>/);
+  assert.match(html, /<meta name="referrer" content="no-referrer-when-downgrade"\/>/);
   assert.doesNotMatch(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i);
   assert.match(html, /application\/ld\+json/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/i);
