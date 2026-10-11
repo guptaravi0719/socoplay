@@ -134,6 +134,7 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.match(storage, /legacyStorageKeys/);
   assert.match(storage, /socoplay:v2:save:solitaire/);
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview/);
+  assert.match(page, /unfolded-uncle\.com\/dJmVFXzhd\.G\/NSvrZmGqUF/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.match(bannerAd, /unfoldedtrade\.com\/bjX\/V\/s\/d\.GvlA0rYIWXcZ/);
   assert.doesNotMatch(bannerAd, /unfolded-uncle\.com/);

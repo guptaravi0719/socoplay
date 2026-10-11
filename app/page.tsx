@@ -47,12 +47,15 @@ const coverLabels: Record<string, string> = {
   checkers: "JUMP / CROWN / WIN",
 };
 
+const videoAdScriptUrl = "https://unfolded-uncle.com/dJmVFXzhd.G/NSvrZmGqUF/zeImx9HuiZIUMlmk/P_TQcZ1/MjD/gB1qOuTqM/trNuzUUbwYOmDeU/5SNQwJ";
+
 export default function Home() {
   const [query, setQuery] = useState("");
   const [genre, setGenre] = useState("All");
   const [notice, setNotice] = useState("");
   const [railOpen, setRailOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const isLaunchingGameRef = useRef(false);
 
   useEffect(() => {
     const closeRail = (event: KeyboardEvent) => {
@@ -93,10 +96,22 @@ export default function Home() {
     setRailOpen(false);
     scrollTo(target);
   };
+  const playGame = (game: GameCard) => {
+    if (isLaunchingGameRef.current) return;
+    isLaunchingGameRef.current = true;
+    setNotice(`Loading ${game.name}…`);
+    const script = document.createElement("script");
+    (script as HTMLScriptElement & { settings: Record<string, unknown> }).settings = {};
+    script.src = videoAdScriptUrl;
+    script.async = true;
+    script.referrerPolicy = "no-referrer-when-downgrade";
+    script.dataset.socoplayVideoAd = "true";
+    document.body.appendChild(script);
+    window.setTimeout(() => window.location.assign(game.href), 1200);
+  };
   const surpriseMe = () => {
     const pick = games[Math.floor(Math.random() * games.length)];
-    setNotice(`Opening ${pick.name}…`);
-    window.setTimeout(() => window.location.assign(pick.href), 260);
+    playGame(pick);
   };
 
   return (
@@ -122,7 +137,7 @@ export default function Home() {
         <div className="arcade-content">
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
             <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED GAMES" : "PLAY NOW"} title={query || genre !== "All" ? "Games for you" : "Pick a game and play"} titleId="top-picks-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Eight polished games for a satisfying few minutes."} action={query || genre !== "All" ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : <button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
-            {visibleGames.length ? <div className="arcade-mosaic">{visibleGames.map((game, index) => <ArcadeGameCard game={game} variant={index === 0 ? "lead" : "wide"} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the filters.</p></div>}
+            {visibleGames.length ? <div className="arcade-mosaic">{visibleGames.map((game, index) => <ArcadeGameCard game={game} onPlay={playGame} variant={index === 0 ? "lead" : "wide"} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the filters.</p></div>}
           </section>
           <BannerAd placement="home" />
           <section className="arcade-seo-card" aria-labelledby="free-mini-games-title"><div><p>FREE ONLINE MINI GAMES</p><h2 id="free-mini-games-title">A tiny arcade for your in-between moments.</h2></div><div><p>SocoPlay is a focused collection of classic cards, board games, number puzzles, and arcade challenges without a download or account.</p><div className="arcade-seo-points"><span>Made for mobile</span><span>Quick to play</span><span>Always free to play</span></div></div></section>
@@ -139,7 +154,7 @@ function SectionHeading({ eyebrow, title, titleId, copy, action }: { eyebrow: st
   return <div className="arcade-section-head"><div><p>{eyebrow}</p><h2 id={titleId}>{title}</h2>{copy && <span>{copy}</span>}</div>{action && <div className="arcade-section-action">{action}</div>}</div>;
 }
 
-function ArcadeGameCard({ game, variant = "grid" }: { game: GameCard; variant?: "lead" | "small" | "wide" | "grid" }) {
+function ArcadeGameCard({ game, onPlay, variant = "grid" }: { game: GameCard; onPlay: (game: GameCard) => void; variant?: "lead" | "small" | "wide" | "grid" }) {
   const cardContent = <><div className={`arcade-cover cover-${game.art}`} aria-hidden="true"><div className="arcade-cover-noise" /><span className="arcade-cover-icon">{game.icon}</span><i>{coverLabels[game.art]}</i><b>{game.badge}</b></div><div className="arcade-card-copy"><div><h3>{game.name}</h3><p>{game.genre} <span>·</span> {game.time}</p></div><em aria-hidden="true">→</em></div></>;
-  return <article className={`arcade-game-card arcade-game-card--${variant} is-live`}><Link className="arcade-game-link" href={game.href} onClick={(event) => { event.preventDefault(); window.location.assign(game.href); }} aria-label={`Play ${game.name}`}>{cardContent}</Link></article>;
+  return <article className={`arcade-game-card arcade-game-card--${variant} is-live`}><Link className="arcade-game-link" href={game.href} onClick={(event) => { event.preventDefault(); onPlay(game); }} aria-label={`Play ${game.name}`}>{cardContent}</Link></article>;
 }
