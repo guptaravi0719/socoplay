@@ -139,7 +139,7 @@ export default function Game2048() {
   return <main className="mini-game game-2048">
     <header className="hub-nav"><Link className="hub-brand" href="/"><span>◆</span> SocoPlay</Link><nav><Link href="/">Discover</Link><Link href="/#top-picks">Play now</Link></nav><Link className="back-link" href="/">← All games</Link></header>
     <section className="mini-game-stage">
-      <div className="game-intro"><p>NUMBER PUZZLE</p><h1>2048</h1><span>{gameOver ? "No moves left — start a fresh board whenever you are." : won ? "You made 2048! Keep going for an even bigger tile." : "Swipe, merge, and build your biggest tile."}</span></div>
+      <h1 className="sr-only">2048</h1>
       <div className="mini-layout">
         <section className="puzzle-card game-2048-card">
           <div className="game-2048-stats"><div><span>MOVES</span><b>{moves}</b></div><div><span>SCORE</span><b>{score}</b></div><div><span>BEST</span><b>{best}</b></div></div>

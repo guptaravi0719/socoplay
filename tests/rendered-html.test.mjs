@@ -78,7 +78,7 @@ test("server-renders the playable game pages for crawlers", async () => {
     assert.ok(html.includes(`content="${route.description}"`), `${route.path} description`);
     assert.ok(html.includes(`<link rel="canonical" href="${publicOrigin}${route.path}"/>`), `${route.path} canonical`);
     assert.ok(html.includes(`<meta property="og:title" content="${route.title}"/>`), `${route.path} Open Graph title`);
-    assert.ok(html.includes(`<h1>${route.heading}</h1>`), `${route.path} visible heading`);
+    assert.match(html, new RegExp(`<h1(?: [^>]*)?>${route.heading}</h1>`), `${route.path} heading`);
     assert.match(html, /How to play/, `${route.path} guide`);
     assert.match(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i, `${route.path} includes AdSense`);
     assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfoldedtrade\.com|unfolded-uncle\.com/, `${route.path} has no third-party click-to-play ad gate`);

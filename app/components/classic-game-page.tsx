@@ -16,14 +16,11 @@ export function ClassicGamePage({ game }: { game: ClassicGame }) {
         <Link className="classic-game-back" href="/">← All games</Link>
       </header>
       <section className="classic-game-stage">
-        <p>{game.eyebrow}</p>
-        <h1>{game.name}</h1>
-        <span>{game.description}</span>
+        <h1 className="sr-only">Play {game.name} online</h1>
         <div className="classic-game-frame-wrap">
           <iframe className="classic-game-frame" src={`/arcade-classics/${game.slug}/index.html`} title={`${game.name} game`} allow="autoplay" />
         </div>
         <BannerAd placement="game" />
-        <small>Use the speaker button inside the game to mute or unmute sound.</small>
       </section>
     </main>
   );
