@@ -1,0 +1,26 @@
+app/layout.tsx
+  s_faa544299a2048::t_d0e1ba2229e591 58-60
+app/components/banner-ad.tsx
+  s_faa544299a2048::t_d124edf3bd286d 6
+  s_faa544299a2048::t_d0e1ba2229e591 1-4,7
+public/ads.txt
+  s_faa544299a2048::t_d0e1ba2229e591 1
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_d0e1ba2229e591 34,44,83-84,121,127,143-145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "16f6bddcda04bfca8e9ef5166a9411bace8caca4",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
