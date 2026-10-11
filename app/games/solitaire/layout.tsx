@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { GameGuide } from "../../components/game-guide";
-import { HilltopAdsGate } from "../../components/hilltop-ads-gate";
+import { HilltopBanner } from "../../components/hilltop-banner";
 import { JsonLd } from "../../components/json-ld";
 import { gameSchema, gameSeo, type GameSlug } from "../../lib/seo";
 
@@ -28,5 +28,5 @@ export const metadata: Metadata = {
 };
 
 export default function SolitaireLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <><JsonLd data={gameSchema(slug)} />{children}<GameGuide game={slug} /><HilltopAdsGate /></>;
+  return <><JsonLd data={gameSchema(slug)} />{children}<HilltopBanner placement="game" /><GameGuide game={slug} /></>;
 }

@@ -30,6 +30,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.match(html, /Small games\. <em>Big little wins\.<\/em>/);
   assert.match(html, /Pick a game and play/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
+  assert.match(html, /Sponsored/);
   assert.match(html, /href="\/games\/2048"/);
   assert.match(html, /href="\/games\/solitaire"/);
   assert.match(html, /href="\/games\/tower"/);
@@ -77,8 +78,8 @@ test("server-renders the playable game pages for crawlers", async () => {
     assert.ok(html.includes(`<meta property="og:title" content="${route.title}"/>`), `${route.path} Open Graph title`);
     assert.ok(html.includes(`<h1>${route.heading}</h1>`), `${route.path} visible heading`);
     assert.match(html, /How to play/, `${route.path} guide`);
-    assert.match(html, /SPONSORED BREAK/, `${route.path} pre-game ad gate`);
-    assert.match(html, /unfolded-uncle\.com/, `${route.path} HilltopAds script`);
+    assert.match(html, /Sponsored/, `${route.path} banner placement`);
+    assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfolded-uncle\.com/, `${route.path} removed ad gate`);
     assert.match(html, /VideoGame/, `${route.path} structured data`);
     assert.doesNotMatch(html, /saved locally|local save|saved on this device/i, `${route.path} removed copy`);
   }
