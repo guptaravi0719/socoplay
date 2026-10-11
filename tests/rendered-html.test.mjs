@@ -31,7 +31,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.doesNotMatch(html, /Small games\. <em>Big little wins\.<\/em>/);
   assert.match(html, /Pick a game and play/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
-  assert.match(html, /Advertisement/);
+  assert.match(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i);
   assert.match(html, /href="\/games\/2048"/);
   assert.match(html, /href="\/games\/solitaire"/);
   assert.match(html, /href="\/games\/tower"/);
@@ -41,7 +41,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.doesNotMatch(html, /ADVERTISEMENT/);
   assert.doesNotMatch(html, /<meta name="5421c45dfdd37f0e6932529f2116ce283985f019"/);
   assert.doesNotMatch(html, /<meta name="referrer" content="no-referrer-when-downgrade"\/>/);
-  assert.doesNotMatch(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i);
+  assert.doesNotMatch(html, /unfoldedtrade\.com|unfolded-uncle\.com/i);
   assert.match(html, /application\/ld\+json/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/i);
 });
@@ -80,8 +80,8 @@ test("server-renders the playable game pages for crawlers", async () => {
     assert.ok(html.includes(`<meta property="og:title" content="${route.title}"/>`), `${route.path} Open Graph title`);
     assert.ok(html.includes(`<h1>${route.heading}</h1>`), `${route.path} visible heading`);
     assert.match(html, /How to play/, `${route.path} guide`);
-    assert.match(html, /Advertisement/, `${route.path} banner placement`);
-    assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfolded-uncle\.com/, `${route.path} has no click-to-play ad gate`);
+    assert.match(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i, `${route.path} includes AdSense`);
+    assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfoldedtrade\.com|unfolded-uncle\.com/, `${route.path} has no third-party click-to-play ad gate`);
     assert.match(html, /VideoGame/, `${route.path} structured data`);
     assert.doesNotMatch(html, /saved locally|local save|saved on this device/i, `${route.path} removed copy`);
   }
@@ -118,12 +118,13 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
 });
 
 test("keeps SocoPlay branding, social assets, and only the remaining game routes", async () => {
-  const [page, layout, storage, packageJson, bannerAd] = await Promise.all([
+  const [page, layout, storage, packageJson, bannerAd, adsTxt] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/storage.ts", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/components/banner-ad.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../public/ads.txt", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /className="arcade-page"/);
@@ -139,8 +140,9 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview/);
   assert.doesNotMatch(page, /unfolded-uncle\.com\/dJmVFXzhd\.G\/NSvrZmGqUF/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
-  assert.match(bannerAd, /unfoldedtrade\.com\/bjX\/V\/s\/d\.GvlA0rYIWXcZ/);
-  assert.doesNotMatch(bannerAd, /unfolded-uncle\.com/);
+  assert.match(layout, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-5695136510723463/);
+  assert.doesNotMatch(bannerAd, /unfoldedtrade|unfolded-uncle|hilltop/i);
+  assert.match(adsTxt, /^google\.com, pub-5695136510723463, DIRECT, f08c47fec0942fa0\s*$/);
 
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../public/tower-game/tower-game.js", import.meta.url));

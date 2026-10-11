@@ -55,6 +55,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5695136510723463" crossOrigin="anonymous" />
+      </head>
       <body>
         <JsonLd data={siteSchema} />
         {children}
