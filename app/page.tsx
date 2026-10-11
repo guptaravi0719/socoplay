@@ -118,7 +118,7 @@ export default function Home() {
           <Link className="arcade-brand" href="/" onClick={() => setRailOpen(false)} aria-label="SocoPlay home"><span className="arcade-brand-mark"><i>◆</i><b>✦</b></span><span>Soco<span>Play</span></span></Link>
         </div>
         <label className="arcade-search"><span aria-hidden="true">⌕</span><input ref={searchInputRef} value={query} onChange={(event) => setQuery(event.target.value)} onFocus={() => { setRailOpen(false); if (query) scrollTo("top-picks"); }} onKeyDown={(event) => { if (event.key === "Enter") scrollTo("top-picks"); }} placeholder="Search SocoPlay games" aria-label="Search games" /><kbd>⌘ K</kbd></label>
-        <div className="arcade-top-actions"><button type="button" onClick={() => { setRailOpen(false); surpriseMe(); }} aria-label="Surprise me with a game"><span>⚡</span><b>Surprise</b></button></div>
+        <div className="arcade-top-actions"><a className="arcade-tools-link" href="https://tools.socoplay.com/diff-checker" aria-label="Open SocoPlay Tools Diff Checker"><span>⌘</span><b>Tools</b></a><button type="button" onClick={() => { setRailOpen(false); surpriseMe(); }} aria-label="Surprise me with a game"><span>⚡</span><b>Surprise</b></button></div>
       </header>
 
       <div className={`arcade-layout ${railOpen ? "rail-open" : ""}`}>

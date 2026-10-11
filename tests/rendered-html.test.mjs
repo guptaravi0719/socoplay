@@ -27,6 +27,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   const html = await response.text();
   assert.ok(html.includes("<title>SocoPlay | Free Online Mini Games</title>"));
   assert.ok(html.includes('href="https://socoplay.com"'));
+  assert.ok(html.includes('href="https://tools.socoplay.com/diff-checker"'));
   assert.doesNotMatch(html, /Small games\. <em>Big little wins\.<\/em>/);
   assert.match(html, /Pick a game and play/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
@@ -128,6 +129,7 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.match(page, /className="arcade-page"/);
   assert.match(page, /SocoPlay/);
   assert.match(page, /pageshow/);
+  assert.match(page, /tools\.socoplay\.com\/diff-checker/);
   assert.doesNotMatch(page, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
   assert.match(layout, /metadataBase: new URL\("https:\/\/socoplay\.com"\)/);
   assert.match(layout, /manifest: "\/manifest\.webmanifest"/);

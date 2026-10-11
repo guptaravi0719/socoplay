@@ -193,7 +193,8 @@
   gap: 8px;
 }
 
-.arcade-top-actions > button {
+.arcade-top-actions > button,
+.arcade-tools-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -209,14 +210,18 @@
 }
 
 .arcade-top-actions > button:hover,
-.arcade-top-actions > button:focus-visible {
+.arcade-top-actions > button:focus-visible,
+.arcade-tools-link:hover,
+.arcade-tools-link:focus-visible {
   border-color: #ffffff22;
   background: #ffffff10;
   transform: translateY(-1px);
 }
 
-.arcade-top-actions > button > span { color: var(--arcade-violet-bright); font-size: 18px; }
-.arcade-top-actions > button > b { font-size: 11px; font-weight: 850; }
+.arcade-top-actions > button > span,
+.arcade-tools-link > span { color: var(--arcade-violet-bright); font-size: 18px; }
+.arcade-top-actions > button > b,
+.arcade-tools-link > b { font-size: 11px; font-weight: 850; }
 
 .arcade-layout {
   position: relative;
@@ -1069,7 +1074,8 @@
 
 @media (max-width: 980px) {
   .arcade-topbar { grid-template-columns: 1fr minmax(260px, 1.3fr) auto; padding: 0 18px; }
-  .arcade-top-actions > button > b { display: none; }
+  .arcade-top-actions > button > b,
+  .arcade-tools-link > b { display: none; }
   .arcade-layout { grid-template-columns: 1fr; }
   .arcade-rail {
     position: fixed;
@@ -1157,7 +1163,8 @@
 }
 
 @media (max-width: 390px) {
-  .arcade-top-actions > button { display: none; }
+  .arcade-top-actions > button,
+  .arcade-tools-link { display: none; }
   .arcade-welcome h1 { font-size: 33px; }
   .arcade-section-head { gap: 10px; }
   .arcade-section-head h2 { font-size: 22px; }
