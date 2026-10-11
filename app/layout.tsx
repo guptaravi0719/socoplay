@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { JsonLd } from "./components/json-ld";
 import { GameEnhancements } from "./components/game-enhancements";
 import { siteSchema } from "./lib/seo";
@@ -19,6 +18,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   icons: { icon: "/favicon.svg" },
   manifest: "/manifest.webmanifest",
+  other: {
+    "5421c45dfdd37f0e6932529f2116ce283985f019": "5421c45dfdd37f0e6932529f2116ce283985f019",
+  },
   robots: {
     index: true,
     follow: true,
@@ -58,12 +60,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning>
       <body>
         <JsonLd data={siteSchema} />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5695136510723463"
-          crossOrigin="anonymous"
-          strategy="beforeInteractive"
-        />
         {children}
         <GameEnhancements />
       </body>
