@@ -9,19 +9,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: siteUrl,
       lastModified: lastUpdated,
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 1,
     },
     ...Object.values(gameSeo).map((game) => ({
       url: `${siteUrl}/games/${game.slug}`,
       lastModified: lastUpdated,
-      changeFrequency: "monthly" as const,
+      changeFrequency: "daily" as const,
       priority: 0.8,
     })),
     ...classicGameSlugs.map((slug) => ({
       url: `${siteUrl}/games/${slug}`,
       lastModified: lastUpdated,
-      changeFrequency: "monthly" as const,
+      changeFrequency: "daily" as const,
       priority: 0.8,
     })),
   ];
