@@ -14,7 +14,6 @@ export default function TowerStack() {
         <div className="tower-frame-wrap">
           <iframe className="tower-frame" src="/tower-game/index.html" title="Tower Stack game" allow="autoplay" />
         </div>
-        <p className="tower-credit">Game code and assets are available under the <a href="/tower-game/LICENSE" target="_blank" rel="noreferrer">MIT License</a>.</p>
       </section>
     </main>
   );

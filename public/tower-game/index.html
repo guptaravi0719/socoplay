@@ -12,7 +12,8 @@
       body { display: grid; place-items: center; font-family: Arial, sans-serif; }
       canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
       .start-screen { position: relative; z-index: 2; display: grid; width: min(82%, 420px); justify-items: center; gap: 16px; text-align: center; color: #fff; text-shadow: 0 3px 0 #9b3f35; }
-      .start-screen img { width: min(100%, 310px); animation: swing 1.8s ease-in-out infinite alternate; }
+      .game-title { margin: 0; color: #fff5bf; font: 900 clamp(38px, 11vw, 70px)/.86 wenxue, Arial, sans-serif; letter-spacing: .02em; text-shadow: 0 5px 0 #9b3f35, 0 10px 24px #5e241c80; animation: swing 1.8s ease-in-out infinite alternate; }
+      .game-title span { display: block; margin-bottom: 11px; color: #fff; font: 900 clamp(11px, 3vw, 16px)/1 Arial, sans-serif; letter-spacing: .22em; text-shadow: none; }
       .start-screen p { margin: 0; font-size: clamp(14px, 3.5vw, 19px); font-weight: 800; }
       .start-screen button { width: min(100%, 270px); padding: 16px 22px; border: 3px solid #fff8c5; border-radius: 999px; background: linear-gradient(#ffd768, #ff9d36); box-shadow: 0 6px 0 #b6532e, 0 12px 25px #68291b70; color: #7e311e; font: 900 clamp(19px, 5vw, 27px) wenxue, Arial, sans-serif; letter-spacing: .04em; cursor: pointer; }
       .start-screen button:active { box-shadow: 0 2px 0 #b6532e; transform: translateY(4px); }
@@ -24,7 +25,7 @@
   <body>
     <canvas id="tower-canvas" aria-label="Tower stacking game"></canvas>
     <section class="start-screen" id="start-screen" aria-label="Start Tower Stack">
-      <img src="./assets/main-index-title.png" alt="Tower Stack" />
+      <h1 class="game-title"><span>SOCO PLAY</span>TOWER<br />STACK</h1>
       <p>Tap when the swinging block lines up with your tower.</p>
       <button id="start-button" type="button">Start stacking</button>
     </section>

@@ -10,8 +10,6 @@
 .tower-intro span { display: block; margin-top: 8px; color: #fff1d6; font-size: 14px; }
 .tower-frame-wrap { display: grid; min-height: min(82svh, 940px); place-items: center; overflow: hidden; border: 3px solid #ffe9b86b; border-radius: 24px; background: #f95240; box-shadow: 0 28px 70px #130b3588, inset 0 0 0 8px #ffffff17; }
 .tower-frame { display: block; width: min(100%, 680px); height: min(82svh, 940px); min-height: 590px; border: 0; background: #f95240; }
-.tower-credit { margin: 11px 0 0; color: #ffe9cc; font-size: 11px; opacity: .82; }
-.tower-credit a { color: #fff4a6; font-weight: 800; }
 
 @media (max-width: 700px) {
   .tower-nav { min-height: 58px; padding: 0 14px; }
