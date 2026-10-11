@@ -32,6 +32,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.match(html, /FREE ONLINE MINI GAMES/);
   assert.match(html, /href="\/games\/2048"/);
   assert.match(html, /href="\/games\/solitaire"/);
+  assert.match(html, /href="\/games\/tower"/);
   assert.doesNotMatch(html, /\/games\/(tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint)/);
   assert.doesNotMatch(html, /saved locally|local save|saved on this device|continue playing/i);
   assert.doesNotMatch(html, /ADVERTISEMENT/);
@@ -39,7 +40,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/i);
 });
 
-test("server-renders the two playable game pages for crawlers", async () => {
+test("server-renders the playable game pages for crawlers", async () => {
   const routes = [
     {
       path: "/games/2048",
@@ -52,6 +53,12 @@ test("server-renders the two playable game pages for crawlers", async () => {
       title: "Play Solitaire Online | SocoPlay",
       heading: "Solitaire",
       description: "Play free classic Klondike Solitaire online with touch-friendly cards, Turn 1 or Turn 3 play, hints, and undo.",
+    },
+    {
+      path: "/games/tower",
+      title: "Play Tower Stack Online | SocoPlay",
+      heading: "Tower Stack",
+      description: "Play Tower Stack online for free. Time each drop, stack the blocks neatly, and build your tallest tower.",
     },
   ];
 
@@ -90,7 +97,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /(?:application|text)\/xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
-  for (const path of ["", "/games/solitaire", "/games/2048"]) {
+  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tower"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
   assert.doesNotMatch(sitemap, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
@@ -122,6 +129,8 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 
   await access(new URL("../public/og.png", import.meta.url));
+  await access(new URL("../public/tower-game/tower-game.js", import.meta.url));
+  await access(new URL("../public/tower-game/LICENSE", import.meta.url));
   await assert.rejects(access(new URL("../app/games/tap-tap-basketball", templateRoot)));
   await assert.rejects(access(new URL("../app/games/slice-sprint", templateRoot)));
   await assert.rejects(access(new URL("../app/_sites-preview", templateRoot)));

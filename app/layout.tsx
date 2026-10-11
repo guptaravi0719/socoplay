@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: "SocoPlay | Free Online Mini Games",
     template: "%s | SocoPlay",
   },
-  description: "Play original free online mini games, including Solitaire and 2048. No download or account needed.",
+  description: "Play original free online mini games, including Solitaire, 2048, and Tower Stack. No download or account needed.",
   applicationName: "SocoPlay",
   category: "Games",
   alternates: { canonical: "/" },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "SocoPlay",
     title: "SocoPlay | Free Online Mini Games",
-    description: "Tiny games for satisfying breaks: play Solitaire and 2048 online.",
+    description: "Tiny games for satisfying breaks: play Solitaire, 2048, and Tower Stack online.",
     images: [
       {
         url: "/og.png",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "SocoPlay | Free Online Mini Games",
-    description: "Tiny games for satisfying breaks: play Solitaire and 2048 online.",
+    description: "Tiny games for satisfying breaks: play Solitaire, 2048, and Tower Stack online.",
     images: ["/og.png"],
   },
 };

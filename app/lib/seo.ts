@@ -1,6 +1,6 @@
 export const siteUrl = "https://socoplay.com";
 
-export type GameSlug = "solitaire" | "2048";
+export type GameSlug = "solitaire" | "2048" | "tower";
 
 type GameSeo = {
   slug: GameSlug;
@@ -28,6 +28,14 @@ export const gameSeo: Record<GameSlug, GameSeo> = {
     category: "Puzzle game",
     genre: "Puzzle",
   },
+  tower: {
+    slug: "tower",
+    name: "Tower Stack",
+    title: "Play Tower Stack Online",
+    description: "Play Tower Stack online for free. Time each drop, stack the blocks neatly, and build your tallest tower.",
+    category: "Arcade stacking game",
+    genre: "Arcade",
+  },
 };
 
 export const siteSchema = {
@@ -38,7 +46,7 @@ export const siteSchema = {
       "@id": `${siteUrl}/#website`,
       name: "SocoPlay",
       url: siteUrl,
-      description: "Original free online mini games for quick breaks.",
+      description: "Original free online mini games, including Solitaire, 2048, and Tower Stack.",
       inLanguage: "en",
     },
     {

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#f95240" />
+    <title>Tower Stack</title>
+    <style>
+      @font-face { font-family: wenxue; src: url("./assets/wenxue.woff") format("woff"); }
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #f95240 url("./assets/main-bg.png") center / cover; }
+      body { display: grid; place-items: center; font-family: Arial, sans-serif; }
+      canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+      .start-screen { position: relative; z-index: 2; display: grid; width: min(82%, 420px); justify-items: center; gap: 16px; text-align: center; color: #fff; text-shadow: 0 3px 0 #9b3f35; }
+      .start-screen img { width: min(100%, 310px); animation: swing 1.8s ease-in-out infinite alternate; }
+      .start-screen p { margin: 0; font-size: clamp(14px, 3.5vw, 19px); font-weight: 800; }
+      .start-screen button { width: min(100%, 270px); padding: 16px 22px; border: 3px solid #fff8c5; border-radius: 999px; background: linear-gradient(#ffd768, #ff9d36); box-shadow: 0 6px 0 #b6532e, 0 12px 25px #68291b70; color: #7e311e; font: 900 clamp(19px, 5vw, 27px) wenxue, Arial, sans-serif; letter-spacing: .04em; cursor: pointer; }
+      .start-screen button:active { box-shadow: 0 2px 0 #b6532e; transform: translateY(4px); }
+      .start-screen button:disabled { cursor: wait; opacity: .75; }
+      .start-screen.is-hidden { display: none; }
+      @keyframes swing { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+    </style>
+  </head>
+  <body>
+    <canvas id="tower-canvas" aria-label="Tower stacking game"></canvas>
+    <section class="start-screen" id="start-screen" aria-label="Start Tower Stack">
+      <img src="./assets/main-index-title.png" alt="Tower Stack" />
+      <p>Tap when the swinging block lines up with your tower.</p>
+      <button id="start-button" type="button">Start stacking</button>
+    </section>
+    <script src="./tower-game.js"></script>
+    <script>
+      (() => {
+        const startButton = document.querySelector("#start-button");
+        const startScreen = document.querySelector("#start-screen");
+        let started = false;
+
+        startButton.addEventListener("click", () => {
+          if (started) return;
+          started = true;
+          startButton.disabled = true;
+          startButton.textContent = "Loading…";
+
+          const height = window.innerHeight;
+          const width = height / window.innerWidth < 1.5 ? Math.ceil(height / 1.5) : window.innerWidth;
+          const game = window.TowerGame({
+            width,
+            height,
+            canvasId: "tower-canvas",
+            soundOn: true,
+          });
+
+          game.load(() => {
+            game.init();
+            startScreen.classList.add("is-hidden");
+            game.start();
+            game.playBgm();
+          }, ({ success, total, failed }) => {
+            if (failed > 0) startButton.textContent = "Try again";
+            else if (total) startButton.textContent = `Loading ${Math.min(99, Math.round((success / total) * 100))}%`;
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

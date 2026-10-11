@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "SocoPlay — Free Online Mini Games",
     short_name: "SocoPlay",
-    description: "Original free online mini games for satisfying breaks.",
+    description: "Original free online mini games including Solitaire, 2048, and Tower Stack.",
     start_url: "/",
     display: "standalone",
     background_color: "#faf8ff",

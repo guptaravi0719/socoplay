@@ -1,0 +1,25 @@
+.tower-game-page { min-height: 100vh; background: radial-gradient(circle at 16% 0, #f2a552 0, transparent 24%), radial-gradient(circle at 86% 5%, #455ea2 0, transparent 26%), linear-gradient(145deg, #151b39, #292655 56%, #c95445); color: #fffaf2; }
+.tower-nav { display: flex; align-items: center; gap: 22px; min-height: 68px; max-width: 1360px; margin: auto; padding: 0 28px; border-bottom: 1px solid #ffffff2b; }
+.tower-brand { color: #fffaf2; font-size: 22px; font-weight: 950; letter-spacing: -1px; text-decoration: none; }
+.tower-brand > span { display: inline-grid; width: 27px; height: 27px; place-items: center; margin-right: 7px; border-radius: 9px; background: #ffd66d; color: #38204c; font-size: 13px; transform: rotate(-8deg); }
+.tower-back { margin-left: auto; color: #fff0c2; font-size: 12px; font-weight: 850; text-decoration: none; }
+.tower-stage { max-width: 1380px; margin: auto; padding: 20px 24px 30px; text-align: center; }
+.tower-intro { margin: 0 auto 14px; }
+.tower-intro p { margin: 0 0 7px; color: #ffe48c; font-size: 10px; font-weight: 950; letter-spacing: .16em; }
+.tower-intro h1 { margin: 0; font-size: clamp(34px, 5vw, 56px); letter-spacing: -2.5px; line-height: .98; }
+.tower-intro span { display: block; margin-top: 8px; color: #fff1d6; font-size: 14px; }
+.tower-frame-wrap { display: grid; min-height: min(82svh, 940px); place-items: center; overflow: hidden; border: 3px solid #ffe9b86b; border-radius: 24px; background: #f95240; box-shadow: 0 28px 70px #130b3588, inset 0 0 0 8px #ffffff17; }
+.tower-frame { display: block; width: min(100%, 680px); height: min(82svh, 940px); min-height: 590px; border: 0; background: #f95240; }
+.tower-credit { margin: 11px 0 0; color: #ffe9cc; font-size: 11px; opacity: .82; }
+.tower-credit a { color: #fff4a6; font-weight: 800; }
+
+@media (max-width: 700px) {
+  .tower-nav { min-height: 58px; padding: 0 14px; }
+  .tower-brand { font-size: 20px; }
+  .tower-stage { padding: 15px 0 22px; }
+  .tower-intro { padding: 0 16px; }
+  .tower-intro h1 { font-size: 40px; }
+  .tower-intro span { font-size: 12px; }
+  .tower-frame-wrap { min-height: calc(100svh - 145px); border-width: 2px 0; border-radius: 0; }
+  .tower-frame { width: 100%; height: calc(100svh - 145px); min-height: 510px; }
+}

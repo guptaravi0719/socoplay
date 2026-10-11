@@ -8,11 +8,13 @@ let sharedAudioContext: AudioContext | null = null;
 const help = {
   "/games/solitaire": { title: "Solitaire help", rules: ["Build downward in alternating red and black cards.", "Move Aces through Kings to their matching foundation piles.", "On mobile, tap a card and then tap where you want to place it."], tip: "Use Hint whenever you are stuck; it highlights a useful move." },
   "/games/2048": { title: "2048 help", rules: ["Swipe or use arrow keys to slide every tile.", "Matching numbers combine into a larger tile.", "Keep open spaces available and build toward 2048."], tip: "Keep your largest number in a corner and use Undo to rethink a move." },
+  "/games/tower": { title: "Tower Stack help", rules: ["Tap Start stacking to begin a round.", "Tap the game area to release the swinging block.", "Build carefully and keep your three hearts."], tip: "Aim for the center of the tower; clean drops make it easier to keep building." },
 } as const;
 
 const tones = {
   "/games/solitaire": [262, 392, "triangle"],
   "/games/2048": [196, 294, "square"],
+  "/games/tower": [294, 440, "triangle"],
 } as const;
 
 export function GameEnhancements() {

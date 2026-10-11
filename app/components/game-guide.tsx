@@ -32,11 +32,23 @@ const guides: Record<GameSlug, Guide> = {
     ],
     tip: "Keep your highest tile tucked into a corner and build the neighboring values toward it. Use Undo when you want to rethink the previous move.",
   },
+  tower: {
+    eyebrow: "ARCADE STACKING GAME",
+    heading: "Time every drop and build higher",
+    description: "Tower Stack is a quick arcade game. Release each swinging block at the right moment and build your tallest skyline.",
+    steps: [
+      "Tap Start stacking to begin a round.",
+      "Tap the game area when the swinging block lines up with your tower.",
+      "Keep the tower balanced and protect all three hearts.",
+    ],
+    tip: "Wait for the block to pass the center of your tower, then tap with one confident touch.",
+  },
 };
 
 const relatedGames: Record<GameSlug, { href: string; name: string }[]> = {
-  solitaire: [{ href: "/games/2048", name: "2048" }],
-  "2048": [{ href: "/games/solitaire", name: "Solitaire" }],
+  solitaire: [{ href: "/games/2048", name: "2048" }, { href: "/games/tower", name: "Tower Stack" }],
+  "2048": [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/tower", name: "Tower Stack" }],
+  tower: [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/2048", name: "2048" }],
 };
 
 export function GameGuide({ game }: { game: GameSlug }) {
