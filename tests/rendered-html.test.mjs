@@ -87,6 +87,25 @@ test("server-renders the playable game pages for crawlers", async () => {
   }
 });
 
+test("gives every classic game its own canonical metadata and game schema", async () => {
+  const routes = [
+    ["chess", "Play Chess Online | SocoPlay"],
+    ["asteroids", "Play Asteroids Online | SocoPlay"],
+    ["pacman", "Play Pac-Man Online | SocoPlay"],
+    ["sudoku", "Play Sudoku Online | SocoPlay"],
+    ["checkers", "Play Checkers Online | SocoPlay"],
+  ];
+
+  for (const [slug, title] of routes) {
+    const response = await render(`/games/${slug}`);
+    const html = await response.text();
+    assert.ok(html.includes(`<title>${title}</title>`), `${slug} title`);
+    assert.ok(html.includes(`<link rel="canonical" href="${publicOrigin}/games/${slug}"/>`), `${slug} canonical`);
+    assert.match(html, /VideoGame/, `${slug} game schema`);
+    assert.match(html, /og:title/, `${slug} social metadata`);
+  }
+});
+
 test("publishes a crawlable sitemap, robots policy, and web manifest", async () => {
   const [robotsResponse, sitemapResponse, manifestResponse] = await Promise.all([
     render("/robots.txt", "text/plain"),
@@ -105,6 +124,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /(?:application|text)\/xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
+  assert.match(sitemap, /<lastmod>2026-10-11T00:00:00\.000Z<\/lastmod>/);
   for (const path of ["", "/games/solitaire", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }

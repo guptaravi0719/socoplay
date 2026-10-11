@@ -1,15 +1,18 @@
 import { BannerAd } from "./banner-ad";
+import { JsonLd } from "./json-ld";
+import { gameSchema, type GameSlug } from "../lib/seo";
 
 type ClassicGame = {
   name: string;
   eyebrow: string;
   description: string;
-  slug: string;
+  slug: Exclude<GameSlug, "solitaire" | "2048" | "tower">;
 };
 
 export function ClassicGamePage({ game }: { game: ClassicGame }) {
   return (
     <main className="classic-game-page">
+      <JsonLd data={gameSchema(game.slug)} />
       <header className="classic-game-nav">
         <a className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</a>
       </header>

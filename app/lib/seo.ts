@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
+
 export const siteUrl = "https://socoplay.com";
 
-export type GameSlug = "solitaire" | "2048" | "tower";
+export type GameSlug = "solitaire" | "2048" | "tower" | "chess" | "asteroids" | "pacman" | "sudoku" | "checkers";
 
-type GameSeo = {
+export type GameSeo = {
   slug: GameSlug;
   name: string;
   title: string;
@@ -36,6 +38,46 @@ export const gameSeo: Record<GameSlug, GameSeo> = {
     category: "Arcade stacking game",
     genre: "Arcade",
   },
+  chess: {
+    slug: "chess",
+    name: "Chess",
+    title: "Play Chess Online",
+    description: "Play free chess online on a large, touch-friendly board. Choose a mode, plan your moves, and checkmate your opponent.",
+    category: "Board game",
+    genre: "Strategy",
+  },
+  asteroids: {
+    slug: "asteroids",
+    name: "Asteroids",
+    title: "Play Asteroids Online",
+    description: "Play Asteroids online for free. Pilot your ship through asteroid waves and clear the arcade playfield.",
+    category: "Arcade game",
+    genre: "Arcade",
+  },
+  pacman: {
+    slug: "pacman",
+    name: "Pac-Man",
+    title: "Play Pac-Man Online",
+    description: "Play Pac-Man online for free. Guide Pac-Man through the maze, collect pellets, and dodge the ghosts.",
+    category: "Maze game",
+    genre: "Arcade",
+  },
+  sudoku: {
+    slug: "sudoku",
+    name: "Sudoku",
+    title: "Play Sudoku Online",
+    description: "Solve free online Sudoku puzzles on a clean, touch-friendly grid. Choose a difficulty and test your logic.",
+    category: "Puzzle game",
+    genre: "Puzzle",
+  },
+  checkers: {
+    slug: "checkers",
+    name: "Checkers",
+    title: "Play Checkers Online",
+    description: "Play American checkers online against the computer. Plan captures, crown kings, and win the board.",
+    category: "Board game",
+    genre: "Strategy",
+  },
 };
 
 export const siteSchema = {
@@ -45,6 +87,7 @@ export const siteSchema = {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       name: "SocoPlay",
+      alternateName: "SocoPlay Games",
       url: siteUrl,
       description: "Original free online mini games, including Solitaire, 2048, and Tower Stack.",
       inLanguage: "en",
@@ -63,6 +106,33 @@ export function gameUrl(slug: GameSlug) {
   return `${siteUrl}/games/${slug}`;
 }
 
+export function gameMetadata(slug: GameSlug): Metadata {
+  const game = gameSeo[slug];
+  const url = `/games/${slug}`;
+  const socialTitle = `${game.title} | SocoPlay`;
+
+  return {
+    title: game.title,
+    description: game.description,
+    alternates: { canonical: url },
+    robots: { index: true, follow: true },
+    openGraph: {
+      type: "website",
+      url,
+      siteName: "SocoPlay",
+      title: socialTitle,
+      description: game.description,
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: `${game.name} at SocoPlay` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: socialTitle,
+      description: game.description,
+      images: ["/og.png"],
+    },
+  };
+}
+
 export function gameSchema(slug: GameSlug) {
   const game = gameSeo[slug];
   const url = gameUrl(slug);
@@ -74,6 +144,7 @@ export function gameSchema(slug: GameSlug) {
       name: game.name,
       description: game.description,
       url,
+      image: `${siteUrl}/og.png`,
       applicationCategory: "GameApplication",
       applicationSubCategory: game.category,
       genre: game.genre,
@@ -84,6 +155,8 @@ export function gameSchema(slug: GameSlug) {
         price: "0",
         priceCurrency: "USD",
       },
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      publisher: { "@id": `${siteUrl}/#organization` },
     },
     {
       "@context": "https://schema.org",
