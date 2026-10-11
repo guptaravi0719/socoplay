@@ -1,0 +1,19 @@
+5421c45dfdd37f0e6932.txt
+  s_45bec74f65f748::t_9e272ea7864451 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "930b143c748768e8681d7299ffab91dd490bc3e2",
+  "prompts": {},
+  "sessions": {
+    "s_45bec74f65f748": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "s_45bec74f65f748",
+        "model": "unknown"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
