@@ -1,0 +1,32 @@
+app/games/2048/layout.tsx
+  s_faa544299a2048::t_fa43ef476b6008 3,25
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_fa43ef476b6008 33,81-82
+app/games/solitaire/layout.tsx
+  s_faa544299a2048::t_fa43ef476b6008 3,31
+app/page.tsx
+  s_faa544299a2048::t_fa43ef476b6008 5,117
+app/games/tower/layout.tsx
+  s_faa544299a2048::t_fa43ef476b6008 3,19
+app/globals.css
+  s_faa544299a2048::t_fa43ef476b6008 9
+app/components/hilltop-banner.tsx
+  s_faa544299a2048::t_fa43ef476b6008 3,5,7-8,10-14,16-28
+  s_faa544299a2048::t_fcac0af71abaf7 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "cbc8ec9a9bd3e75054318ceca01d8c8d83e5f725",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
