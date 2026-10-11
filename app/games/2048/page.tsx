@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { startTransition, type CSSProperties, useEffect, useRef, useState } from "react";
 import { legacyStorageKeys, readStored, storageKeys, writeStored } from "../../lib/storage";
 
@@ -137,7 +136,7 @@ export default function Game2048() {
   const gameOver = loaded && !hasMoves(board);
 
   return <main className="mini-game game-2048">
-    <header className="game-exit-bar"><Link className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</Link></header>
+    <header className="game-exit-bar"><a className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</a></header>
     <section className="mini-game-stage">
       <h1 className="sr-only">2048</h1>
       <div className="mini-layout">

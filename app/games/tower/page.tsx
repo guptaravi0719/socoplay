@@ -1,12 +1,10 @@
 "use client";
 
-import Link from "next/link";
-
 export default function TowerStack() {
   return (
     <main className="tower-game-page">
       <header className="tower-nav">
-        <Link className="tower-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</Link>
+        <a className="tower-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</a>
       </header>
       <section className="tower-stage">
         <h1 className="sr-only">Tower Stack</h1>

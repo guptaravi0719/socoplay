@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { BannerAd } from "./banner-ad";
 
 type ClassicGame = {
@@ -12,7 +11,7 @@ export function ClassicGamePage({ game }: { game: ClassicGame }) {
   return (
     <main className="classic-game-page">
       <header className="classic-game-nav">
-        <Link className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</Link>
+        <a className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</a>
       </header>
       <section className="classic-game-stage">
         <h1 className="sr-only">Play {game.name} online</h1>
