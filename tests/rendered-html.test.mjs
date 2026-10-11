@@ -30,10 +30,10 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.match(html, /Small games\. <em>Big little wins\.<\/em>/);
   assert.match(html, /Pick a game and play/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
-  assert.match(html, /Sponsored/);
   assert.match(html, /href="\/games\/2048"/);
   assert.match(html, /href="\/games\/solitaire"/);
   assert.match(html, /href="\/games\/tower"/);
+  for (const slug of ["chess", "asteroids", "pacman", "sudoku", "checkers"]) assert.match(html, new RegExp(`href="\\/games\\/${slug}"`));
   assert.doesNotMatch(html, /\/games\/(tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint)/);
   assert.doesNotMatch(html, /saved locally|local save|saved on this device|continue playing/i);
   assert.doesNotMatch(html, /ADVERTISEMENT/);
@@ -78,8 +78,7 @@ test("server-renders the playable game pages for crawlers", async () => {
     assert.ok(html.includes(`<meta property="og:title" content="${route.title}"/>`), `${route.path} Open Graph title`);
     assert.ok(html.includes(`<h1>${route.heading}</h1>`), `${route.path} visible heading`);
     assert.match(html, /How to play/, `${route.path} guide`);
-    assert.match(html, /Sponsored/, `${route.path} banner placement`);
-    assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfolded-uncle\.com/, `${route.path} removed ad gate`);
+    assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfolded-uncle\.com|unfoldedtrade\.com/, `${route.path} removed pop-up ad scripts`);
     assert.match(html, /VideoGame/, `${route.path} structured data`);
     assert.doesNotMatch(html, /saved locally|local save|saved on this device/i, `${route.path} removed copy`);
   }
@@ -103,7 +102,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /(?:application|text)\/xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
-  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tower"]) {
+  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
   assert.doesNotMatch(sitemap, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
@@ -137,6 +136,8 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../public/tower-game/tower-game.js", import.meta.url));
   await access(new URL("../public/tower-game/LICENSE", import.meta.url));
+  await access(new URL("../public/arcade-classics/LICENSE", import.meta.url));
+  await access(new URL("../public/arcade-classics/soco-audio.js", import.meta.url));
   await assert.rejects(access(new URL("../app/games/tap-tap-basketball", templateRoot)));
   await assert.rejects(access(new URL("../app/games/slice-sprint", templateRoot)));
   await assert.rejects(access(new URL("../app/_sites-preview", templateRoot)));

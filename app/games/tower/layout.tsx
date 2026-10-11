@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { GameGuide } from "../../components/game-guide";
-import { HilltopBanner } from "../../components/hilltop-banner";
 import { JsonLd } from "../../components/json-ld";
 import { gameSchema, gameSeo } from "../../lib/seo";
 import "./tower.css";
@@ -16,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function TowerLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <><JsonLd data={gameSchema("tower")} />{children}<HilltopBanner placement="game" /><GameGuide game="tower" /></>;
+  return <><JsonLd data={gameSchema("tower")} />{children}<GameGuide game="tower" /></>;
 }

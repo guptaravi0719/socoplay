@@ -1,0 +1,5 @@
+The Chess, Asteroids, Pac-Man, Sudoku, and Checkers game distributions in this
+directory are derived from the html-css-javascript-games project by Talha Bin
+Yousaf and are licensed under the MIT License. See LICENSE.
+
+SocoPlay supplies the responsive game shell and optional synthesized audio layer.

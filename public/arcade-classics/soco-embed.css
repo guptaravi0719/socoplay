@@ -1,0 +1,10 @@
+:root { color-scheme: dark; }
+html, body { width: 100%; min-height: 100%; }
+.soco-sound-toggle { position: fixed; right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); z-index: 9999; width: 43px; height: 43px; border: 1px solid #ffffff75; border-radius: 50%; background: #15172be8; color: #fff; box-shadow: 0 8px 22px #0008; cursor: pointer; font-size: 18px; }
+.soco-sound-toggle:active { transform: scale(.93); }
+body[data-soco-theme="chess"] .wrapper { max-width: 780px; }
+body[data-soco-theme="chess"] .board { width: min(94vw, 700px); height: min(94vw, 700px); max-width: 700px; max-height: 700px; border: 13px solid #3c2416; border-radius: 3px; box-shadow: 0 0 0 4px #ba8755, 0 28px 55px #0009; }
+body[data-soco-theme="chess"] .square { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 7vw, 4.55rem); text-shadow: 0 3px 2px #0006, 0 0 1px #fff; }
+body[data-soco-theme="chess"] .square.white { color: #fff8e8; filter: drop-shadow(0 2px 1px #5d4636); }
+body[data-soco-theme="chess"] .square.black { color: #271a17; filter: drop-shadow(0 2px 1px #d3b393); }
+@media (max-width: 620px) { body[data-soco-theme="chess"] .board { border-width: 7px; width: min(100vw - 24px, 700px); height: min(100vw - 24px, 700px); } }

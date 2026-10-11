@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { HilltopBanner } from "./components/hilltop-banner";
 
 type GameCard = {
   id: string;
@@ -20,6 +19,11 @@ const games: GameCard[] = [
   { id: "solitaire", name: "Solitaire", genre: "Cards", time: "5–20 min", icon: "♠", art: "solitaire", href: "/games/solitaire", badge: "Classic", description: "A polished Klondike table with touch-friendly moves and helpful controls." },
   { id: "2048", name: "2048", genre: "Puzzle", time: "3–12 min", icon: "2K", art: "2048", href: "/games/2048", badge: "Puzzle", description: "Slide, merge, and chase the 2048 tile in this satisfying number puzzle." },
   { id: "tower", name: "Tower Stack", genre: "Arcade", time: "2–6 min", icon: "▥", art: "tower", href: "/games/tower", badge: "Stack", description: "Time each drop, line up the blocks, and build your tallest tower." },
+  { id: "chess", name: "Chess", genre: "Board", time: "5–30 min", icon: "♞", art: "chess", href: "/games/chess", badge: "Strategy", description: "A full-size chessboard with friend and AI modes." },
+  { id: "asteroids", name: "Asteroids", genre: "Arcade", time: "3–12 min", icon: "✦", art: "asteroids", href: "/games/asteroids", badge: "Arcade", description: "Pilot through asteroid waves with keyboard and touch controls." },
+  { id: "pacman", name: "Pac-Man", genre: "Arcade", time: "3–10 min", icon: "●", art: "pacman", href: "/games/pacman", badge: "Maze", description: "Collect every pellet and outsmart the ghosts." },
+  { id: "sudoku", name: "Sudoku", genre: "Puzzle", time: "5–25 min", icon: "9", art: "sudoku", href: "/games/sudoku", badge: "Logic", description: "Choose a difficulty and solve a clean, touch-friendly grid." },
+  { id: "checkers", name: "Checkers", genre: "Board", time: "5–20 min", icon: "●", art: "checkers", href: "/games/checkers", badge: "Board", description: "Jump, crown kings, and challenge the computer." },
 ];
 
 const railItems = [
@@ -27,6 +31,7 @@ const railItems = [
   { label: "Quick games", icon: "⚡", genre: "All", target: "top-picks" },
   { label: "Card games", icon: "♠", genre: "Cards" },
   { label: "Puzzles", icon: "◆", genre: "Puzzle" },
+  { label: "Board games", icon: "♞", genre: "Board" },
   { label: "Arcade games", icon: "▥", genre: "Arcade" },
 ];
 
@@ -34,6 +39,11 @@ const coverLabels: Record<string, string> = {
   solitaire: "DEAL / BUILD / WIN",
   "2048": "MERGE / GROW / WIN",
   tower: "DROP / STACK / RISE",
+  chess: "PLAN / MOVE / CHECK",
+  asteroids: "TURN / THRUST / FIRE",
+  pacman: "EAT / DODGE / WIN",
+  sudoku: "THINK / PLACE / SOLVE",
+  checkers: "JUMP / CROWN / WIN",
 };
 
 export default function Home() {
@@ -111,11 +121,10 @@ export default function Home() {
         <div className="arcade-content">
           <section className="arcade-welcome" aria-labelledby="mini-games-title"><div><p><span>SOCO</span> / QUICK ARCADE</p><h1 id="mini-games-title">Small games. <em>Big little wins.</em></h1></div></section>
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
-            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED GAMES" : "PLAY NOW"} title={query || genre !== "All" ? "Games for you" : "Pick a game and play"} titleId="top-picks-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Three polished games for a satisfying few minutes."} action={query || genre !== "All" ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : <button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
+            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED GAMES" : "PLAY NOW"} title={query || genre !== "All" ? "Games for you" : "Pick a game and play"} titleId="top-picks-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Eight polished games for a satisfying few minutes."} action={query || genre !== "All" ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : <button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
             {visibleGames.length ? <div className="arcade-mosaic">{visibleGames.map((game, index) => <ArcadeGameCard game={game} variant={index === 0 ? "lead" : "wide"} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the filters.</p></div>}
           </section>
-          <HilltopBanner placement="home" />
-          <section className="arcade-seo-card" aria-labelledby="free-mini-games-title"><div><p>FREE ONLINE MINI GAMES</p><h2 id="free-mini-games-title">A tiny arcade for your in-between moments.</h2></div><div><p>SocoPlay is a focused collection of classic cards, number puzzles, and arcade stacking games without a download or account.</p><div className="arcade-seo-points"><span>Made for mobile</span><span>Quick to play</span><span>Always free to play</span></div></div></section>
+          <section className="arcade-seo-card" aria-labelledby="free-mini-games-title"><div><p>FREE ONLINE MINI GAMES</p><h2 id="free-mini-games-title">A tiny arcade for your in-between moments.</h2></div><div><p>SocoPlay is a focused collection of classic cards, board games, number puzzles, and arcade challenges without a download or account.</p><div className="arcade-seo-points"><span>Made for mobile</span><span>Quick to play</span><span>Always free to play</span></div></div></section>
         </div>
       </div>
 
