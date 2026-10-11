@@ -137,7 +137,7 @@ export default function Game2048() {
   const gameOver = loaded && !hasMoves(board);
 
   return <main className="mini-game game-2048">
-    <header className="hub-nav"><Link className="hub-brand" href="/"><span>◆</span> SocoPlay</Link><nav><Link href="/">Discover</Link><Link href="/#top-picks">Play now</Link></nav><Link className="back-link" href="/">← All games</Link></header>
+    <header className="game-exit-bar"><Link className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</Link></header>
     <section className="mini-game-stage">
       <h1 className="sr-only">2048</h1>
       <div className="mini-layout">
