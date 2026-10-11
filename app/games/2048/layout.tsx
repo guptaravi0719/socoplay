@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { GameGuide } from "../../components/game-guide";
+import { HilltopAdsGate } from "../../components/hilltop-ads-gate";
 import { JsonLd } from "../../components/json-ld";
 import { gameSchema, gameSeo } from "../../lib/seo";
 
@@ -21,5 +22,5 @@ export const metadata: Metadata = {
 };
 
 export default function Game2048Layout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <><JsonLd data={gameSchema("2048")} />{children}<GameGuide game="2048" /></>;
+  return <><JsonLd data={gameSchema("2048")} />{children}<GameGuide game="2048" /><HilltopAdsGate /></>;
 }
