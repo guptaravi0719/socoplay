@@ -30,6 +30,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.match(html, /Small games\. <em>Big little wins\.<\/em>/);
   assert.match(html, /Pick a game and play/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
+  assert.match(html, /Advertisement/);
   assert.match(html, /href="\/games\/2048"/);
   assert.match(html, /href="\/games\/solitaire"/);
   assert.match(html, /href="\/games\/tower"/);
@@ -78,7 +79,8 @@ test("server-renders the playable game pages for crawlers", async () => {
     assert.ok(html.includes(`<meta property="og:title" content="${route.title}"/>`), `${route.path} Open Graph title`);
     assert.ok(html.includes(`<h1>${route.heading}</h1>`), `${route.path} visible heading`);
     assert.match(html, /How to play/, `${route.path} guide`);
-    assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfolded-uncle\.com|unfoldedtrade\.com/, `${route.path} removed pop-up ad scripts`);
+    assert.match(html, /Advertisement/, `${route.path} banner placement`);
+    assert.doesNotMatch(html, /SPONSORED BREAK|Continue to game|unfolded-uncle\.com/, `${route.path} has no click-to-play ad gate`);
     assert.match(html, /VideoGame/, `${route.path} structured data`);
     assert.doesNotMatch(html, /saved locally|local save|saved on this device/i, `${route.path} removed copy`);
   }
@@ -115,11 +117,12 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
 });
 
 test("keeps SocoPlay branding, social assets, and only the remaining game routes", async () => {
-  const [page, layout, storage, packageJson] = await Promise.all([
+  const [page, layout, storage, packageJson, bannerAd] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/storage.ts", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/banner-ad.tsx", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /className="arcade-page"/);
@@ -132,6 +135,8 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.match(storage, /socoplay:v2:save:solitaire/);
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(bannerAd, /unfoldedtrade\.com\/bjX\/V\/s\/d\.GvlA0rYIWXcZ/);
+  assert.doesNotMatch(bannerAd, /unfolded-uncle\.com/);
 
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../public/tower-game/tower-game.js", import.meta.url));
