@@ -85,12 +85,6 @@ canvas {
   max-width: 100%;
 }
 
-.hint {
-  font-size: 0.8rem;
-  opacity: 0.75;
-  text-align: center;
-}
-
 .mobile-controls {
   display: none;
   grid-template-columns: repeat(3, 54px);
