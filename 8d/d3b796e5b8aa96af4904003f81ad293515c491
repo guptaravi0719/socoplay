@@ -1,0 +1,21 @@
+app/layout.tsx
+  s_faa544299a2048::t_85b98d9ef5c9f5 21-23
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_85b98d9ef5c9f5 39-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "8dd3b796e5b8aa96af4904003f81ad293515c491",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
