@@ -64,6 +64,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const unlockGameCards = () => { isLaunchingGameRef.current = false; };
+    window.addEventListener("pageshow", unlockGameCards);
+    return () => window.removeEventListener("pageshow", unlockGameCards);
+  }, []);
+
+  useEffect(() => {
     if (!railOpen) return;
     const closeOnOutsideTap = (event: PointerEvent) => {
       if (event.target instanceof Element && !event.target.closest("#game-rail, .arcade-rail-toggle")) setRailOpen(false);

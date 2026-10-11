@@ -127,6 +127,7 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
 
   assert.match(page, /className="arcade-page"/);
   assert.match(page, /SocoPlay/);
+  assert.match(page, /pageshow/);
   assert.doesNotMatch(page, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
   assert.match(layout, /metadataBase: new URL\("https:\/\/socoplay\.com"\)/);
   assert.match(layout, /manifest: "\/manifest\.webmanifest"/);
