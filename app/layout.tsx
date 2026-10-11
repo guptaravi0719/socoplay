@@ -13,8 +13,7 @@ export const metadata: Metadata = {
     default: "SocoPlay | Free Online Mini Games",
     template: "%s | SocoPlay",
   },
-  description:
-    "Play original free online mini games, including Solitaire, puzzle, memory, and word games. No download or account needed; progress saves on your device.",
+  description: "Play original free online mini games, including Solitaire and 2048. No download or account needed.",
   applicationName: "SocoPlay",
   category: "Games",
   alternates: { canonical: "/" },
@@ -36,7 +35,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "SocoPlay",
     title: "SocoPlay | Free Online Mini Games",
-    description: "Tiny games for satisfying breaks: play Solitaire, puzzles, memory, and word games in your browser.",
+    description: "Tiny games for satisfying breaks: play Solitaire and 2048 online.",
     images: [
       {
         url: "/og.png",
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "SocoPlay | Free Online Mini Games",
-    description: "Tiny games for satisfying breaks: play Solitaire, puzzles, memory, and word games in your browser.",
+    description: "Tiny games for satisfying breaks: play Solitaire and 2048 online.",
     images: ["/og.png"],
   },
 };

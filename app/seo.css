@@ -85,16 +85,6 @@
   color: #d7f3ec;
 }
 
-.game-guide--tile-shift,
-.game-guide--flip-pairs,
-.game-guide--word-bloom {
-  margin-bottom: 60px;
-  border-radius: 24px;
-  background: #faf8ff;
-  box-shadow: 0 18px 42px #00161f3b;
-  color: #3b3552;
-}
-
 .game-guide-intro {
   max-width: 720px;
 }
@@ -106,10 +96,6 @@
   font-weight: 950;
   letter-spacing: 0.15em;
 }
-
-.game-guide--tile-shift .game-guide-intro > p { color: #6b59dc; }
-.game-guide--flip-pairs .game-guide-intro > p { color: #cb6077; }
-.game-guide--word-bloom .game-guide-intro > p { color: #a87819; }
 
 .game-guide h2 {
   margin: 0;
@@ -144,14 +130,6 @@
   opacity: 0.96;
 }
 
-.game-guide--tile-shift .game-guide-grid > section,
-.game-guide--flip-pairs .game-guide-grid > section,
-.game-guide--word-bloom .game-guide-grid > section {
-  background: #fff;
-  border-color: #dcd5ed;
-  box-shadow: 0 8px 18px #3923670b;
-}
-
 .game-guide h3 {
   margin: 0 0 10px;
   color: inherit;
@@ -175,13 +153,6 @@
 .game-guide li:last-child,
 .game-guide-grid p:last-child {
   margin-bottom: 0;
-}
-
-.game-guide-save {
-  padding-top: 10px;
-  border-top: 1px solid currentColor;
-  font-weight: 750;
-  opacity: 0.7;
 }
 
 .game-guide-links {
@@ -218,12 +189,6 @@
 .game-guide-links a:hover {
   background: #ffffff16;
   transform: translateY(-2px);
-}
-
-.game-guide--tile-shift .game-guide-links a:hover,
-.game-guide--flip-pairs .game-guide-links a:hover,
-.game-guide--word-bloom .game-guide-links a:hover {
-  background: #fff;
 }
 
 @media (max-width: 720px) {

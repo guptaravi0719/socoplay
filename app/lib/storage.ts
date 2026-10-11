@@ -1,29 +1,12 @@
-/**
- * Device-only persistence for SocoPlay.  The legacy values are read once so
- * people who played before the rename keep their in-progress games.
- */
+/** Game-state utilities for SocoPlay. */
 export const storageKeys = {
-  recent: "socoplay:recent",
-  favourites: "socoplay:favourites",
   solitaire: "socoplay:v2:save:solitaire",
   game2048: "socoplay:2048",
-  tileShift: "socoplay:tile-shift",
-  flipPairs: "socoplay:flip-pairs",
-  wordBloom: "socoplay:word-bloom",
-  tapTapBasketball: "socoplay:tap-tap-basketball",
-  sliceSprint: "socoplay:slice-sprint",
 } as const;
 
 export const legacyStorageKeys = {
-  recent: "cardcove-recent",
-  favourites: "cardcove-favourites",
   solitaire: "cardcove:v2:save:solitaire",
   game2048: "cardcove:2048",
-  tileShift: "cardcove-tile-shift",
-  flipPairs: "cardcove-flip-pairs",
-  wordBloom: "cardcove-word-bloom",
-  tapTapBasketball: "cardcove-tap-tap-basketball",
-  sliceSprint: "cardcove-slice-sprint",
 } as const;
 
 export function readStored<T>(key: string, legacyKey?: string): T | null {

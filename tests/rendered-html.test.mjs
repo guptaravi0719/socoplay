@@ -19,7 +19,7 @@ async function render(pathname = "/", accept = "text/html") {
   );
 }
 
-test("server-renders the SocoPlay discovery hub with indexable game content", async () => {
+test("server-renders the SocoPlay hub with only its live games", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -28,65 +28,30 @@ test("server-renders the SocoPlay discovery hub with indexable game content", as
   assert.ok(html.includes("<title>SocoPlay | Free Online Mini Games</title>"));
   assert.ok(html.includes('href="https://socoplay.com"'));
   assert.match(html, /Small games\. <em>Big little wins\.<\/em>/);
-  assert.match(html, /Continue playing/);
-  assert.match(html, /Top picks for your break/);
+  assert.match(html, /Pick a game and play/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
   assert.match(html, /href="\/games\/2048"/);
-  assert.doesNotMatch(html, /live now|Original mini games that load fast/);
   assert.match(html, /href="\/games\/solitaire"/);
-  assert.match(html, /href="\/games\/tile-shift"/);
-  assert.match(html, /href="\/games\/flip-pairs"/);
-  assert.match(html, /href="\/games\/word-bloom"/);
-  assert.match(html, /href="\/games\/tap-tap-basketball"/);
-  assert.match(html, /href="\/games\/slice-sprint"/);
+  assert.doesNotMatch(html, /\/games\/(tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint)/);
+  assert.doesNotMatch(html, /saved locally|local save|saved on this device|continue playing/i);
   assert.doesNotMatch(html, /ADVERTISEMENT/);
   assert.match(html, /application\/ld\+json/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/i);
 });
 
-test("server-renders unique, playable game pages for crawlers", async () => {
+test("server-renders the two playable game pages for crawlers", async () => {
   const routes = [
     {
       path: "/games/2048",
       title: "Play 2048 Online | SocoPlay",
       heading: "2048",
-      description: "Play 2048 online for free. Slide and merge number tiles, chase 2048, and continue your saved game on the same device.",
+      description: "Play 2048 online for free. Slide and merge number tiles, chase 2048, and build your highest score.",
     },
     {
       path: "/games/solitaire",
       title: "Play Solitaire Online | SocoPlay",
       heading: "Solitaire",
-      description: "Play free classic Klondike Solitaire online with touch-friendly cards, Turn 1 or Turn 3 play, hints, undo, and device-local saves.",
-    },
-    {
-      path: "/games/tile-shift",
-      title: "Play Tile Shift Online | SocoPlay",
-      heading: "Tile Shift",
-      description: "Play Tile Shift, a free online number sliding puzzle. Move tiles into order and pick up your saved board on the same device.",
-    },
-    {
-      path: "/games/flip-pairs",
-      title: "Play Flip Pairs Online | SocoPlay",
-      heading: "Flip Pairs",
-      description: "Play Flip Pairs, a free online memory matching game. Find every pair, track your tries, and continue later on the same device.",
-    },
-    {
-      path: "/games/word-bloom",
-      title: "Play Word Bloom Online | SocoPlay",
-      heading: "Word Bloom",
-      description: "Play Word Bloom, a free online word unscramble game. Rearrange the letters, solve the word, and save your progress locally.",
-    },
-    {
-      path: "/games/tap-tap-basketball",
-      title: "Play Tap Tap Basketball Online | SocoPlay",
-      heading: "Tap Tap Basketball",
-      description: "Play Tap Tap Basketball online for free. Time your shots, build a streak, beat your best score, and save your progress on this device.",
-    },
-    {
-      path: "/games/slice-sprint",
-      title: "Play Slice Sprint Online | SocoPlay",
-      heading: "Slice Sprint",
-      description: "Play Slice Sprint online for free. Swipe through flying fruit, chain slicing combos, avoid bombs, and save your high score on this device.",
+      description: "Play free classic Klondike Solitaire online with touch-friendly cards, Turn 1 or Turn 3 play, hints, and undo.",
     },
   ];
 
@@ -103,7 +68,7 @@ test("server-renders unique, playable game pages for crawlers", async () => {
     assert.ok(html.includes(`<h1>${route.heading}</h1>`), `${route.path} visible heading`);
     assert.match(html, /How to play/, `${route.path} guide`);
     assert.match(html, /VideoGame/, `${route.path} structured data`);
-    assert.doesNotMatch(html, /game-loading|Opening (Tile Shift|Flip Pairs|Word Bloom)|Setting your table/i, `${route.path} loading shell`);
+    assert.doesNotMatch(html, /saved locally|local save|saved on this device/i, `${route.path} removed copy`);
   }
 });
 
@@ -125,9 +90,10 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /(?:application|text)\/xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
-  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tile-shift", "/games/flip-pairs", "/games/word-bloom", "/games/tap-tap-basketball", "/games/slice-sprint"]) {
+  for (const path of ["", "/games/solitaire", "/games/2048"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
+  assert.doesNotMatch(sitemap, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
 
   assert.equal(manifestResponse.status, 200);
   assert.match(manifestResponse.headers.get("content-type") ?? "", /application\/manifest\+json/i);
@@ -136,7 +102,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   assert.equal(manifest.short_name, "SocoPlay");
 });
 
-test("keeps SocoPlay branding, social assets, and device-save migration in the source", async () => {
+test("keeps SocoPlay branding, social assets, and only the remaining game routes", async () => {
   const [page, layout, storage, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
@@ -146,7 +112,7 @@ test("keeps SocoPlay branding, social assets, and device-save migration in the s
 
   assert.match(page, /className="arcade-page"/);
   assert.match(page, /SocoPlay/);
-  assert.match(page, /storageKeys\.favourites/);
+  assert.doesNotMatch(page, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
   assert.match(layout, /metadataBase: new URL\("https:\/\/socoplay\.com"\)/);
   assert.match(layout, /manifest: "\/manifest\.webmanifest"/);
   assert.doesNotMatch(layout, /next\/font\/google/);
@@ -156,5 +122,7 @@ test("keeps SocoPlay branding, social assets, and device-save migration in the s
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 
   await access(new URL("../public/og.png", import.meta.url));
+  await assert.rejects(access(new URL("../app/games/tap-tap-basketball", templateRoot)));
+  await assert.rejects(access(new URL("../app/games/slice-sprint", templateRoot)));
   await assert.rejects(access(new URL("../app/_sites-preview", templateRoot)));
 });

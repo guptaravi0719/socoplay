@@ -58,13 +58,6 @@ function hasMoves(board: number[]) {
   return (["left", "up"] as Direction[]).some((direction) => moveBoard(board, direction).moved);
 }
 
-function updateRecent(score: number, moves: number) {
-  const item = { id: "2048", name: "2048", icon: "2K", href: "/games/2048", progress: `${moves} moves · ${score} score`, tone: "gold" };
-  const saved = readStored<typeof item[]>(storageKeys.recent, legacyStorageKeys.recent);
-  const old = Array.isArray(saved) ? saved : [];
-  writeStored(storageKeys.recent, [item, ...old.filter((entry) => entry.id !== item.id)].slice(0, 6));
-}
-
 export default function Game2048() {
   const [board, setBoard] = useState(startingBoard);
   const [score, setScore] = useState(0);
@@ -93,7 +86,6 @@ export default function Game2048() {
   useEffect(() => {
     if (!loaded) return;
     writeStored(storageKeys.game2048, { board, score, best, moves, won });
-    updateRecent(score, moves);
   }, [best, board, loaded, moves, score, won]);
 
   const playMove = (direction: Direction) => {
@@ -147,17 +139,17 @@ export default function Game2048() {
   return <main className="mini-game game-2048">
     <header className="hub-nav"><Link className="hub-brand" href="/"><span>◆</span> SocoPlay</Link><nav><Link href="/">Discover</Link><Link href="/#top-picks">Play now</Link></nav><Link className="back-link" href="/">← All games</Link></header>
     <section className="mini-game-stage">
-      <div className="game-intro"><p>PUZZLE · LOCAL SAVE</p><h1>2048</h1><span>{gameOver ? "No moves left — start a fresh board whenever you are." : won ? "You made 2048! Keep going for an even bigger tile." : "Swipe, merge, and build your biggest tile."}</span></div>
+      <div className="game-intro"><p>NUMBER PUZZLE</p><h1>2048</h1><span>{gameOver ? "No moves left — start a fresh board whenever you are." : won ? "You made 2048! Keep going for an even bigger tile." : "Swipe, merge, and build your biggest tile."}</span></div>
       <div className="mini-layout">
         <section className="puzzle-card game-2048-card">
           <div className="game-2048-stats"><div><span>MOVES</span><b>{moves}</b></div><div><span>SCORE</span><b>{score}</b></div><div><span>BEST</span><b>{best}</b></div></div>
+          <div className="mini-actions game-2048-controls"><button type="button" onClick={newGame}>↻ New game</button><button type="button" onClick={undo} disabled={!previous}>↶ Undo</button><b>{gameOver ? "Game over" : `${board.filter((tile) => tile === 0).length} open spaces`}</b></div>
           <div className={`game-2048-board move-${effects.direction || "idle"} turn-${effects.turn % 2}`} role="application" aria-label="2048 board. Use arrow keys or swipe to move tiles." onPointerDown={(event) => { touchStart.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={(event) => { const start = touchStart.current; touchStart.current = null; if (!start) return; const dx = event.clientX - start.x; const dy = event.clientY - start.y; if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return; playMove(Math.abs(dx) > Math.abs(dy) ? dx > 0 ? "right" : "left" : dy > 0 ? "down" : "up"); }}>
             {board.map((tile, index) => <div className={`game-2048-tile tile-${tile || "empty"} ${effects.merged.includes(index) ? "is-merged" : ""} ${effects.spawned === index ? "is-spawned" : ""}`} key={index}>{tile ? <><span>{tile}</span>{effects.merged.includes(index) && <i aria-hidden="true">+{tile}</i>}</> : ""}</div>)}
             {won && <div className="game-2048-sparkles" aria-hidden="true">{Array.from({ length: 14 }, (_, index) => <i key={index} style={{ "--spark": index } as CSSProperties} />)}</div>}
           </div>
-          <div className="mini-actions"><button type="button" onClick={newGame}>↻ New game</button><button type="button" onClick={undo} disabled={!previous}>↶ Undo</button><b>{gameOver ? "Game over" : `${board.filter((tile) => tile === 0).length} open spaces`}</b></div>
         </section>
-        <aside className="mini-side"><div className="save-badge">● Saved locally</div><h2>Make the next merge count.</h2><p>Every move slides the whole board. Same numbers merge together, so give your largest tiles a corner to grow into.</p></aside>
+        <aside className="mini-side"><div className="save-badge">● Puzzle mode</div><h2>Make the next merge count.</h2><p>Every move slides the whole board. Same numbers merge together, so give your largest tiles a corner to grow into.</p></aside>
       </div>
     </section>
   </main>;
