@@ -1,0 +1,86 @@
+public/arcade-classics/soco-audio.js
+  s_faa544299a2048::t_00d62c568b1f92 1-77,81-93
+  s_faa544299a2048::t_01873f69f0b806 78-80
+app/components/classic-game-page.tsx
+  s_faa544299a2048::t_5538897cdfa2ec 1-28
+public/arcade-classics/pacman/style.css
+  s_faa544299a2048::t_01dc32ed1da98e 1-110
+public/arcade-classics/soco-embed.css
+  s_faa544299a2048::t_00d62c568b1f92 1-10
+app/page.tsx
+  s_faa544299a2048::t_845726ae3b4f39 22-26,34,42-46,124,127
+public/arcade-classics/chess/index.html
+  s_faa544299a2048::t_c832e9258da6d8 1-72
+public/arcade-classics/pacman/index.html
+  s_faa544299a2048::t_c832e9258da6d8 1-48
+app/games/solitaire/layout.tsx
+  s_faa544299a2048::t_4735bd40a0bea3 30
+public/arcade-classics/chess/script.js
+  s_faa544299a2048::t_01873f69f0b806 1-592
+app/games/checkers/page.tsx
+  s_faa544299a2048::t_5538897cdfa2ec 1-5
+app/games/sudoku/page.tsx
+  s_faa544299a2048::t_5538897cdfa2ec 1-5
+public/arcade-classics/NOTICE
+  s_faa544299a2048::t_00d62c568b1f92 1-5
+app/games/tower/layout.tsx
+  s_faa544299a2048::t_4735bd40a0bea3 18
+public/arcade-classics/asteroids/index.html
+  s_faa544299a2048::t_c832e9258da6d8 1-97
+app/games/pacman/page.tsx
+  s_faa544299a2048::t_5538897cdfa2ec 1-5
+public/arcade-classics/checkers/index.html
+  s_faa544299a2048::t_c832e9258da6d8 1-102
+app/games/2048/layout.tsx
+  s_faa544299a2048::t_4735bd40a0bea3 24
+app/games/chess/page.tsx
+  s_faa544299a2048::t_5538897cdfa2ec 1-5
+app/games/asteroids/page.tsx
+  s_faa544299a2048::t_5538897cdfa2ec 1-5
+tests/rendered-html.test.mjs
+  s_faa544299a2048::t_01873f69f0b806 36,105,139-140
+  s_faa544299a2048::t_4735bd40a0bea3 81
+app/arcade.css
+  s_faa544299a2048::t_845726ae3b4f39 745-749
+  s_faa544299a2048::t_5538897cdfa2ec 1051-1052
+app/sitemap.ts
+  s_faa544299a2048::t_01873f69f0b806 5,21-22
+  s_faa544299a2048::t_638ea138a1c639 23-25
+  s_faa544299a2048::t_0e83e5f6bb1175 26
+public/arcade-classics/pacman/script.js
+  s_faa544299a2048::t_01dc32ed1da98e 1-511
+public/arcade-classics/sudoku/index.html
+  s_faa544299a2048::t_c832e9258da6d8 1-77
+public/arcade-classics/LICENSE
+  s_faa544299a2048::t_9c703c186acf18 1-21
+public/arcade-classics/asteroids/script.js
+  s_faa544299a2048::t_e2d2c438fd0a2c 1-669
+public/arcade-classics/asteroids/style.css
+  s_faa544299a2048::t_6b3d0581b86162 1-288
+public/arcade-classics/checkers/script.js
+  s_faa544299a2048::t_98812fc310f349 1-610
+public/arcade-classics/checkers/style.css
+  s_faa544299a2048::t_892f95a9056ab2 1-558
+public/arcade-classics/chess/style.css
+  s_faa544299a2048::t_594ba1313f912f 1-411
+public/arcade-classics/sudoku/script.js
+  s_faa544299a2048::t_3b9cc4d58b23bc 1-375
+public/arcade-classics/sudoku/style.css
+  s_faa544299a2048::t_fede35008062df 1-332
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "7658991446f7ecffa45bd93e78d4f3eab11a9eb6",
+  "prompts": {},
+  "sessions": {
+    "s_faa544299a2048": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12453-faaa-7281-8546-e3ded514ecd6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "guptaravi0719 <guptaravi0719@gmail.com>"
+    }
+  }
+}
