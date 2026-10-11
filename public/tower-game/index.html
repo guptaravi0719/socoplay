@@ -19,6 +19,14 @@
       .start-screen button:active { box-shadow: 0 2px 0 #b6532e; transform: translateY(4px); }
       .start-screen button:disabled { cursor: wait; opacity: .75; }
       .start-screen.is-hidden { display: none; }
+      .game-over { position: fixed; inset: 0; z-index: 4; display: none; place-items: center; padding: 22px; background: #24101ab8; backdrop-filter: blur(5px); }
+      .game-over.is-visible { display: grid; }
+      .game-over-card { width: min(100%, 340px); padding: 27px 23px; border: 3px solid #fff8c5; border-radius: 24px; background: linear-gradient(145deg, #fb704f, #d74742); box-shadow: 0 16px 45px #240a1588; text-align: center; color: #fff; }
+      .game-over-card p { margin: 0; font: 900 13px/1 Arial, sans-serif; letter-spacing: .16em; }
+      .game-over-card h2 { margin: 12px 0 7px; color: #fff5bf; font: 900 clamp(35px, 10vw, 54px)/.9 wenxue, Arial, sans-serif; text-shadow: 0 4px 0 #9b3f35; }
+      .game-over-card span { display: block; margin-bottom: 20px; font-weight: 800; }
+      .game-over-card button { width: 100%; padding: 14px 18px; border: 3px solid #fff8c5; border-radius: 999px; background: linear-gradient(#ffd768, #ff9d36); box-shadow: 0 5px 0 #b6532e; color: #7e311e; font: 900 22px wenxue, Arial, sans-serif; cursor: pointer; }
+      .game-over-card button:active { transform: translateY(3px); box-shadow: 0 2px 0 #b6532e; }
       @keyframes swing { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
     </style>
   </head>
@@ -29,12 +37,31 @@
       <p>Tap when the swinging block lines up with your tower.</p>
       <button id="start-button" type="button">Start stacking</button>
     </section>
+    <section class="game-over" id="game-over" aria-live="assertive" aria-label="Game over">
+      <div class="game-over-card">
+        <p>ROUND OVER</p>
+        <h2>GAME OVER</h2>
+        <span id="final-score">Score 0</span>
+        <button id="play-again" type="button">Play again</button>
+      </div>
+    </section>
     <script src="./tower-game.js"></script>
     <script>
       (() => {
         const startButton = document.querySelector("#start-button");
         const startScreen = document.querySelector("#start-screen");
+        const gameOver = document.querySelector("#game-over");
+        const finalScore = document.querySelector("#final-score");
+        const playAgain = document.querySelector("#play-again");
         let started = false;
+        let score = 0;
+
+        playAgain.addEventListener("click", () => window.location.reload());
+
+        const showGameOver = () => {
+          finalScore.textContent = `Score ${score}`;
+          gameOver.classList.add("is-visible");
+        };
 
         startButton.addEventListener("click", () => {
           if (started) return;
@@ -49,6 +76,10 @@
             height,
             canvasId: "tower-canvas",
             soundOn: true,
+            setGameScore: (nextScore) => { score = nextScore; },
+            setGameFailed: (failedCount) => {
+              if (failedCount >= 3) window.setTimeout(showGameOver, 350);
+            },
           });
 
           game.load(() => {

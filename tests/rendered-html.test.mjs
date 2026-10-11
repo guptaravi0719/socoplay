@@ -158,6 +158,9 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../public/tower-game/tower-game.js", import.meta.url));
   await access(new URL("../public/tower-game/LICENSE", import.meta.url));
+  const towerPage = await readFile(new URL("../public/tower-game/index.html", import.meta.url), "utf8");
+  assert.match(towerPage, /id="play-again"/);
+  assert.match(towerPage, /setGameFailed/);
   await access(new URL("../public/arcade-classics/LICENSE", import.meta.url));
   await access(new URL("../public/arcade-classics/soco-audio.js", import.meta.url));
   await assert.rejects(access(new URL("../app/games/tap-tap-basketball", templateRoot)));
