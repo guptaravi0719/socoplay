@@ -6,6 +6,17 @@ import { legacyStorageKeys, readStored, storageKeys, writeStored } from "../../l
 type Direction = "left" | "right" | "up" | "down";
 type Save = { board: number[]; score: number; best: number; moves?: number; won?: boolean };
 type Effects = { direction: Direction | null; merged: number[]; spawned: number | null; turn: number };
+type AudioWindow = Window & { webkitAudioContext?: typeof AudioContext };
+
+let gameAudioContext: AudioContext | null = null;
+
+function getGameAudio() {
+  const Audio = window.AudioContext || (window as AudioWindow).webkitAudioContext;
+  if (!Audio) return null;
+  if (!gameAudioContext || gameAudioContext.state === "closed") gameAudioContext = new Audio();
+  if (gameAudioContext.state === "suspended") void gameAudioContext.resume();
+  return gameAudioContext;
+}
 
 const startingBoard = [2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -65,6 +76,7 @@ export default function Game2048() {
   const [previous, setPrevious] = useState<Save | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [won, setWon] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [effects, setEffects] = useState<Effects>({ direction: null, merged: [], spawned: null, turn: 0 });
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
@@ -79,6 +91,8 @@ export default function Game2048() {
         setWon(Boolean(save.won));
       });
     }
+    const savedSound = readStored<boolean>(storageKeys.game2048Sound);
+    if (typeof savedSound === "boolean") setSoundEnabled(savedSound);
     startTransition(() => setLoaded(true));
   }, []);
 
@@ -86,6 +100,26 @@ export default function Game2048() {
     if (!loaded) return;
     writeStored(storageKeys.game2048, { board, score, best, moves, won });
   }, [best, board, loaded, moves, score, won]);
+
+  const playSound = (kind: "slide" | "merge" | "win") => {
+    if (!soundEnabled) return;
+    const context = getGameAudio();
+    if (!context) return;
+    try {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      const notes = kind === "merge" ? [294, 587, 0.16] : kind === "win" ? [440, 880, 0.28] : [165, 220, 0.08];
+      oscillator.type = kind === "slide" ? "triangle" : "sine";
+      oscillator.frequency.setValueAtTime(notes[0], context.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(notes[1], context.currentTime + notes[2]);
+      gain.gain.setValueAtTime(0.0001, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(kind === "slide" ? 0.045 : 0.085, context.currentTime + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + notes[2]);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start(context.currentTime);
+      oscillator.stop(context.currentTime + notes[2] + 0.03);
+    } catch { /* Audio can be unavailable while gameplay remains usable. */ }
+  };
 
   const playMove = (direction: Direction) => {
     const moved = moveBoard(board, direction);
@@ -99,7 +133,10 @@ export default function Game2048() {
     setMoves((value) => value + 1);
     setBest((value) => Math.max(value, nextScore));
     setEffects((effect) => ({ direction, merged: moved.mergedIndexes, spawned: spawned.index, turn: effect.turn + 1 }));
-    if (!won && nextBoard.includes(2048)) setWon(true);
+    if (!won && nextBoard.includes(2048)) {
+      setWon(true);
+      playSound("win");
+    } else playSound(moved.gained ? "merge" : "slide");
   };
 
   useEffect(() => {
@@ -134,16 +171,25 @@ export default function Game2048() {
     setPrevious(null);
   };
   const gameOver = loaded && !hasMoves(board);
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    writeStored(storageKeys.game2048Sound, next);
+    if (next) {
+      getGameAudio();
+      playSound("slide");
+    }
+  };
 
   return <main className="mini-game game-2048">
-    <header className="game-exit-bar"><a className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</a></header>
+    <header className="game-exit-bar"><a className="game-exit" href="/"><span aria-hidden="true">🚪</span> Exit game</a><button className="game-sound-toggle" type="button" onClick={toggleSound} aria-pressed={soundEnabled} aria-label={soundEnabled ? "Mute 2048 sound" : "Unmute 2048 sound"}>{soundEnabled ? "🔊" : "🔇"}<span>{soundEnabled ? "Sound on" : "Sound off"}</span></button></header>
     <section className="mini-game-stage">
       <h1 className="sr-only">2048</h1>
       <div className="mini-layout">
         <section className="puzzle-card game-2048-card">
           <div className="game-2048-stats"><div><span>MOVES</span><b>{moves}</b></div><div><span>SCORE</span><b>{score}</b></div><div><span>BEST</span><b>{best}</b></div></div>
           <div className="mini-actions game-2048-controls"><button type="button" onClick={newGame}>↻ New game</button><button type="button" onClick={undo} disabled={!previous}>↶ Undo</button><b>{gameOver ? "Game over" : `${board.filter((tile) => tile === 0).length} open spaces`}</b></div>
-          <div className={`game-2048-board move-${effects.direction || "idle"} turn-${effects.turn % 2}`} role="application" aria-label="2048 board. Use arrow keys or swipe to move tiles." onPointerDown={(event) => { touchStart.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={(event) => { const start = touchStart.current; touchStart.current = null; if (!start) return; const dx = event.clientX - start.x; const dy = event.clientY - start.y; if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return; playMove(Math.abs(dx) > Math.abs(dy) ? dx > 0 ? "right" : "left" : dy > 0 ? "down" : "up"); }}>
+          <div className={`game-2048-board move-${effects.direction || "idle"} turn-${effects.turn % 2}`} role="application" aria-label="2048 board. Use arrow keys or swipe to move tiles." onPointerDown={(event) => { getGameAudio(); touchStart.current = { x: event.clientX, y: event.clientY }; }} onPointerUp={(event) => { const start = touchStart.current; touchStart.current = null; if (!start) return; const dx = event.clientX - start.x; const dy = event.clientY - start.y; if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return; playMove(Math.abs(dx) > Math.abs(dy) ? dx > 0 ? "right" : "left" : dy > 0 ? "down" : "up"); }}>
             {board.map((tile, index) => <div className={`game-2048-tile tile-${tile || "empty"} ${effects.merged.includes(index) ? "is-merged" : ""} ${effects.spawned === index ? "is-spawned" : ""}`} key={index}>{tile ? <><span>{tile}</span>{effects.merged.includes(index) && <i aria-hidden="true">+{tile}</i>}</> : ""}</div>)}
             {won && <div className="game-2048-sparkles" aria-hidden="true">{Array.from({ length: 14 }, (_, index) => <i key={index} style={{ "--spark": index } as CSSProperties} />)}</div>}
           </div>

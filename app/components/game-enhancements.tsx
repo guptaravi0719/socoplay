@@ -13,7 +13,6 @@ const help = {
 
 const tones = {
   "/games/solitaire": [262, 392, "triangle"],
-  "/games/2048": [196, 294, "square"],
   "/games/tower": [294, 440, "triangle"],
 } as const;
 
