@@ -56,6 +56,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="msvalidate.01" content="DDA661724504D4A545AED11D60818082" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5695136510723463" crossOrigin="anonymous" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TXS9H43TXZ" />
         <script

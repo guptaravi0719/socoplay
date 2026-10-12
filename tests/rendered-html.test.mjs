@@ -173,6 +173,7 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.doesNotMatch(page, /unfolded-uncle\.com\/dJmVFXzhd\.G\/NSvrZmGqUF/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.match(layout, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-5695136510723463/);
+  assert.match(layout, /msvalidate\.01.*DDA661724504D4A545AED11D60818082/);
   assert.doesNotMatch(bannerAd, /unfoldedtrade|unfolded-uncle|hilltop/i);
   assert.match(adsTxt, /^google\.com, pub-5695136510723463, DIRECT, f08c47fec0942fa0\s*$/);
   assert.match(pacmanPage, /data-direction="up"/);
