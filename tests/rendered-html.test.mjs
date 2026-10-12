@@ -172,6 +172,9 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.match(pacmanPage, /data-direction="left"/);
   assert.match(pacmanPage, /data-direction="right"/);
   assert.match(pacmanScript, /setTouchDirection/);
+  assert.match(pacmanScript, /playPelletSound/);
+  assert.doesNotMatch(pacmanScript, /startBackgroundSound|backgroundOsc|backgroundInterval/);
+  assert.doesNotMatch(pacmanPage, /soco-audio\.js/);
   assert.match(asteroidsPage, /data-soco-sound-slot/);
   assert.match(sharedAudio, /data-soco-sound-slot/);
 

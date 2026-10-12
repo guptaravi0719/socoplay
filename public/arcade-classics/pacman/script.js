@@ -77,12 +77,8 @@ let gameOver = false;
 let lastTime = 0;
 let gameTime = 0; // for mouth animation
 
-// --- Sound (Web Audio API, no external files) ---
+// --- Sound effects (Web Audio API, no external files) ---
 let audioCtx = null;
-let backgroundOsc = null;
-let backgroundGain = null;
-let backgroundInterval = null;
-let backgroundStarted = false;
 
 function getAudioContext() {
   if (audioCtx) return audioCtx;
@@ -90,31 +86,6 @@ function getAudioContext() {
   if (!Ctx) return null;
   audioCtx = new Ctx();
   return audioCtx;
-}
-
-function startBackgroundSound() {
-  if (backgroundStarted) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  try {
-    ctx.resume();
-    backgroundOsc = ctx.createOscillator();
-    backgroundGain = ctx.createGain();
-    backgroundOsc.connect(backgroundGain);
-    backgroundGain.connect(ctx.destination);
-    backgroundOsc.type = "sawtooth";
-    backgroundOsc.frequency.setValueAtTime(200, ctx.currentTime);
-    backgroundGain.gain.setValueAtTime(0.04, ctx.currentTime);
-    backgroundOsc.start(ctx.currentTime);
-    backgroundStarted = true;
-    // Siren: slowly rise and fall like original Pac-Man
-    backgroundInterval = setInterval(() => {
-      if (!backgroundOsc || !ctx) return;
-      const t = Date.now() / 1000;
-      const freq = 180 + 130 * Math.sin(t * 0.85);
-      backgroundOsc.frequency.setTargetAtTime(freq, ctx.currentTime, 0.08);
-    }, 80);
-  } catch (_) {}
 }
 
 function playPelletSound() {
@@ -220,7 +191,6 @@ function setTouchDirection(direction) {
   };
   const nextDirection = directions[direction];
   if (!nextDirection) return;
-  startBackgroundSound();
   trySetDirection(nextDirection[0], nextDirection[1]);
 }
 
@@ -483,7 +453,6 @@ function loop(timestamp) {
 }
 
 document.addEventListener("keydown", (e) => {
-  startBackgroundSound();
   switch (e.key) {
     case "ArrowUp":
     case "w":
@@ -515,7 +484,6 @@ document.addEventListener("keydown", (e) => {
 });
 
 restartBtn.addEventListener("click", () => {
-  startBackgroundSound();
   restartGame();
 });
 
