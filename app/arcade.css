@@ -374,6 +374,7 @@
 
 .arcade-section-head p { margin-bottom: 6px; color: #7a72a7; }
 
+.arcade-section-head h1,
 .arcade-section-head h2 {
   margin: 0;
   color: #f7f5ff;
@@ -1117,6 +1118,7 @@
   .arcade-welcome h1 { font-size: 36px; }
   .arcade-section { margin-top: 34px; scroll-margin-top: 140px; }
   .arcade-section-head { align-items: flex-start; }
+  .arcade-section-head h1,
   .arcade-section-head h2 { font-size: 24px; }
   .arcade-section-action { padding-top: 4px; }
   .arcade-section-action button { min-height: 34px; padding: 0 8px; font-size: 10px; }
@@ -1167,6 +1169,7 @@
   .arcade-tools-link { display: none; }
   .arcade-welcome h1 { font-size: 33px; }
   .arcade-section-head { gap: 10px; }
+  .arcade-section-head h1,
   .arcade-section-head h2 { font-size: 22px; }
   .arcade-section-action button { padding: 0 7px; }
   .arcade-continue-card { grid-template-columns: 45px minmax(0, 1fr); }

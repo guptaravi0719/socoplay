@@ -29,7 +29,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.ok(html.includes('href="https://socoplay.com"'));
   assert.ok(html.includes('href="https://tools.socoplay.com/diff-checker"'));
   assert.doesNotMatch(html, /Small games\. <em>Big little wins\.<\/em>/);
-  assert.match(html, /Pick a game and play/);
+  assert.match(html, /<h1[^>]*>Free Online Mini Games<\/h1>/);
   assert.match(html, /FREE ONLINE MINI GAMES/);
   assert.match(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i);
   assert.match(html, /href="\/games\/2048"/);

@@ -132,7 +132,7 @@ export default function Home() {
 
         <div className="arcade-content">
           <section className="arcade-section" id="top-picks" aria-labelledby="top-picks-title">
-            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED GAMES" : "PLAY NOW"} title={query || genre !== "All" ? "Games for you" : "Pick a game and play"} titleId="top-picks-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Eight polished games for a satisfying few minutes."} action={query || genre !== "All" ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : <button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
+            <SectionHeading eyebrow={query || genre !== "All" ? "FILTERED GAMES" : "PLAY NOW"} title={query || genre !== "All" ? "Games for you" : "Free Online Mini Games"} titleId="top-picks-title" copy={query ? `Showing matches for “${query}”.` : genre !== "All" ? `${genre} games, ready when you are.` : "Play Solitaire, 2048, Tower Stack, and more quick games right in your browser."} action={query || genre !== "All" ? <button type="button" onClick={() => { setQuery(""); setGenre("All"); }}>Reset filters</button> : <button type="button" onClick={surpriseMe}>Surprise me <span>✦</span></button>} />
             {visibleGames.length ? <div className="arcade-mosaic">{visibleGames.map((game, index) => <ArcadeGameCard game={game} onPlay={playGame} variant={index === 0 ? "lead" : "wide"} key={game.id} />)}</div> : <div className="arcade-empty"><span>⌕</span><b>No games match that search yet.</b><p>Try another word or reset the filters.</p></div>}
           </section>
           <BannerAd placement="home" />
@@ -147,7 +147,7 @@ export default function Home() {
 }
 
 function SectionHeading({ eyebrow, title, titleId, copy, action }: { eyebrow: string; title: string; titleId?: string; copy?: string; action?: ReactNode }) {
-  return <div className="arcade-section-head"><div><p>{eyebrow}</p><h2 id={titleId}>{title}</h2>{copy && <span>{copy}</span>}</div>{action && <div className="arcade-section-action">{action}</div>}</div>;
+  return <div className="arcade-section-head"><div><p>{eyebrow}</p><h1 id={titleId}>{title}</h1>{copy && <span>{copy}</span>}</div>{action && <div className="arcade-section-action">{action}</div>}</div>;
 }
 
 function ArcadeGameCard({ game, onPlay, variant = "grid" }: { game: GameCard; onPlay: (game: GameCard) => void; variant?: "lead" | "small" | "wide" | "grid" }) {
