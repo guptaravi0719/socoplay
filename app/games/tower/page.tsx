@@ -9,7 +9,7 @@ export default function TowerStack() {
       <section className="tower-stage">
         <h1 className="sr-only">Tower Stack</h1>
         <div className="tower-frame-wrap">
-          <iframe className="tower-frame" src="/tower-game/index.html" title="Tower Stack game" allow="autoplay; fullscreen" allowFullScreen />
+          <iframe className="tower-frame" src="/tower-game/" title="Tower Stack game" allow="autoplay; fullscreen" allowFullScreen />
         </div>
       </section>
     </main>

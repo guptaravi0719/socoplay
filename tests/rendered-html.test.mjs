@@ -138,11 +138,12 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
 });
 
 test("keeps SocoPlay branding, social assets, and only the remaining game routes", async () => {
-  const [page, layout, storage, game2048, packageJson, bannerAd, adsTxt, pacmanPage, pacmanScript, asteroidsPage, sharedAudio] = await Promise.all([
+  const [page, layout, storage, game2048, towerRoute, packageJson, bannerAd, adsTxt, pacmanPage, pacmanScript, asteroidsPage, sharedAudio] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/storage.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/games/2048/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/games/tower/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/components/banner-ad.tsx", import.meta.url), "utf8"),
     readFile(new URL("../public/ads.txt", import.meta.url), "utf8"),
@@ -166,6 +167,8 @@ test("keeps SocoPlay branding, social assets, and only the remaining game routes
   assert.match(game2048, /game-sound-toggle/);
   assert.match(game2048, /Mute 2048 sound/);
   assert.match(game2048, /getGameAudio\(\)/);
+  assert.match(towerRoute, /src="\/tower-game\/"/);
+  assert.doesNotMatch(towerRoute, /src="\/tower-game\/index\.html"/);
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview/);
   assert.doesNotMatch(page, /unfolded-uncle\.com\/dJmVFXzhd\.G\/NSvrZmGqUF/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
