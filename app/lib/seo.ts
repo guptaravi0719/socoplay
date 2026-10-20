@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const siteUrl = "https://socoplay.com";
 
-export type GameSlug = "solitaire" | "spider-solitaire" | "2048" | "tower" | "chess" | "asteroids" | "pacman" | "sudoku" | "checkers";
+export type GameSlug = "solitaire" | "spider-solitaire" | "8-ball-pool" | "2048" | "tower" | "chess" | "asteroids" | "pacman" | "sudoku" | "checkers";
 
 export type GameSeo = {
   slug: GameSlug;
@@ -29,6 +29,14 @@ export const gameSeo: Record<GameSlug, GameSeo> = {
     description: "Play free Spider Solitaire online with 1, 2, or 4 suits, ten columns, hints, undo, and autosave.",
     category: "Card game",
     genre: "Card",
+  },
+  "8-ball-pool": {
+    slug: "8-ball-pool",
+    name: "8-Ball Pool",
+    title: "Play 8-Ball Pool Online",
+    description: "Play free 8-ball pool online with realistic table physics, full rules, ball-in-hand, and an AI opponent.",
+    category: "Sports game",
+    genre: "Pool",
   },
   "2048": {
     slug: "2048",
@@ -97,7 +105,7 @@ export const siteSchema = {
       name: "SocoPlay",
       alternateName: "SocoPlay Games",
       url: siteUrl,
-      description: "Original free online mini games, including Solitaire, Spider Solitaire, 2048, and Tower Stack.",
+      description: "Original free online mini games, including Solitaire, Spider Solitaire, 8-Ball Pool, 2048, and Tower Stack.",
       inLanguage: "en",
     },
     {

@@ -35,6 +35,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.match(html, /href="\/games\/2048"/);
   assert.match(html, /href="\/games\/solitaire"/);
   assert.match(html, /href="\/games\/spider-solitaire"/);
+  assert.match(html, /href="\/games\/8-ball-pool"/);
   assert.match(html, /href="\/games\/tower"/);
   for (const slug of ["chess", "asteroids", "pacman", "sudoku", "checkers"]) assert.match(html, new RegExp(`href="\\/games\\/${slug}"`));
   assert.doesNotMatch(html, /\/games\/(tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint)/);
@@ -68,6 +69,12 @@ test("server-renders the playable game pages for crawlers", async () => {
       description: "Play free Spider Solitaire online with 1, 2, or 4 suits, ten columns, hints, undo, and autosave.",
     },
     {
+      path: "/games/8-ball-pool",
+      title: "Play 8-Ball Pool Online | SocoPlay",
+      heading: "8-Ball Pool",
+      description: "Play free 8-ball pool online with realistic table physics, full rules, ball-in-hand, and an AI opponent.",
+    },
+    {
       path: "/games/tower",
       title: "Play Tower Stack Online | SocoPlay",
       heading: "Tower Stack",
@@ -97,6 +104,7 @@ test("server-renders the playable game pages for crawlers", async () => {
 test("gives every classic game its own canonical metadata and game schema", async () => {
   const routes = [
     ["spider-solitaire", "Play Spider Solitaire Online | SocoPlay"],
+    ["8-ball-pool", "Play 8-Ball Pool Online | SocoPlay"],
     ["chess", "Play Chess Online | SocoPlay"],
     ["asteroids", "Play Asteroids Online | SocoPlay"],
     ["pacman", "Play Pac-Man Online | SocoPlay"],
@@ -133,7 +141,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
   assert.match(sitemap, /<lastmod>2026-10-11T00:00:00\.000Z<\/lastmod>/);
-  for (const path of ["", "/games/solitaire", "/games/spider-solitaire", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers"]) {
+  for (const path of ["", "/games/solitaire", "/games/spider-solitaire", "/games/8-ball-pool", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
   assert.doesNotMatch(sitemap, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
@@ -143,6 +151,21 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   const manifest = await manifestResponse.json();
   assert.equal(manifest.name, "SocoPlay — Free Online Mini Games");
   assert.equal(manifest.short_name, "SocoPlay");
+});
+
+test("ships the playable 8-ball pool engine and canvas", async () => {
+  const [page, engine, renderer] = await Promise.all([
+    readFile(new URL("../app/games/8-ball-pool/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/games/8-ball-pool/pool-engine.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/games/8-ball-pool/pool-render.ts", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(page, /pool-canvas/);
+  assert.match(page, /aiChooseShot/);
+  assert.match(engine, /resolveShot/);
+  assert.match(engine, /stepPhysics/);
+  assert.match(renderer, /renderGame/);
+  assert.match(renderer, /POCKETS/);
 });
 
 test("keeps SocoPlay branding, social assets, and only the remaining game routes", async () => {

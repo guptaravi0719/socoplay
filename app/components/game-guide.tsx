@@ -33,6 +33,18 @@ const guides: Partial<Record<GameSlug, Guide>> = {
     ],
     tip: "Start with 1 suit to learn the flow, then try 2 or 4 suits. Use Hint when you are stuck and Undo to rethink a move.",
   },
+  "8-ball-pool": {
+    eyebrow: "CLASSIC POOL GAME",
+    heading: "8-Ball Pool with real table physics",
+    description: "Play free 8-ball pool against the computer or a friend. Aim, set your power, and clear your group before sinking the 8.",
+    steps: [
+      "Break the rack; the table stays open until the first legal pot after the break.",
+      "The first ball pocketed legally assigns solids or stripes to the shooter.",
+      "Pot every ball in your group, then pocket the 8-ball to win.",
+      "Fouls — including scratches and wrong-ball contact — give the other player ball-in-hand.",
+    ],
+    tip: "Drag from the cue ball to aim and set power. The farther you drag, the harder the shot. Tap the table to place the cue ball when you have ball-in-hand.",
+  },
   "2048": {
     eyebrow: "NUMBER PUZZLE",
     heading: "Build your biggest tile, one smart slide at a time",
@@ -60,6 +72,7 @@ const guides: Partial<Record<GameSlug, Guide>> = {
 const relatedGames: Partial<Record<GameSlug, { href: string; name: string }[]>> = {
   solitaire: [{ href: "/games/spider-solitaire", name: "Spider Solitaire" }, { href: "/games/2048", name: "2048" }, { href: "/games/tower", name: "Tower Stack" }],
   "spider-solitaire": [{ href: "/games/solitaire", name: "Klondike Solitaire" }, { href: "/games/2048", name: "2048" }],
+  "8-ball-pool": [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/spider-solitaire", name: "Spider Solitaire" }, { href: "/games/2048", name: "2048" }],
   "2048": [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/tower", name: "Tower Stack" }],
   tower: [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/2048", name: "2048" }],
 };

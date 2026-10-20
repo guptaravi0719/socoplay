@@ -2,6 +2,7 @@
 export const storageKeys = {
   solitaire: "socoplay:v2:save:solitaire",
   spiderSolitaire: "socoplay:v2:save:spider-solitaire",
+  pool: "socoplay:v2:save:8-ball-pool",
   game2048: "socoplay:2048",
   game2048Sound: "socoplay:2048:sound",
 } as const;

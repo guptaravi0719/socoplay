@@ -19,6 +19,7 @@ type GameCard = {
 const games: GameCard[] = [
   { id: "solitaire", name: "Solitaire", genre: "Cards", time: "5–20 min", icon: "♠", art: "solitaire", href: "/games/solitaire", badge: "Classic", description: "A polished Klondike table with touch-friendly moves and helpful controls." },
   { id: "spider-solitaire", name: "Spider Solitaire", genre: "Cards", time: "10–30 min", icon: "♠", art: "spider", href: "/games/spider-solitaire", badge: "Cards", description: "Ten columns, 104 cards, and one goal: clear eight complete suit runs." },
+  { id: "8-ball-pool", name: "8-Ball Pool", genre: "Sports", time: "5–25 min", icon: "8", art: "pool", href: "/games/8-ball-pool", badge: "Pool", description: "Rack up, aim true, and clear your group before sinking the 8." },
   { id: "2048", name: "2048", genre: "Puzzle", time: "3–12 min", icon: "2K", art: "2048", href: "/games/2048", badge: "Puzzle", description: "Slide, merge, and chase the 2048 tile in this satisfying number puzzle." },
   { id: "tower", name: "Tower Stack", genre: "Arcade", time: "2–6 min", icon: "▥", art: "tower", href: "/games/tower", badge: "Stack", description: "Time each drop, line up the blocks, and build your tallest tower." },
   { id: "chess", name: "Chess", genre: "Board", time: "5–30 min", icon: "♞", art: "chess", href: "/games/chess", badge: "Strategy", description: "A full-size chessboard with friend and AI modes." },
@@ -34,12 +35,14 @@ const railItems = [
   { label: "Card games", icon: "♠", genre: "Cards" },
   { label: "Puzzles", icon: "◆", genre: "Puzzle" },
   { label: "Board games", icon: "♞", genre: "Board" },
+  { label: "Sports games", icon: "8", genre: "Sports" },
   { label: "Arcade games", icon: "▥", genre: "Arcade" },
 ];
 
 const coverLabels: Record<string, string> = {
   solitaire: "DEAL / BUILD / WIN",
   spider: "DEAL / STACK / CLEAR",
+  pool: "BREAK / AIM / WIN",
   "2048": "MERGE / GROW / WIN",
   tower: "DROP / STACK / RISE",
   chess: "PLAN / MOVE / CHECK",
