@@ -7,12 +7,14 @@ let sharedAudioContext: AudioContext | null = null;
 
 const help = {
   "/games/solitaire": { title: "Solitaire help", rules: ["Build downward in alternating red and black cards.", "Move Aces through Kings to their matching foundation piles.", "On mobile, tap a card and then tap where you want to place it."], tip: "Use Hint whenever you are stuck; it highlights a useful move." },
+  "/games/spider-solitaire": { title: "Spider Solitaire help", rules: ["Move same-suit descending runs onto a card one rank higher.", "Any card or run can fill an empty column.", "Complete King-to-Ace runs in one suit to clear them; deal only when every column has a card."], tip: "Start with 1 suit, then try 2 or 4. Use Hint when stuck and Undo to test a different plan." },
   "/games/2048": { title: "2048 help", rules: ["Swipe or use arrow keys to slide every tile.", "Matching numbers combine into a larger tile.", "Keep open spaces available and build toward 2048."], tip: "Keep your largest number in a corner and use Undo to rethink a move." },
   "/games/tower": { title: "Tower Stack help", rules: ["Tap Start stacking to begin a round.", "Tap the game area to release the swinging block.", "Build carefully and keep your three hearts."], tip: "Aim for the center of the tower; clean drops make it easier to keep building." },
 } as const;
 
 const tones = {
   "/games/solitaire": [262, 392, "triangle"],
+  "/games/spider-solitaire": [262, 392, "triangle"],
   "/games/tower": [294, 440, "triangle"],
 } as const;
 

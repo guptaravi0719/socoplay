@@ -1,0 +1,176 @@
+.spider-app .spider-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.spider-app .spider-stock {
+  flex: 0 0 auto;
+}
+
+.spider-app .spider-stock .playing-card {
+  width: clamp(48px, 4.6vw, 70px);
+  height: auto;
+  aspect-ratio: 5 / 7;
+}
+
+.spider-app .spider-completed {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 6px;
+  width: min(100%, 560px);
+  margin-left: auto;
+}
+
+.spider-app .spider-complete {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 5 / 7;
+  border: 1px dashed #78d8be3d;
+  border-radius: 7px;
+  color: #8fc9bd;
+  background: #071f2175;
+  font: 700 10px/1 Georgia, serif;
+}
+
+.spider-app .spider-complete.is-filled {
+  border-style: solid;
+  border-color: #f4cb5c99;
+  color: #f8c857;
+  background: #f8c85712;
+}
+
+.spider-app .spider-complete b {
+  font-size: clamp(11px, 1.3vw, 18px);
+}
+
+.spider-app .spider-complete small {
+  font-size: clamp(9px, 1vw, 13px);
+}
+
+.spider-app .spider-complete span {
+  opacity: 0.35;
+}
+
+.spider-app .spider-tableau-wrap {
+  margin-top: 18px;
+  padding-bottom: 4px;
+}
+
+.spider-app .tableau {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 0;
+}
+
+.spider-app .tableau-column {
+  height: clamp(420px, 60vh, 620px);
+}
+
+.spider-app .stack-card {
+  width: 100%;
+}
+
+.spider-app .playing-card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 7;
+  border-radius: 7px;
+}
+
+.spider-app .corner {
+  left: 4px;
+  top: 4px;
+  font-size: clamp(9px, 1.05vw, 16px);
+}
+
+.spider-app .corner.bottom {
+  left: auto;
+  right: 4px;
+  top: auto;
+  bottom: 4px;
+}
+
+.spider-app .pips {
+  inset: 28% 12%;
+  font-size: clamp(10px, 1.35vw, 21px);
+}
+
+.spider-app .pips-1 {
+  font-size: clamp(16px, 2.2vw, 32px);
+}
+
+.spider-app .royal-face {
+  inset: 24% 16%;
+}
+
+.spider-app .royal-face b {
+  width: 16px;
+  height: 16px;
+  font-size: clamp(10px, 1.1vw, 16px);
+}
+
+.spider-app .royal-face i {
+  font-size: clamp(18px, 2.2vw, 32px);
+}
+
+.spider-app .royal-face small {
+  font-size: clamp(11px, 1.3vw, 18px);
+}
+
+.spider-app .card-back {
+  border-width: 3px;
+  font-size: clamp(14px, 1.8vw, 24px);
+}
+
+.spider-app .pile > span {
+  font-size: 9px;
+}
+
+.spider-app .spider-column-target {
+  z-index: 1;
+}
+
+.spider-app .spider-column .stack-card {
+  z-index: 2;
+}
+
+@media (max-width: 800px) {
+  .spider-app .spider-tableau-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .spider-app .tableau {
+    min-width: 560px;
+    gap: 5px;
+  }
+
+  .spider-app .tableau-column {
+    height: 360px;
+  }
+
+  .spider-app .spider-top {
+    gap: 10px;
+  }
+
+  .spider-app .spider-completed {
+    gap: 4px;
+  }
+
+  .spider-app .spider-stock .playing-card {
+    width: 46px;
+  }
+}
+
+@media (max-width: 520px) {
+  .spider-app .tableau {
+    min-width: 520px;
+  }
+
+  .spider-app .spider-completed {
+    width: 100%;
+  }
+}

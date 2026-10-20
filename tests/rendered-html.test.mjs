@@ -34,6 +34,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.match(html, /adsbygoogle|pagead2|ca-pub-5695136510723463/i);
   assert.match(html, /href="\/games\/2048"/);
   assert.match(html, /href="\/games\/solitaire"/);
+  assert.match(html, /href="\/games\/spider-solitaire"/);
   assert.match(html, /href="\/games\/tower"/);
   for (const slug of ["chess", "asteroids", "pacman", "sudoku", "checkers"]) assert.match(html, new RegExp(`href="\\/games\\/${slug}"`));
   assert.doesNotMatch(html, /\/games\/(tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint)/);
@@ -59,6 +60,12 @@ test("server-renders the playable game pages for crawlers", async () => {
       title: "Play Solitaire Online | SocoPlay",
       heading: "Solitaire",
       description: "Play free classic Klondike Solitaire online with touch-friendly cards, Turn 1 or Turn 3 play, hints, and undo.",
+    },
+    {
+      path: "/games/spider-solitaire",
+      title: "Play Spider Solitaire Online | SocoPlay",
+      heading: "Spider Solitaire",
+      description: "Play free Spider Solitaire online with 1, 2, or 4 suits, ten columns, hints, undo, and autosave.",
     },
     {
       path: "/games/tower",
@@ -89,6 +96,7 @@ test("server-renders the playable game pages for crawlers", async () => {
 
 test("gives every classic game its own canonical metadata and game schema", async () => {
   const routes = [
+    ["spider-solitaire", "Play Spider Solitaire Online | SocoPlay"],
     ["chess", "Play Chess Online | SocoPlay"],
     ["asteroids", "Play Asteroids Online | SocoPlay"],
     ["pacman", "Play Pac-Man Online | SocoPlay"],
@@ -125,7 +133,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
   assert.match(sitemap, /<lastmod>2026-10-11T00:00:00\.000Z<\/lastmod>/);
-  for (const path of ["", "/games/solitaire", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers"]) {
+  for (const path of ["", "/games/solitaire", "/games/spider-solitaire", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
   assert.doesNotMatch(sitemap, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);

@@ -1,6 +1,7 @@
 /** Game-state utilities for SocoPlay. */
 export const storageKeys = {
   solitaire: "socoplay:v2:save:solitaire",
+  spiderSolitaire: "socoplay:v2:save:spider-solitaire",
   game2048: "socoplay:2048",
   game2048Sound: "socoplay:2048:sound",
 } as const;

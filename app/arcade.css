@@ -741,6 +741,10 @@
 .cover-solitaire::before { right: -8%; bottom: -42%; color: #ffffff2e; content: "♠"; font-family: Georgia, serif; font-size: clamp(150px, 20vw, 300px); line-height: 1; transform: rotate(-13deg); }
 .cover-solitaire::after { left: 42%; top: 18%; width: 88px; height: 117px; border: 3px solid #fff6; border-radius: 12px; background: linear-gradient(145deg, #fffef9, #e5efe9); box-shadow: -19px 15px 0 -2px #fffdf8b0; transform: rotate(10deg); }
 
+.cover-spider { background: radial-gradient(circle at 74% 20%, #f4d27a 0, #e17a5e 9%, transparent 26%), linear-gradient(135deg, #0b3540, #1c6f61 55%, #6acfae); }
+.cover-spider::before { right: -6%; bottom: -40%; color: #ffffff2e; content: "♠"; font-family: Georgia, serif; font-size: clamp(150px, 20vw, 300px); line-height: 1; transform: rotate(-13deg); }
+.cover-spider::after { left: 40%; top: 16%; width: 88px; height: 117px; border: 3px solid #fff6; border-radius: 12px; background: linear-gradient(145deg, #fffef9, #e5efe9); box-shadow: -19px 15px 0 -2px #fffdf8b0, -38px 30px 0 -4px #fffdf870; transform: rotate(10deg); }
+
 .cover-2048 { background: radial-gradient(circle at 18% 22%, #fff5a4 0, transparent 15%), linear-gradient(135deg, #e56d43, #e9a743 52%, #f9dc70); }
 .cover-2048::before { left: 51%; top: 50%; width: 108px; height: 108px; border-radius: 22px; background: linear-gradient(135deg, #ffeb91, #e97b3e); box-shadow: -57px -28px 0 -10px #f7ce65, 57px 28px 0 -10px #c95845, 0 9px 0 #9c4936; transform: translate(-50%, -50%) rotate(-8deg); }
 .cover-2048::after { left: 51%; top: 50%; color: #fff9d4; content: "2048"; font-family: var(--font-display), Georgia, serif; font-size: clamp(35px, 4vw, 58px); font-weight: 900; letter-spacing: -4px; text-shadow: 0 3px #aa4e37; transform: translate(-50%, -50%) rotate(-8deg); }

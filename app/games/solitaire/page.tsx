@@ -1,10 +1,9 @@
 "use client";
 
-import { type DragEvent, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { PlayingCard, isRed, type Card, type Suit } from "../../components/playing-card";
 import { legacyStorageKeys, readStored, removeStored, storageKeys, writeStored } from "../../lib/storage";
 
-type Suit = "♠" | "♥" | "♦" | "♣";
-type Card = { id: string; suit: Suit; value: number; faceUp: boolean };
 type Game = { stock: Card[]; waste: Card[]; tableau: Card[][]; foundations: Card[][]; moves: number; score: number; redeals: number };
 type Source = "waste" | `tableau-${number}` | `foundation-${number}`;
 type Pick = { source: Source; index: number };
@@ -12,9 +11,7 @@ type Snapshot = { game: Game; seconds: number };
 type Hint = { kind: "move"; from: Pick; to: Source; text: string } | { kind: "flip"; column: number; text: string } | { kind: "draw"; text: string } | null;
 
 const suits: Suit[] = ["♠", "♥", "♦", "♣"];
-const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 const storageKey = storageKeys.solitaire;
-const isRed = (card: Card) => card.suit === "♥" || card.suit === "♦";
 const clone = <T,>(value: T) => structuredClone(value);
 
 function newGame(seed = 62026): Game {
@@ -69,15 +66,6 @@ function findHint(game: Game, turnMode: number): Hint {
   if (game.stock.length || game.waste.length) return { kind: "draw", text: `Draw ${turnMode === 3 ? "three cards" : "a card"} from the stock.` };
   return null;
 }
-function PlayingCard({ card, selected, hinted, onClick, onDoubleClick, draggable, onDragStart, onDrop, delay = 0, disabled = false }: { card?: Card; selected?: boolean; hinted?: boolean; onClick?: () => void; onDoubleClick?: () => void; draggable?: boolean; onDragStart?: () => void; onDrop?: () => void; delay?: number; disabled?: boolean }) {
-  const dragStart = (event: DragEvent<HTMLButtonElement>) => { if (!draggable) return; event.dataTransfer.effectAllowed = "move"; onDragStart?.(); };
-  const drop = (event: DragEvent<HTMLButtonElement>) => { if (!onDrop) return; event.preventDefault(); onDrop(); };
-  if (!card) return <button disabled={disabled} className={`playing-card card-empty ${hinted ? "is-hinted" : ""}`} onClick={onClick} onDragOver={(event) => onDrop && event.preventDefault()} onDrop={drop} aria-label="Empty card position" />;
-  if (!card.faceUp) return <button disabled={disabled} className="playing-card card-back" onClick={onClick} aria-label="Face-down card"><b>✦</b></button>;
-  const royal = card.value > 10; const pips = royal ? 0 : card.value;
-  return <button disabled={disabled} draggable={draggable} onDragStart={dragStart} onDragOver={(event) => onDrop && event.preventDefault()} onDrop={drop} onClick={onClick} onDoubleClick={onDoubleClick} style={{ animationDelay: `${delay}ms` }} className={`playing-card ${isRed(card) ? "red" : "black"} ${selected ? "is-selected" : ""} ${hinted ? "is-hinted" : ""}`} aria-label={`${ranks[card.value - 1]} of ${card.suit}`}><span className="corner top">{ranks[card.value - 1]}<small>{card.suit}</small></span>{royal ? <span className="royal-face"><b>{ranks[card.value - 1]}</b><i>♔</i><small>{card.suit}</small></span> : <span className={`pips pips-${pips}`}>{Array.from({ length: pips }, (_, i) => <i key={i}>{card.suit}</i>)}</span>}<span className="corner bottom">{ranks[card.value - 1]}<small>{card.suit}</small></span></button>;
-}
-
 export default function SolitairePage() {
   const [game, setGame] = useState(() => newGame()); const [history, setHistory] = useState<Snapshot[]>([]); const [selected, setSelected] = useState<Pick | null>(null); const [hint, setHint] = useState<Hint>(null); const [seconds, setSeconds] = useState(0); const [turnMode, setTurnMode] = useState<1 | 3>(1); const [soundOn, setSoundOn] = useState(true); const [settingsOpen, setSettingsOpen] = useState(false); const [rulesOpen, setRulesOpen] = useState(false); const [loaded, setLoaded] = useState(false); const [message, setMessage] = useState("Tap or drag a card, then choose its destination.");
   const dragRef = useRef<Pick | null>(null); const won = useMemo(() => game.foundations.every((pile) => pile.length === 13), [game]);
