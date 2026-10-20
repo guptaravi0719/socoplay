@@ -5,6 +5,8 @@ export const storageKeys = {
   pool: "socoplay:v2:save:8-ball-pool",
   game2048: "socoplay:2048",
   game2048Sound: "socoplay:2048:sound",
+  neonDash: "socoplay:v2:save:neon-dash",
+  neonDashSound: "socoplay:neon-dash:sound",
 } as const;
 
 export const legacyStorageKeys = {

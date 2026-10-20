@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const siteUrl = "https://socoplay.com";
 
-export type GameSlug = "solitaire" | "spider-solitaire" | "8-ball-pool" | "2048" | "tower" | "chess" | "asteroids" | "pacman" | "sudoku" | "checkers";
+export type GameSlug = "solitaire" | "spider-solitaire" | "8-ball-pool" | "2048" | "tower" | "chess" | "asteroids" | "pacman" | "sudoku" | "checkers" | "neon-dash";
 
 export type GameSeo = {
   slug: GameSlug;
@@ -93,6 +93,14 @@ export const gameSeo: Record<GameSlug, GameSeo> = {
     description: "Play American checkers online against the computer. Plan captures, crown kings, and win the board.",
     category: "Board game",
     genre: "Strategy",
+  },
+  "neon-dash": {
+    slug: "neon-dash",
+    name: "Neon Dash",
+    title: "Play Neon Dash Online",
+    description: "Play Neon Dash online for free. Jump, slide, and dodge hazards in a neon endless runner with distance records and missions.",
+    category: "Arcade game",
+    genre: "Arcade",
   },
 };
 

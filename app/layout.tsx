@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JsonLd } from "./components/json-ld";
 import { GameEnhancements } from "./components/game-enhancements";
 import { siteSchema } from "./lib/seo";
@@ -51,6 +51,13 @@ export const metadata: Metadata = {
     description: "Tiny games for satisfying breaks: play Solitaire, Spider Solitaire, 8-Ball Pool, 2048, and Tower Stack online.",
     images: ["/og.png"],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#05010f",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

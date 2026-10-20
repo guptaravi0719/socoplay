@@ -67,6 +67,18 @@ const guides: Partial<Record<GameSlug, Guide>> = {
     ],
     tip: "Wait for the block to pass the center of your tower, then tap with one confident touch.",
   },
+  "neon-dash": {
+    eyebrow: "ENDLESS NEON RUNNER",
+    heading: "Jump, slide, and chase the horizon",
+    description: "Neon Dash is a free endless runner. Jump and slide through a neon skyline, dodge hazards, and build near-miss combos while missions and distance records keep every run fresh.",
+    steps: [
+      "Press Space, ↑, or tap the track to jump. Tap again in the air for a double jump.",
+      "Press ↓, S, or swipe down to slide beneath glowing energy gates.",
+      "Clear hazards by the slimmest margin to earn near-miss bonuses and grow your combo.",
+      "Complete missions and beat your best distance and score. Records are saved in this browser.",
+    ],
+    tip: "Jump late so your feet skim the top of a block — close calls pay more than early hops. Sliding under a gate always counts as a near miss, so chain them for combo points.",
+  },
 };
 
 const relatedGames: Partial<Record<GameSlug, { href: string; name: string }[]>> = {
@@ -75,6 +87,7 @@ const relatedGames: Partial<Record<GameSlug, { href: string; name: string }[]>> 
   "8-ball-pool": [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/spider-solitaire", name: "Spider Solitaire" }, { href: "/games/2048", name: "2048" }],
   "2048": [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/tower", name: "Tower Stack" }],
   tower: [{ href: "/games/solitaire", name: "Solitaire" }, { href: "/games/2048", name: "2048" }],
+  "neon-dash": [{ href: "/games/asteroids", name: "Asteroids" }, { href: "/games/pacman", name: "Pac-Man" }, { href: "/games/2048", name: "2048" }],
 };
 
 export function GameGuide({ game }: { game: GameSlug }) {

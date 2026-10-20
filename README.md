@@ -1,8 +1,9 @@
 # SocoPlay
 
 SocoPlay is a mobile-friendly, browser-based mini-game portal. It includes
-Solitaire, Tile Shift, Flip Pairs, and Word Bloom, with progress saved only in
-the player’s current browser.
+Solitaire, Spider Solitaire, 8-Ball Pool, 2048, Tower Stack, Chess, Asteroids,
+Pac-Man, Sudoku, Checkers, and Neon Dash, with progress saved only in the
+player’s current browser.
 
 ## Run locally
 

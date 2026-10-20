@@ -37,7 +37,7 @@ test("server-renders the SocoPlay hub with only its live games", async () => {
   assert.match(html, /href="\/games\/spider-solitaire"/);
   assert.match(html, /href="\/games\/8-ball-pool"/);
   assert.match(html, /href="\/games\/tower"/);
-  for (const slug of ["chess", "asteroids", "pacman", "sudoku", "checkers"]) assert.match(html, new RegExp(`href="\\/games\\/${slug}"`));
+  for (const slug of ["chess", "asteroids", "pacman", "sudoku", "checkers", "neon-dash"]) assert.match(html, new RegExp(`href="\\/games\\/${slug}"`));
   assert.doesNotMatch(html, /\/games\/(tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint)/);
   assert.doesNotMatch(html, /saved locally|local save|saved on this device|continue playing/i);
   assert.doesNotMatch(html, /ADVERTISEMENT/);
@@ -80,6 +80,12 @@ test("server-renders the playable game pages for crawlers", async () => {
       heading: "Tower Stack",
       description: "Play Tower Stack online for free. Time each drop, stack the blocks neatly, and build your tallest tower.",
     },
+    {
+      path: "/games/neon-dash",
+      title: "Play Neon Dash Online | SocoPlay",
+      heading: "Neon Dash",
+      description: "Play Neon Dash online for free. Jump, slide, and dodge hazards in a neon endless runner with distance records and missions.",
+    },
   ];
 
   for (const route of routes) {
@@ -110,6 +116,7 @@ test("gives every classic game its own canonical metadata and game schema", asyn
     ["pacman", "Play Pac-Man Online | SocoPlay"],
     ["sudoku", "Play Sudoku Online | SocoPlay"],
     ["checkers", "Play Checkers Online | SocoPlay"],
+    ["neon-dash", "Play Neon Dash Online | SocoPlay"],
   ];
 
   for (const [slug, title] of routes) {
@@ -141,7 +148,7 @@ test("publishes a crawlable sitemap, robots policy, and web manifest", async () 
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<urlset /i);
   assert.match(sitemap, /<lastmod>2026-10-11T00:00:00\.000Z<\/lastmod>/);
-  for (const path of ["", "/games/solitaire", "/games/spider-solitaire", "/games/8-ball-pool", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers"]) {
+  for (const path of ["", "/games/solitaire", "/games/spider-solitaire", "/games/8-ball-pool", "/games/2048", "/games/tower", "/games/chess", "/games/asteroids", "/games/pacman", "/games/sudoku", "/games/checkers", "/games/neon-dash"]) {
     assert.ok(sitemap.includes(`<loc>${publicOrigin}${path}</loc>`), `sitemap includes ${path || "/"}`);
   }
   assert.doesNotMatch(sitemap, /tile-shift|flip-pairs|word-bloom|tap-tap-basketball|slice-sprint/);
@@ -166,6 +173,36 @@ test("ships the playable 8-ball pool engine and canvas", async () => {
   assert.match(engine, /stepPhysics/);
   assert.match(renderer, /renderGame/);
   assert.match(renderer, /POCKETS/);
+});
+
+test("ships the playable Neon Dash runner, missions, near-miss bonuses, levels, and sound", async () => {
+  const [page, engine, renderer, css, audio, layout] = await Promise.all([
+    readFile(new URL("../app/games/neon-dash/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/games/neon-dash/neon-engine.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/games/neon-dash/neon-render.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/games/neon-dash/neon-dash.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/games/neon-dash/neon-audio.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(page, /neon-canvas/);
+  assert.match(page, /neon-mission/);
+  assert.match(page, /neon-sound/);
+  assert.match(page, /onPointerUp/);
+  assert.match(page, /toggleSound/);
+  assert.match(engine, /MISSIONS/);
+  assert.match(engine, /NEAR_MISS_CLEARANCE/);
+  assert.match(engine, /LEVEL_NAMES/);
+  assert.match(engine, /levelName/);
+  assert.match(engine, /bestLevel/);
+  assert.match(engine, /export function update/);
+  assert.match(renderer, /renderGame/);
+  assert.match(renderer, /drawObstacle/);
+  assert.match(renderer, /drawLevelFlash/);
+  assert.match(audio, /playNeonSound/);
+  assert.match(audio, /setNeonMuted/);
+  assert.match(css, /\.neon-page/);
+  assert.match(layout, /viewportFit: "cover"/);
 });
 
 test("keeps SocoPlay branding, social assets, and only the remaining game routes", async () => {

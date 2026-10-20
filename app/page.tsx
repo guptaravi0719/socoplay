@@ -28,6 +28,7 @@ const games: GameCard[] = [
   { id: "pacman", name: "Pac-Man", genre: "Arcade", time: "3–10 min", icon: "●", art: "pacman", href: "/games/pacman", badge: "Maze", description: "Collect every pellet and outsmart the ghosts." },
   { id: "sudoku", name: "Sudoku", genre: "Puzzle", time: "5–25 min", icon: "9", art: "sudoku", href: "/games/sudoku", badge: "Logic", description: "Choose a difficulty and solve a clean, touch-friendly grid." },
   { id: "checkers", name: "Checkers", genre: "Board", time: "5–20 min", icon: "●", art: "checkers", href: "/games/checkers", badge: "Board", description: "Jump, crown kings, and challenge the computer." },
+  { id: "neon-dash", name: "Neon Dash", genre: "Arcade", time: "2–8 min", icon: "⚡", art: "neon", href: "/games/neon-dash", badge: "Runner", description: "Sprint through a neon skyline: jump, slide, dodge, and chain near misses." },
 ];
 
 const railItems = [
@@ -51,6 +52,7 @@ const coverLabels: Record<string, string> = {
   pacman: "EAT / DODGE / WIN",
   sudoku: "THINK / PLACE / SOLVE",
   checkers: "JUMP / CROWN / WIN",
+  neon: "RUN / DODGE / DASH",
 };
 
 export default function Home() {
