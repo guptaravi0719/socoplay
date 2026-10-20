@@ -22,13 +22,13 @@ const games: GameCard[] = [
   { id: "spider-solitaire", name: "Spider Solitaire", genre: "Cards", time: "10–30 min", icon: "♠", art: "spider", href: "/games/spider-solitaire", badge: "Cards", description: "Ten columns, 104 cards, and one goal: clear eight complete suit runs." },
   { id: "8-ball-pool", name: "8-Ball Pool", genre: "Sports", time: "5–25 min", icon: "8", art: "pool", href: "/games/8-ball-pool", badge: "Pool", description: "Rack up, aim true, and clear your group before sinking the 8." },
   { id: "2048", name: "2048", genre: "Puzzle", time: "3–12 min", icon: "2K", art: "2048", href: "/games/2048", badge: "Puzzle", description: "Slide, merge, and chase the 2048 tile in this satisfying number puzzle." },
+  { id: "neon-dash", name: "Neon Dash", genre: "Arcade", time: "2–8 min", icon: "⚡", art: "neon", href: "/games/neon-dash", badge: "Runner", description: "Sprint through a neon skyline: jump, slide, dodge, and chain near misses." },
   { id: "tower", name: "Tower Stack", genre: "Arcade", time: "2–6 min", icon: "▥", art: "tower", href: "/games/tower", badge: "Stack", description: "Time each drop, line up the blocks, and build your tallest tower." },
   { id: "chess", name: "Chess", genre: "Board", time: "5–30 min", icon: "♞", art: "chess", href: "/games/chess", badge: "Strategy", description: "A full-size chessboard with friend and AI modes." },
   { id: "asteroids", name: "Asteroids", genre: "Arcade", time: "3–12 min", icon: "✦", art: "asteroids", href: "/games/asteroids", badge: "Arcade", description: "Pilot through asteroid waves with keyboard and touch controls." },
   { id: "pacman", name: "Pac-Man", genre: "Arcade", time: "3–10 min", icon: "●", art: "pacman", href: "/games/pacman", badge: "Maze", description: "Collect every pellet and outsmart the ghosts." },
   { id: "sudoku", name: "Sudoku", genre: "Puzzle", time: "5–25 min", icon: "9", art: "sudoku", href: "/games/sudoku", badge: "Logic", description: "Choose a difficulty and solve a clean, touch-friendly grid." },
   { id: "checkers", name: "Checkers", genre: "Board", time: "5–20 min", icon: "●", art: "checkers", href: "/games/checkers", badge: "Board", description: "Jump, crown kings, and challenge the computer." },
-  { id: "neon-dash", name: "Neon Dash", genre: "Arcade", time: "2–8 min", icon: "⚡", art: "neon", href: "/games/neon-dash", badge: "Runner", description: "Sprint through a neon skyline: jump, slide, dodge, and chain near misses." },
 ];
 
 const railItems = [
