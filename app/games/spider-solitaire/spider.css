@@ -80,49 +80,61 @@
   border-radius: 7px;
 }
 
-.spider-app .corner {
+.spider-app .playing-card .corner {
   left: 4px;
   top: 4px;
-  font-size: clamp(9px, 1.05vw, 16px);
+  font-size: clamp(8px, 0.95vw, 14px);
 }
 
-.spider-app .corner.bottom {
+.spider-app .playing-card .corner.bottom {
   left: auto;
   right: 4px;
   top: auto;
   bottom: 4px;
 }
 
-.spider-app .pips {
-  inset: 28% 12%;
-  font-size: clamp(10px, 1.35vw, 21px);
+.spider-app .playing-card .pip-field {
+  inset: 20% 16% 20% 16%;
 }
 
-.spider-app .pips-1 {
-  font-size: clamp(16px, 2.2vw, 32px);
+.spider-app .playing-card .pip {
+  font-size: clamp(8px, 1.05vw, 16px);
 }
 
-.spider-app .royal-face {
-  inset: 24% 16%;
+.spider-app .playing-card .pip-count-1 .pip {
+  font-size: clamp(18px, 2.4vw, 34px);
 }
 
-.spider-app .royal-face b {
-  width: 16px;
-  height: 16px;
-  font-size: clamp(10px, 1.1vw, 16px);
+.spider-app .playing-card .pip-count-2 .pip,
+.spider-app .playing-card .pip-count-3 .pip {
+  font-size: clamp(12px, 1.45vw, 22px);
 }
 
-.spider-app .royal-face i {
-  font-size: clamp(18px, 2.2vw, 32px);
+.spider-app .playing-card .pip-count-4 .pip,
+.spider-app .playing-card .pip-count-5 .pip,
+.spider-app .playing-card .pip-count-6 .pip {
+  font-size: clamp(10px, 1.25vw, 19px);
 }
 
-.spider-app .royal-face small {
-  font-size: clamp(11px, 1.3vw, 18px);
+.spider-app .playing-card .pip-count-7 .pip,
+.spider-app .playing-card .pip-count-8 .pip,
+.spider-app .playing-card .pip-count-9 .pip,
+.spider-app .playing-card .pip-count-10 .pip {
+  font-size: clamp(7px, 1vw, 15px);
 }
 
-.spider-app .card-back {
+.spider-app .playing-card .court-face {
+  inset: 10% 12%;
+}
+
+.spider-app .playing-card.card-back {
   border-width: 3px;
   font-size: clamp(14px, 1.8vw, 24px);
+}
+
+.spider-app .playing-card.card-back b {
+  font-size: clamp(14px, 1.8vw, 24px);
+  filter: none;
 }
 
 .spider-app .pile > span {
