@@ -742,8 +742,13 @@
 .cover-solitaire::after { left: 42%; top: 18%; width: 88px; height: 117px; border: 3px solid #fff6; border-radius: 12px; background: linear-gradient(145deg, #fffef9, #e5efe9); box-shadow: -19px 15px 0 -2px #fffdf8b0; transform: rotate(10deg); }
 
 .cover-spider { background: radial-gradient(circle at 74% 20%, #f4d27a 0, #e17a5e 9%, transparent 26%), linear-gradient(135deg, #0b3540, #1c6f61 55%, #6acfae); }
-.cover-spider::before { right: -6%; bottom: -40%; color: #ffffff2e; content: "♠"; font-family: Georgia, serif; font-size: clamp(150px, 20vw, 300px); line-height: 1; transform: rotate(-13deg); }
+.cover-spider::before { right: -10%; bottom: -16%; width: clamp(180px, 26vw, 320px); aspect-ratio: 1; border-radius: 50%; opacity: .7; background: repeating-conic-gradient(from 0deg, #ffffff24 0deg .8deg, transparent .8deg 30deg), repeating-radial-gradient(circle, transparent 0 22px, #ffffff1f 23px 24px, transparent 25px 46px); transform: rotate(-12deg); }
 .cover-spider::after { left: 40%; top: 16%; width: 88px; height: 117px; border: 3px solid #fff6; border-radius: 12px; background: linear-gradient(145deg, #fffef9, #e5efe9); box-shadow: -19px 15px 0 -2px #fffdf8b0, -38px 30px 0 -4px #fffdf870; transform: rotate(10deg); }
+
+.cover-spider-logo { position: absolute; z-index: 3; left: 47%; top: 51%; width: clamp(64px, 9vw, 116px); height: auto; color: #f8e4a6; filter: drop-shadow(0 9px 18px #0007); transform: translate(-50%, -50%) rotate(-5deg); transition: transform .35s cubic-bezier(.2,.9,.3,1), filter .35s ease; pointer-events: none; }
+.arcade-game-card:hover .cover-spider-logo,
+.arcade-game-card:focus-within .cover-spider-logo { transform: translate(-50%, -50%) rotate(4deg) scale(1.08); filter: drop-shadow(0 12px 24px #0009); }
+@keyframes spiderWebSpin { from { transform: rotate(-12deg); } to { transform: rotate(348deg); } }
 
 .cover-pool { background: radial-gradient(circle at 24% 72%, #f8f4e8 0 4%, transparent 5%), radial-gradient(circle at 72% 24%, #f4d27a22 0 10%, transparent 11%), linear-gradient(135deg, #08332c, #0f5a48 58%, #1f7d62); }
 .cover-pool::before { left: 55%; top: 50%; width: 84px; height: 84px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #5a5a5a, #151515 58%, #000); box-shadow: 0 9px 18px #0008, inset 0 -4px 8px #000; transform: translate(-50%, -50%); }
@@ -792,6 +797,7 @@
 
   .cover-solitaire::before { animation: solitaire-suit-float 4.8s ease-in-out infinite; }
   .cover-solitaire::after { animation: solitaire-deal 4.8s cubic-bezier(.22,.75,.32,1) infinite; }
+  .cover-spider::before { animation: spiderWebSpin 28s linear infinite; }
   .cover-2048::before { animation: merge-tiles 3.4s ease-in-out infinite; }
   .cover-2048::after { animation: merge-score 3.4s ease-in-out infinite; }
   .cover-tower::after { animation: tower-sway 2.8s ease-in-out infinite; }

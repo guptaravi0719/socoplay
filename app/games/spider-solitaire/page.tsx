@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { PlayingCard, type Card } from "../../components/playing-card";
+import { SpiderLogo, SpiderWeb } from "../../components/spider-logo";
 import { readStored, removeStored, storageKeys, writeStored } from "../../lib/storage";
 import {
   SPIDER_COLUMNS,
@@ -33,6 +34,19 @@ const difficulties: { value: SpiderDifficulty; label: string }[] = [
 const STOCK_CARD: Card = { id: "spider-stock", suit: "♠", value: 1, faceUp: false };
 const freshSeed = () => Date.now();
 
+const BACKDROP_SUITS = [
+  { suit: "♠", x: 4, y: 14, size: 40, delay: 0, duration: 16, rotate: -14 },
+  { suit: "♥", x: 13, y: 58, size: 26, delay: 2.2, duration: 13, rotate: 9 },
+  { suit: "♦", x: 24, y: 28, size: 20, delay: 5.1, duration: 15, rotate: -6 },
+  { suit: "♣", x: 38, y: 72, size: 32, delay: 1.1, duration: 14, rotate: 12 },
+  { suit: "♠", x: 52, y: 18, size: 24, delay: 3.7, duration: 17, rotate: -9 },
+  { suit: "♥", x: 63, y: 64, size: 38, delay: 0.6, duration: 15, rotate: 7 },
+  { suit: "♦", x: 74, y: 32, size: 22, delay: 4.4, duration: 13, rotate: -12 },
+  { suit: "♣", x: 86, y: 76, size: 30, delay: 2.8, duration: 16, rotate: 10 },
+  { suit: "♠", x: 92, y: 22, size: 18, delay: 6.2, duration: 14, rotate: -5 },
+  { suit: "♥", x: 44, y: 46, size: 18, delay: 7.4, duration: 18, rotate: 4 },
+];
+
 export default function SpiderSolitairePage() {
   const [game, setGame] = useState(() => newSpiderGame(1, 62026));
   const [history, setHistory] = useState<Snapshot[]>([]);
@@ -45,6 +59,7 @@ export default function SpiderSolitairePage() {
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("Tap a card or run, then choose where to place it.");
   const dragRef = useRef<Selection>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
   const won = game.completed.length === SPIDER_COMPLETE_COUNT;
 
   const chirp = (kind: "tap" | "good" | "bad" | "win") => {
@@ -107,6 +122,20 @@ export default function SpiderSolitairePage() {
     }, 1000);
     return () => window.clearInterval(timer);
   }, [loaded, won]);
+
+  useEffect(() => {
+    const node = mainRef.current;
+    if (!node) return;
+    const handleMove = (event: PointerEvent) => {
+      const rect = node.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      node.style.setProperty("--spider-mx", String(Math.max(0, Math.min(100, x))));
+      node.style.setProperty("--spider-my", String(Math.max(0, Math.min(100, y))));
+    };
+    window.addEventListener("pointermove", handleMove, { passive: true });
+    return () => window.removeEventListener("pointermove", handleMove);
+  }, []);
 
   const commit = (
     next: SpiderGame,
@@ -280,7 +309,31 @@ export default function SpiderSolitairePage() {
   const time = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 
   return (
-    <main className={`cove-app game-page spider-app${won ? " is-won" : ""}`}>
+    <main ref={mainRef} className={`cove-app game-page spider-app${won ? " is-won" : ""}`}>
+      <div className="spider-backdrop" aria-hidden="true">
+        <span className="spider-aura" />
+        <SpiderWeb className="spider-web" />
+        <div className="spider-suits">
+          {BACKDROP_SUITS.map((item, index) => (
+            <i
+              key={index}
+              style={
+                {
+                  "--x": `${item.x}%`,
+                  "--y": `${item.y}%`,
+                  "--size": `${item.size}px`,
+                  "--delay": `${item.delay}s`,
+                  "--duration": `${item.duration}s`,
+                  "--rotate": `${item.rotate}deg`,
+                } as CSSProperties
+              }
+            >
+              {item.suit}
+            </i>
+          ))}
+        </div>
+        <SpiderLogo className="spider-watermark" />
+      </div>
       {won && (
         <>
           <div className="confetti" aria-hidden="true">
@@ -325,7 +378,7 @@ export default function SpiderSolitairePage() {
       </header>
       <section className="game-top">
         <div className="title-block">
-          <span className="game-dot" />
+          <SpiderLogo className="spider-title-mark" />
           <h1>Spider Solitaire</h1>
           <small>10-column card game</small>
         </div>

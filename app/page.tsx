@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { BannerAd } from "./components/banner-ad";
+import { SpiderLogo } from "./components/spider-logo";
 
 type GameCard = {
   id: string;
@@ -156,6 +157,6 @@ function SectionHeading({ eyebrow, title, titleId, copy, action }: { eyebrow: st
 }
 
 function ArcadeGameCard({ game, onPlay, variant = "grid" }: { game: GameCard; onPlay: (game: GameCard) => void; variant?: "lead" | "small" | "wide" | "grid" }) {
-  const cardContent = <><div className={`arcade-cover cover-${game.art}`} aria-hidden="true"><div className="arcade-cover-noise" /><span className="arcade-cover-icon">{game.icon}</span><i>{coverLabels[game.art]}</i><b>{game.badge}</b></div><div className="arcade-card-copy"><div><h3>{game.name}</h3><p>{game.genre} <span>·</span> {game.time}</p></div><em aria-hidden="true">→</em></div></>;
+  const cardContent = <><div className={`arcade-cover cover-${game.art}`} aria-hidden="true"><div className="arcade-cover-noise" />{game.art === "spider" && <SpiderLogo className="cover-spider-logo" />}<span className="arcade-cover-icon">{game.icon}</span><i>{coverLabels[game.art]}</i><b>{game.badge}</b></div><div className="arcade-card-copy"><div><h3>{game.name}</h3><p>{game.genre} <span>·</span> {game.time}</p></div><em aria-hidden="true">→</em></div></>;
   return <article className={`arcade-game-card arcade-game-card--${variant} is-live`}><Link className="arcade-game-link" href={game.href} onClick={(event) => { event.preventDefault(); onPlay(game); }} aria-label={`Play ${game.name}`}>{cardContent}</Link></article>;
 }
