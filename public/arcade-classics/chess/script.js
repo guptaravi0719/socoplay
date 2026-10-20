@@ -174,14 +174,15 @@
     } else if (type === "K") {
       dirs.forEach(([dr, dc]) => add(r + dr, c + dc));
       if (!forAttackOnly) {
-        if (color === "w" && !kingMoved.w && !rookMoved.w[0] && !getPiece(7, 1) && !getPiece(7, 2) && !getPiece(7, 3) && !isSquareAttacked(7, 4, "b") && !isSquareAttacked(7, 3, "b") && !isSquareAttacked(7, 2, "b"))
-          moves.push([7, 2]);
-        if (color === "w" && !kingMoved.w && !rookMoved.w[1] && !getPiece(7, 5) && !getPiece(7, 6) && !isSquareAttacked(7, 4, "b") && !isSquareAttacked(7, 5, "b") && !isSquareAttacked(7, 6, "b"))
-          moves.push([7, 6]);
-        if (color === "b" && !kingMoved.b && !rookMoved.b[0] && !getPiece(0, 1) && !getPiece(0, 2) && !getPiece(0, 3) && !isSquareAttacked(0, 4, "w") && !isSquareAttacked(0, 3, "w") && !isSquareAttacked(0, 2, "w"))
-          moves.push([0, 2]);
-        if (color === "b" && !kingMoved.b && !rookMoved.b[1] && !getPiece(0, 5) && !getPiece(0, 6) && !isSquareAttacked(0, 4, "w") && !isSquareAttacked(0, 5, "w") && !isSquareAttacked(0, 6, "w"))
-          moves.push([0, 6]);
+        const homeRank = color === "w" ? 7 : 0;
+        const enemy = color === "w" ? "b" : "w";
+        const queenRook = getPiece(homeRank, 0);
+        const kingRook = getPiece(homeRank, 7);
+        const onHome = r === homeRank && c === 4;
+        if (onHome && !kingMoved[color] && !rookMoved[color][0] && queenRook && queenRook.type === "R" && queenRook.color === color && !getPiece(homeRank, 1) && !getPiece(homeRank, 2) && !getPiece(homeRank, 3) && !isSquareAttacked(homeRank, 4, enemy) && !isSquareAttacked(homeRank, 3, enemy) && !isSquareAttacked(homeRank, 2, enemy))
+          moves.push([homeRank, 2]);
+        if (onHome && !kingMoved[color] && !rookMoved[color][1] && kingRook && kingRook.type === "R" && kingRook.color === color && !getPiece(homeRank, 5) && !getPiece(homeRank, 6) && !isSquareAttacked(homeRank, 4, enemy) && !isSquareAttacked(homeRank, 5, enemy) && !isSquareAttacked(homeRank, 6, enemy))
+          moves.push([homeRank, 6]);
       }
     } else if (type === "P") {
       const forward = color === "w" ? -1 : 1;
@@ -195,7 +196,7 @@
       [[r + forward, c - 1], [r + forward, c + 1]].forEach(([r1, c1]) => {
         if (!inBounds(r1, c1)) return;
         const target = getPiece(r1, c1);
-        if (target && target.color !== color) moves.push([r1, c1]);
+        if (forAttackOnly || (target && target.color !== color)) moves.push([r1, c1]);
         if (!forAttackOnly && lastMove && lastMove.piece === "P" && lastMove.fromC === lastMove.toC && lastMove.toR === r && lastMove.fromR === r + 2 * forward && lastMove.toC === c1)
           moves.push([r1, c1]);
       });
@@ -281,7 +282,7 @@
     const legal = getLegalMoves(fromR, fromC);
     if (!legal.some(([r, c]) => r === toR && c === toC)) return false;
 
-    const captured = board[toR][toC];
+    const previousMove = lastMove;
     lastMoveFrom = [fromR, fromC];
     lastMove = { piece: piece.type, fromR, fromC, toR, toC };
 
@@ -305,8 +306,8 @@
       }
     }
 
-    if (piece.type === "P" && lastMove && lastMove.piece === "P" && Math.abs(lastMove.fromC - lastMove.toC) === 1 && lastMove.toR === fromR && lastMove.fromR === fromR + (piece.color === "w" ? -2 : 2) && lastMove.toC === toC) {
-      board[lastMove.toR][lastMove.toC] = null;
+    if (piece.type === "P" && previousMove && previousMove.piece === "P" && previousMove.fromC === previousMove.toC && previousMove.toR === fromR && previousMove.fromR === fromR + (piece.color === "w" ? -2 : 2) && previousMove.toC === toC) {
+      board[previousMove.toR][previousMove.toC] = null;
     }
 
     let promo = promotionType;
@@ -363,7 +364,7 @@
 
     for (const move of moves) {
       makeMove(move.from[0], move.from[1], move.to[0], move.to[1]);
-      const score = -minimax(depth - 1, -Infinity, Infinity, false);
+      const score = -minimax(depth - 1, -Infinity, Infinity);
       restoreBoard(b0, f0, t0, lm0);
       if (score > bestScore) {
         bestScore = score;
@@ -373,12 +374,12 @@
     return bestMove;
   }
 
-  function minimax(depth, alpha, beta, isMax) {
-    if (depth === 0) return evaluate();
-    const color = isMax ? "b" : "w";
+  function minimax(depth, alpha, beta) {
+    if (depth === 0) return turn === "w" ? evaluate() : -evaluate();
+    const color = turn;
     const moves = getAllMoves(color);
     if (moves.length === 0) {
-      if (isCheck(color)) return isMax ? -10000 : 10000;
+      if (isCheck(color)) return -10000;
       return 0;
     }
 
@@ -387,29 +388,16 @@
     const t0 = turn;
     const lm0 = lastMove ? { ...lastMove } : null;
 
-    if (isMax) {
-      let maxEval = -Infinity;
-      for (const move of moves) {
-        makeMove(move.from[0], move.from[1], move.to[0], move.to[1]);
-        const eval_ = minimax(depth - 1, alpha, beta, false);
-        restoreBoard(b0, f0, t0, lm0);
-        maxEval = Math.max(maxEval, eval_);
-        alpha = Math.max(alpha, eval_);
-        if (beta <= alpha) break;
-      }
-      return maxEval;
-    } else {
-      let minEval = Infinity;
-      for (const move of moves) {
-        makeMove(move.from[0], move.from[1], move.to[0], move.to[1]);
-        const eval_ = minimax(depth - 1, alpha, beta, true);
-        restoreBoard(b0, f0, t0, lm0);
-        minEval = Math.min(minEval, eval_);
-        beta = Math.min(beta, eval_);
-        if (beta <= alpha) break;
-      }
-      return minEval;
+    let bestScore = -Infinity;
+    for (const move of moves) {
+      makeMove(move.from[0], move.from[1], move.to[0], move.to[1]);
+      const score = -minimax(depth - 1, -beta, -alpha);
+      restoreBoard(b0, f0, t0, lm0);
+      if (score > bestScore) bestScore = score;
+      if (score > alpha) alpha = score;
+      if (alpha >= beta) break;
     }
+    return bestScore;
   }
 
   function render() {
